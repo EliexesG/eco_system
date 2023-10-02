@@ -9,3 +9,166 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+// Modelos
+enum tipoUsuario {
+  ADMINISTRADOR
+  ADMINISTRADOR_CENTROS_ACOPIO
+  CLIENTE
+}
+
+enum dia {
+  LUNES
+  MARTES
+  MIERCOLES
+  JUEVES
+  VIERNES
+  SABADO
+  DOMINGO
+}
+
+enum categoriaCupon {
+  HOGAR
+  JARDINERIA
+  TURISMO
+  EDUCACION
+  ROPA
+  ALIMENTOS
+  TRANSPORTE
+  VARIOS
+}
+
+model usuario {
+  id                Int               @id @default(autoincrement())
+  tipoUsuario       tipoUsuario       @default(CLIENTE)
+  identificacion    String            @unique
+  nombre            String        
+  primerApellido    String
+  segundoApellido   String
+  correo            String            @unique
+  contrasenna       String
+  codProvincia      Int
+  codCanton         Int
+  codDistrito       Int
+  centroAcopio      centroAcopio?
+  billetera         billetera?
+  desabilitado      Boolean           @default(false) 
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt @default(now())
+}
+
+model centroAcopio {
+  id                Int               @id @default(autoincrement())
+  nombre            String        
+  codProvincia      Int
+  codCanton         Int
+  codDistrito       Int
+  sennas            String
+  telefono          String            @unique
+  horarios          horario[]
+  administradorId   Int               @unique
+  administrador     usuario           @relation(fields: [administradorId], references: [id])
+  materiales        material[]
+  canjeosMateriales canjeoMateriales[]
+  desabilitado      Boolean           @default(false) 
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt @default(now())
+}
+
+model horario {
+  id                Int               @id @default(autoincrement())
+  dia               dia               @default(LUNES)
+  horaInicio        DateTime
+  horaCierre        DateTime
+  centroAcopioId    Int
+  centroAcopio      centroAcopio      @relation(fields: [centroAcopioId], references: [id])
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt @default(now())
+}
+
+model material {
+  id                Int               @id @default(autoincrement())
+  nombre            String
+  imagen            String
+  codColor          String            @unique
+  unidadMedida      String            
+  monedasUnidad     Int
+  centrosAcopio     centroAcopio[]
+  canjeoMaterialesDetalles    canjeoMaterialesDetalle[]
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt @default(now())
+}
+
+model cupon {
+  id                Int               @id @default(autoincrement())
+  nombre            String
+  descripcion       String
+  imagen            String
+  categoria         categoriaCupon    @default(VARIOS)
+  fechaInicio       DateTime          @default(now())
+  fechaFin          DateTime          @default(now())
+  monedasCupon      Int
+  canjeoCuponesDetalles canjeoCuponesDetalle[]
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt @default(now())
+}
+
+model billetera {
+  id                Int               @id @default(autoincrement())
+  clienteId         Int               @unique
+  cliente           usuario           @relation(fields: [clienteId], references: [id])
+  disponibles       Decimal           @db.Decimal(10, 2)
+  canjeados         Decimal           @db.Decimal(10, 2)
+  canjeosMateriales canjeoMateriales[]
+  canjeosCupones    canjeoCupones[]
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt @default(now())
+}
+
+model canjeoMateriales {
+  id                Int               @id @default(autoincrement())
+  fecha             DateTime          @default(now())
+  billeteraId       Int
+  billetera         billetera         @relation(fields: [billeteraId], references: [id])
+  centroAcopioId    Int
+  centroAcopio      centroAcopio      @relation(fields: [centroAcopioId], references: [id])
+  canjeoMaterialesDetalles    canjeoMaterialesDetalle[]
+  cantMonedas       Int
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt @default(now())
+}
+
+model canjeoMaterialesDetalle {
+  canjeoMaterialesId          Int
+  canjeoMateriales            canjeoMateriales            @relation(fields: [canjeoMaterialesId], references: [id])
+  materialId        Int
+  material          material          @relation(fields: [materialId], references: [id])
+  cantidadUnidades  Int
+  cantMonedas       Int
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt @default(now())
+  @@id([canjeoMaterialesId, materialId])
+}
+
+model canjeoCupones {
+  id                Int               @id @default(autoincrement())
+  fecha             DateTime          @default(now())
+  billeteraId       Int
+  billetera         billetera         @relation(fields: [billeteraId], references: [id])
+  canjeoCuponesDetalles canjeoCuponesDetalle[]
+  cantMonedas       Int
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt @default(now())
+}
+
+model canjeoCuponesDetalle {
+  canjeoCuponesId   Int
+  canjeoCupones     canjeoCupones     @relation(fields: [canjeoCuponesId], references: [id])
+  cuponId           Int
+  cupon             cupon             @relation(fields: [cuponId], references: [id])
+  cantidadCupones   Int
+  cantMonedas       Int
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt @default(now())
+  @@id([canjeoCuponesId, cuponId])
+}
