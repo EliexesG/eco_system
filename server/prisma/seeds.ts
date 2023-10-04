@@ -108,7 +108,7 @@ async function main() {
     }
   })
 
-  //Canjeo de cupones
+  //Canjeo de cupones con monedas
   await prisma.canjeoCupones.create({
     data: {
       fecha: new Date(),
