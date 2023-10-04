@@ -22,7 +22,6 @@ async function main() {
       data: usuarios
   });
 
-
 }
 
 main()
