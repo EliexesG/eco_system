@@ -1,8 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { cupones } from "./seeds/cupones";
 import { materiales } from "./seeds/materiales";
-import { usuarios } from "./seeds/usuarios";
-import { dia } from "@prisma/client";
+import { tipoUsuario } from "@prisma/client"
 
 const prisma = new PrismaClient();
 
@@ -19,8 +18,61 @@ async function main() {
   });
 
   //Usuarios
-  await prisma.usuario.createMany({
-      data: usuarios
+  await prisma.usuario.create({
+      data: {
+        tipoUsuario: tipoUsuario.ADMINISTRADOR,
+        identificacion: "117900330",
+        nombre: "Elías Gabriel",
+        primerApellido: "González",
+        segundoApellido: "Lara",
+        correo: "egonzalezlar@ecosystem.com",
+        contrasenna: "",
+        direccionUsuario: {
+          create: {
+            codProvincia: 2,
+            codCanton: 1,
+            codDistrito: 4
+          }
+        }
+      }
+  });
+
+  await prisma.usuario.create({
+    data: {
+      tipoUsuario: tipoUsuario.ADMINISTRADOR_CENTROS_ACOPIO,
+        identificacion: "504260860",
+        nombre: "Luis Fernando",
+        primerApellido: "Chavarria",
+        segundoApellido: "Guiltres",
+        correo: "lchavarria@ecosystem.com",
+        contrasenna: "",
+        direccionUsuario: {
+          create: {
+            codProvincia: 2,
+            codCanton: 1,
+            codDistrito: 4
+          }
+        }
+      }
+  });
+
+  await prisma.usuario.create({
+    data: {
+      tipoUsuario: tipoUsuario.CLIENTE,
+        identificacion: "288052675",
+        nombre: "Pedro",
+        primerApellido: "Perez",
+        segundoApellido: "Zeledon",
+        correo: "juanperez123@gmail.com",
+        contrasenna: "",
+        direccionUsuario: {
+          create: {
+            codProvincia: 1,
+            codCanton: 19,
+            codDistrito: 5
+          }
+        }
+      }
   });
 
   //Centro de acopio
@@ -33,34 +85,9 @@ async function main() {
       sennas: "24 mts norte del Super la Amistad",
       telefono: "25895516",
       horarios: {
-        createMany: {
-          data: [
-            {
-              dia: dia.LUNES,
-              horaInicio: new Date("2023-10-03 07:00:00.000"),
-              horaCierre: new Date("2023-10-03 17:00:00.000")
-            },
-            {
-              dia: dia.MARTES,
-              horaInicio: new Date("2023-10-03 07:00:00.000"),
-              horaCierre: new Date("2023-10-03 17:00:00.000")
-            },
-            {
-              dia: dia.MIERCOLES,
-              horaInicio: new Date("2023-10-03 07:00:00.000"),
-              horaCierre: new Date("2023-10-03 17:00:00.000")
-            },
-            {
-              dia: dia.JUEVES,
-              horaInicio: new Date("2023-10-03 07:00:00.000"),
-              horaCierre: new Date("2023-10-03 17:00:00.000")
-            },
-            {
-              dia: dia.VIERNES,
-              horaInicio: new Date("2023-10-03 07:00:00.000"),
-              horaCierre: new Date("2023-10-03 17:00:00.000")
-            }
-          ]
+        create: {
+          horaInicio: new Date("2023-10-03 07:00:00.000"),
+          horaCierre: new Date("2023-10-03 17:00:00.000")
         }
       },
       administrador: {
@@ -79,7 +106,7 @@ async function main() {
         connect: {id: 3}
       },
       disponibles: 8,
-      canjeados: 7
+      canjeados: 6
     }
   })
 
@@ -109,23 +136,15 @@ async function main() {
   })
 
   //Canjeo de cupones con monedas
-  await prisma.canjeoCupones.create({
+  await prisma.canjeoCupon.create({
     data: {
       fecha: new Date(),
       billetera: {
         connect: {id: 1}
       },
-      cantMonedas: 7,
-      canjeoCuponesDetalles: {
-        createMany: {
-          data: [
-            {
-              cantidadCupones: 1,
-              cuponId: 6,
-              cantMonedas: 7
-            }
-          ]
-        }
+      cantMonedas: 6,
+      cupon: {
+        connect: {id: 5}
       }
     }
   });
