@@ -8,7 +8,8 @@ const app = express();
 //const prism = new PrismaClient();
 
 //--- Archives de rutas ---
-
+const materialRoutes = require('./routes/matarialRoutes');
+const cuponRoutes = require('./routes/cuponRoutes');
 
 // Acceder  a la configuracion del archivo .env
 dotEnv.config();
@@ -31,6 +32,10 @@ app.use(
 );
 
 //--- Definir rutas ---
+app.use("/material/", materialRoutes);
+app.use("/cupon/", cuponRoutes);
+
+// Servidor
 app.listen(port, () => {
     console.log(`http//localhost:${port}`);
     console.log("Presione CTRL-C para detener la ejecución");
