@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+//Obtener listado
 module.exports.get = async (request, response, next) => {
   const centrosAcopio = await prisma.centroAcopio.findMany({
     orderBy: {
@@ -11,6 +12,7 @@ module.exports.get = async (request, response, next) => {
   response.json(centrosAcopio);
 };
 
+//Obtener listado habilitados
 module.exports.getHabilitados = async (request, response, next) => {
   const centrosAcopio = await prisma.centroAcopio.findMany({
     orderBy: {
@@ -24,6 +26,7 @@ module.exports.getHabilitados = async (request, response, next) => {
   response.json(centrosAcopio);
 };
 
+//Obtener listado desabilitados
 module.exports.getDeshabilitados = async (request, response, next) => {
   const centrosAcopio = await prisma.centroAcopio.findMany({
     orderBy: {
@@ -37,6 +40,7 @@ module.exports.getDeshabilitados = async (request, response, next) => {
   response.json(centrosAcopio);
 };
 
+//Obtener por Id
 module.exports.getById = async (request, response, next) => {
   let id = parseInt(request.params.id);
 
@@ -53,6 +57,7 @@ module.exports.getById = async (request, response, next) => {
   response.json(centroAcopio);
 };
 
+//Crear un Centro de Acopio
 module.exports.create = async (request, response, next) => {
   let data = request.body;
 
@@ -78,6 +83,7 @@ module.exports.create = async (request, response, next) => {
   response.json(newCentroAcopio);
 };
 
+//Actualizar Centro de Acopio
 module.exports.update = async (request, response, next) => {
   let id = parseInt(request.params.id);
   let data = request.body;
