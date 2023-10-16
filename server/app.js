@@ -10,6 +10,7 @@ const app = express();
 //--- Archives de rutas ---
 const materialRoutes = require('./routes/matarialRoutes');
 const cuponRoutes = require('./routes/cuponRoutes');
+const centroAcopioRoutes = require('./routes/centroAcopioRoutes');
 
 // Acceder  a la configuracion del archivo .env
 dotEnv.config();
@@ -32,8 +33,9 @@ app.use(
 );
 
 //--- Definir rutas ---
-app.use("/material/", materialRoutes);
-app.use("/cupon/", cuponRoutes);
+app.use("/material", materialRoutes);
+app.use("/cupon", cuponRoutes);
+app.use("/centroacopio", centroAcopioRoutes)
 
 // Servidor
 app.listen(port, () => {

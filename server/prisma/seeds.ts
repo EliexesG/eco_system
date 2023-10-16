@@ -31,7 +31,8 @@ async function main() {
           create: {
             codProvincia: 2,
             codCanton: 1,
-            codDistrito: 4
+            codDistrito: 4,
+            sennas: "300mts este del parque linda vista"
           }
         }
       }
@@ -50,7 +51,8 @@ async function main() {
           create: {
             codProvincia: 2,
             codCanton: 1,
-            codDistrito: 4
+            codDistrito: 4,
+            sennas: "400mts oeste del parque MD"
           }
         }
       }
@@ -69,7 +71,8 @@ async function main() {
           create: {
             codProvincia: 1,
             codCanton: 19,
-            codDistrito: 5
+            codDistrito: 5,
+            sennas: "400mts oeste del restaurante Perez Pedro"
           }
         }
       }
@@ -79,15 +82,11 @@ async function main() {
   await prisma.centroAcopio.create({
     data: {
       nombre: "Centro de Acopio San Antonio",
-      codProvincia: 2,
-      codCanton: 1,
-      codDistrito: 4,
-      sennas: "24 mts norte del Super la Amistad",
       telefono: "25895516",
       horarios: {
         create: {
-          horaInicio: new Date("2023-10-03 07:00:00.000"),
-          horaCierre: new Date("2023-10-03 17:00:00.000")
+          horaInicio: new Date("2023-10-03T07:30:00.000Z"),
+          horaCierre: new Date("2023-10-03T17:30:00.000Z")
         }
       },
       administrador: {
@@ -95,6 +94,14 @@ async function main() {
       },
       materiales: {
         connect: [{id: 1}, {id: 3}, {id: 6}]
+      },
+      direccionCentroAcopio: {
+        create: {
+          codProvincia: 2,
+          codCanton: 1,
+          codDistrito: 4,
+          sennas: "24 mts norte del Super la Amistad",
+        }
       }
     }
   })
