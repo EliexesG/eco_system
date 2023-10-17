@@ -10,6 +10,9 @@ router.get('/habilitados', centroAcopioController.getHabilitados);
 //Ruta: locahost:3000/centroacopio/deshabilitados
 router.get('/deshabilitados', centroAcopioController.getDeshabilitados);
 
+//Ruta: localhost:3000/centroacopio/usuario/idUsuario
+router.get('/usuario/:idUsuario', centroAcopioController.getByIdUsuario);
+
 //Ruta: locahost:3000/centroacopio/
 router.get('/', centroAcopioController.get);
 

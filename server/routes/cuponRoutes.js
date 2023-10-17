@@ -13,6 +13,9 @@ router.get('/validos', cuponController.getValidos);
 //Ruta: locahost:3000/cupon/invalidos
 router.get('/invalidos', cuponController.getInvalidos);
 
+//Ruta: locahost:3000/cupon/categoria/nombre
+router.get('/categoria/:nombre', cuponController.getByCategoria);
+
 //Ruta: locahost:3000/cupon/
 router.post('/',cuponController.create);
 
