@@ -22,4 +22,13 @@ router.get("/tipousuario/:tipousuario", usuarioController.getByTipoUsuario);
 //Ruta: localhost:3000/usuario/id
 router.get("/:id", usuarioController.getById);
 
+//Ruta: localhost:3000/usuario
+router.post("/", usuarioController.create);
+
+//Ruta: localhost:3000/usuario
+router.put("/:id", usuarioController.update);
+
+//Ruta: localhost:3000/usuario/habilitarodesabilitar/id
+router.post("/habilitarodesabilitar/:id", usuarioController.habilitarODesabilitar)
+
 module.exports = router;

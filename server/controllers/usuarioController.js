@@ -1,7 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
-const { response } = require("express");
 
 //excluir contrasenna
 function exclude(usuario, keys) {
@@ -145,9 +144,115 @@ module.exports.getById = async (request, response, next) => {
       },
     });
 
-    const usuarioSinContrasenna = exclude(usuario, ["contrasenna"]);
+    response.json(usuario);
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+};
 
-    response.json(usuarioSinContrasenna);
+//Crear Usuario
+module.exports.create = async (request, response, next) => {
+  try {
+    const data = request.body;
+    var contrasennaHash = await bcrypt.hash(data.contrasenna, 10);
+
+    var usuario = await prisma.usuario.create({
+      data: {
+        tipoUsuario: data.tipoUsuario,
+        identificacion: data.identificacion,
+        nombre: data.nombre,
+        primerApellido: data.primerApellido,
+        segundoApellido: data.segundoApellido,
+        correo: data.correo,
+        contrasenna: contrasennaHash,
+        direccionUsuario: {
+          create: {
+            codProvincia: data.direccionUsuario.codProvincia,
+            codCanton: data.direccionUsuario.codCanton,
+            codDistrito: data.direccionUsuario.codDistrito,
+            sennas: data.direccionUsuario.sennas,
+          },
+        },
+        billetera:
+          data.tipoUsuario === "CLIENTE"
+            ? {
+                create: {
+                  canjeados: 0,
+                  disponibles: 0,
+                },
+              }
+            : {},
+      },
+    });
+
+    response.json(usuario);
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+};
+
+//Actualizar Usuario
+module.exports.update = async (request, response, next) => {
+  try {
+    const id = parseInt(request.params.id);
+    const data = request.body;
+    var contrasennaHash = await bcrypt.hash(data.contrasenna, 10);
+
+    const newUsuario = await prisma.usuario.update({
+      where: { id: id },
+      data: {
+        tipoUsuario: data.tipoUsuario,
+        identificacion: data.identificacion,
+        nombre: data.nombre,
+        primerApellido: data.primerApellido,
+        segundoApellido: data.segundoApellido,
+        correo: data.correo,
+        contrasenna: contrasennaHash,
+        direccionUsuario: {
+          update: {
+            codProvincia: data.direccionUsuario.codProvincia,
+            codCanton: data.direccionUsuario.codCanton,
+            codDistrito: data.direccionUsuario.codDistrito,
+            sennas: data.direccionUsuario.sennas,
+          },
+        },
+      },
+    });
+
+    response.json(newUsuario);
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+};
+
+//Habilitar o deshabilitar Usuario
+module.exports.habilitarODesabilitar = async (request, response, next) => {
+  try {
+    const id = parseInt(request.params.id);
+
+    const ultimoEstado = await prisma.usuario.findUnique({
+      where: { id: id },
+      select: {
+        desabilitado: true,
+      },
+    });
+
+    const usuario = await prisma.usuario.update({
+      where: {
+        id: id,
+      },
+      data: {
+        desabilitado: !ultimoEstado.desabilitado,
+      },
+    });
+
+    response.json(usuario);
   } catch (e) {
     response.json(
       "Ocurrió un error, contacte al administrador: \n" + e.message
