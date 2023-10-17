@@ -1,6 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const { categoriaCupon } =  require("@prisma/client");
 
 //Obtener listado
 module.exports.get = async (request, response, next) => {
@@ -87,26 +86,24 @@ module.exports.getInvalidos = async (request, response, next) => {
 //Obtener por Categoria
 module.exports.getByCategoria = async (request, response, next) => {
   try {
-
     const categoria = String(request.params.nombre).toUpperCase();
 
     const cupones = await prisma.cupon.findMany({
       orderBy: {
-        nombre: "asc"
+        nombre: "asc",
       },
       where: {
-        categoria: categoria
-      }
-    })
+        categoria: categoria,
+      },
+    });
 
-    response.json (cupones);
-
+    response.json(cupones);
   } catch (e) {
     response.json(
       "Ocurrió un error, contacte al administrador: \n" + e.message
     );
   }
-}
+};
 
 //Obtener por Id
 module.exports.getById = async (request, response, next) => {
