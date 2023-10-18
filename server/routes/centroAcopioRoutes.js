@@ -25,5 +25,7 @@ router.post('/', centroAcopioController.create);
 //Ruta: locahost:3000/centroacopio/id
 router.put('/:id', centroAcopioController.update);
 
+//Ruta: localhost:3000/centroacopio/habilitarodesabilitar/id
+router.post("/habilitarodesabilitar/:id", centroAcopioController.habilitarODesabilitar)
 
 module.exports = router;

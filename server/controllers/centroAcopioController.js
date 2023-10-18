@@ -191,3 +191,32 @@ module.exports.update = async (request, response, next) => {
     );
   }
 };
+
+//Habilitar o deshabilitar Centro de Acopio
+module.exports.habilitarODesabilitar = async (request, response, next) => {
+  try {
+    const id = parseInt(request.params.id);
+
+    const ultimoEstado = await prisma.centroAcopio.findUnique({
+      where: { id: id },
+      select: {
+        desabilitado: true,
+      },
+    });
+
+    const centroAcopio = await prisma.centroAcopio.update({
+      where: {
+        id: id,
+      },
+      data: {
+        desabilitado: !ultimoEstado.desabilitado,
+      },
+    });
+
+    response.json(centroAcopio);
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+};
