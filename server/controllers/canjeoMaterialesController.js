@@ -175,32 +175,28 @@ module.exports.getById = async (request, response, next) => {
 };
 
 //Obtener cantidad de canjes realizados en el mes por centro de acopio
-module.exports.getCantMesActual = async (
-    request,
-    response,
-    next
-  ) => {
-    try {
-      const fechaActual = new Date();
-      let mes = fechaActual.getMonth();
-      let anno = fechaActual.getFullYear();
-  
-      const canjes = await prisma.canjeoMateriales.findMany({
-        where: {
-          fecha: {
-            gte: new Date(anno, mes, 1),
-            lt: new Date(anno, mes + 1, 1),
-          },
+module.exports.getCantMesActual = async (request, response, next) => {
+  try {
+    const fechaActual = new Date();
+    let mes = fechaActual.getMonth();
+    let anno = fechaActual.getFullYear();
+
+    const canjes = await prisma.canjeoMateriales.findMany({
+      where: {
+        fecha: {
+          gte: new Date(anno, mes, 1),
+          lt: new Date(anno, mes + 1, 1),
         },
-      });
-  
-      response.json({cantidad: canjes.length});
-    } catch (e) {
-      response.json(
-        "Ocurrió un error, contacte al administrador: \n" + e.message
-      );
-    }
-  };
+      },
+    });
+
+    response.json({ cantidad: canjes.length });
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+};
 
 //Obtener cantidad de canjes realizados en el mes por centro de acopio
 module.exports.getCantMesActualByCentroAcopio = async (
@@ -225,7 +221,60 @@ module.exports.getCantMesActualByCentroAcopio = async (
       },
     });
 
-    response.json({cantidad: canjes.length});
+    response.json({ cantidad: canjes.length });
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+};
+
+//Obtener cantidad de canjes agrupados por material del año actual
+module.exports.getCantAnnoActualByCentroAcopio = async (
+  request,
+  response,
+  next
+) => {
+  try {
+    const fechaActual = new Date();
+    let anno = fechaActual.getFullYear();
+
+    const idCentroAcopio = parseInt(request.params.idCentroAcopio);
+
+    const canjesAgrupados = await prisma.canjeoMaterialesDetalle.groupBy({
+      where: {
+        canjeoMateriales: {
+          fecha: {
+            gte: new Date(anno, 1, 1),
+            lt: new Date(anno + 1, 1, 1),
+          },
+          centroAcopioId: idCentroAcopio,
+        },
+      },
+      _count: {
+        _all: true,
+      },
+      by: ["materialId"],
+    });
+
+    const canjes = await Promise.all(
+      canjesAgrupados.map(async (canje) => {
+        const material = await prisma.material.findUnique({
+          where: {
+            id: canje.materialId,
+          },
+        });
+
+        return {
+          cantidadUnidades: canje._count._all,
+          material: material.nombre,
+        };
+      })
+    );
+
+    canjes.sort((a, b) => (a.material > b.material ? 1 : -1));
+
+    response.json(canjes);
   } catch (e) {
     response.json(
       "Ocurrió un error, contacte al administrador: \n" + e.message

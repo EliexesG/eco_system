@@ -19,6 +19,9 @@ router.get('/cantidadmes', canjeoMaterialesController.getCantMesActual);
 //Ruta: locahost:3000/canjeomateriales/cantidadmes/centroacopio/id
 router.get('/cantidadmes/centroacopio/:idCentroAcopio', canjeoMaterialesController.getCantMesActualByCentroAcopio);
 
+//Ruta: locahost:3000/canjeomateriales/cantidadmes/centroacopio/id
+router.get('/cantidadanno/centroacopio/:idCentroAcopio', canjeoMaterialesController.getCantAnnoActualByCentroAcopio);
+
 //Ruta: locahost:3000/canjeomateriales/id
 router.get('/:id', canjeoMaterialesController.getById);
 
