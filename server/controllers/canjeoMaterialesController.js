@@ -1,5 +1,4 @@
 const { PrismaClient } = require("@prisma/client");
-const { Decimal } = require("@prisma/client/runtime/library");
 const prisma = new PrismaClient();
 
 //Obtener Listado por Centro de Acopio
@@ -19,15 +18,17 @@ module.exports.getByCentroAcopio = async (request, response, next) => {
           select: {
             cliente: {
               select: {
+                id: true,
                 tipoUsuario: true,
                 identificacion: true,
                 nombre: true,
                 correo: true,
+                createdAt: true,
+                updatedAt: true,
               },
             },
           },
         },
-        canjeoMaterialesDetalles: true,
       },
     });
 
@@ -52,9 +53,6 @@ module.exports.getByUsuario = async (request, response, next) => {
       },
       orderBy: {
         fecha: "desc",
-      },
-      include: {
-        canjeoMaterialesDetalles: true,
       },
     });
 
@@ -149,10 +147,13 @@ module.exports.getById = async (request, response, next) => {
           include: {
             cliente: {
               select: {
+                id: true,
                 tipoUsuario: true,
                 identificacion: true,
                 nombre: true,
                 correo: true,
+                createdAt: true,
+                updatedAt: true,
               },
             },
           },
@@ -275,6 +276,117 @@ module.exports.getCantAnnoActualByCentroAcopio = async (
     canjes.sort((a, b) => (a.material > b.material ? 1 : -1));
 
     response.json(canjes);
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+};
+
+//Obtener total ecomonedas generadas centro de acopio
+module.exports.getTotalMonedasByCentroAcopio = async (
+  request,
+  response,
+  next
+) => {
+  try {
+    const idCentroAcopio = parseInt(request.params.idCentroAcopio);
+
+    const totalMonedas = await prisma.canjeoMateriales.aggregate({
+      where: {
+        centroAcopio: {
+          id: idCentroAcopio,
+        },
+      },
+      _sum: {
+        cantMonedas: true,
+      },
+    });
+
+    response.json({ totalMonedas: totalMonedas._sum.cantMonedas });
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+};
+
+//Obtener suma de todas las Eco-monedas generadas y agrupadas por centro de acopio
+module.exports.getTotalMonedasGroupedCentroAcopio = async (
+  request,
+  response,
+  next
+) => {
+  try {
+    const totalMonedasAgrupadas = await prisma.canjeoMateriales.groupBy({
+      _sum: {
+        cantMonedas: true,
+      },
+      by: ["centroAcopioId"],
+    });
+
+    const totalMonedas = await Promise.all(
+      totalMonedasAgrupadas.map(async (total) => {
+        const centroAcopio = await prisma.centroAcopio.findUnique({
+          where: {
+            id: total.centroAcopioId,
+          },
+        });
+
+        return {
+          totalMonedas: total._sum.cantMonedas,
+          centroAcopio: centroAcopio.nombre,
+        };
+      })
+    );
+
+    response.json(totalMonedas);
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+};
+
+//Obtener total ecomonedas generadas y agrupadas por centro de acopio al anno
+module.exports.getTotalMonedasAnnoActualGroupedCentroAcopio = async (
+  request,
+  response,
+  next
+) => {
+  try {
+    const fechaActual = new Date();
+    let anno = fechaActual.getFullYear();
+
+    const totalMonedasAgrupadas = await prisma.canjeoMateriales.groupBy({
+      _sum: {
+        cantMonedas: true,
+      },
+      by: ["centroAcopioId"],
+      where: {
+        fecha: {
+          gte: new Date(anno, 1, 1),
+          lt: new Date(anno + 1, 1, 1),
+        },
+      },
+    });
+
+    const totalMonedas = await Promise.all(
+      totalMonedasAgrupadas.map(async (total) => {
+        const centroAcopio = await prisma.centroAcopio.findUnique({
+          where: {
+            id: total.centroAcopioId,
+          },
+        });
+
+        return {
+          totalMonedas: total._sum.cantMonedas,
+          centroAcopio: centroAcopio.nombre,
+        };
+      })
+    );
+
+    response.json(totalMonedas);
   } catch (e) {
     response.json(
       "Ocurrió un error, contacte al administrador: \n" + e.message
