@@ -3,20 +3,32 @@ const prisma = new PrismaClient();
 
 //Obtener lista de Materiales
 module.exports.get = async (request, response, next) => {
-  const materiales = await prisma.material.findMany({
-    orderBy: { nombre: "asc" },
-  });
+  try {
+    const materiales = await prisma.material.findMany({
+      orderBy: { nombre: "asc" },
+    });
 
-  response.json(materiales);
+    response.json(materiales);
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
 };
 
 //Obtener Material por Id
 module.exports.getById = async (request, response, next) => {
-  let id = parseInt(request.params.id);
+  try {
+    let id = parseInt(request.params.id);
 
-  const material = await prisma.material.findUnique({
-    where: { id: id },
-  });
+    const material = await prisma.material.findUnique({
+      where: { id: id },
+    });
 
-  response.json(material);
+    response.json(material);
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
 };
