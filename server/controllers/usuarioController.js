@@ -223,6 +223,28 @@ module.exports.update = async (request, response, next) => {
       },
     });
 
+    if (newUsuario.tipoUsuario == "CLIENTE") {
+      let billetera = await prisma.billetera.findUnique({
+        where: {
+          clienteId: newUsuario.id,
+        },
+      });
+
+      if (!billetera) {
+        var newBilletera = await prisma.billetera.create({
+          data: {
+            cliente: {
+              connect: { id: newUsuario.id },
+            },
+            canjeados: 0,
+            disponibles: 0,
+          },
+        });
+      }
+    }
+
+    newUsuario.billetera = newBilletera;
+
     response.json(newUsuario);
   } catch (e) {
     response.json(

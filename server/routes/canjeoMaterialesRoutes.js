@@ -22,6 +22,15 @@ router.get('/cantidadmes/centroacopio/:idCentroAcopio', canjeoMaterialesControll
 //Ruta: locahost:3000/canjeomateriales/cantidadmes/centroacopio/id
 router.get('/cantidadanno/centroacopio/:idCentroAcopio', canjeoMaterialesController.getCantAnnoActualByCentroAcopio);
 
+//Ruta: locahost:3000/canjeomateriales/totalmonedasanno/
+router.get('/totalmonedasanno', canjeoMaterialesController.getTotalMonedasAnnoActualGroupedCentroAcopio);
+
+//Ruta: locahost:3000/canjeomateriales/totalmonedas/
+router.get('/totalmonedas', canjeoMaterialesController.getTotalMonedasGroupedCentroAcopio);
+
+//Ruta: locahost:3000/canjeomateriales/totalmonedas/centroacopio/id
+router.get('/totalmonedas/centroacopio/:idCentroAcopio', canjeoMaterialesController.getTotalMonedasByCentroAcopio);
+
 //Ruta: locahost:3000/canjeomateriales/id
 router.get('/:id', canjeoMaterialesController.getById);
 
