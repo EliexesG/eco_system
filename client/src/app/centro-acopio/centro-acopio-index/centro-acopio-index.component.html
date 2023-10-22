@@ -1,0 +1,29 @@
+<div class="grid-container">
+    <h1 class="mat-h1">Centros de acopio</h1>
+    <mat-grid-list [cols]="3" rowHeight="12em" gutterSize="10px">
+      <mat-grid-tile *ngFor="let item of datos">
+        <mat-card class="dashboard-card">
+          <mat-card-header>
+            <mat-card-title>{{item.nombre}} </mat-card-title>
+          </mat-card-header>
+          <mat-divider inset></mat-divider>
+          <mat-card-content>
+            <img src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2Fmateriales%2Faparatos%20electricos%20y%20electronicos.jpg?alt=media&token=2825c274-4803-4f1a-8eea-b69126602b00&_gl=1*1hkvkpb*_ga*MTQ0ODYwMTA4Ny4xNjk2Mzg1NzYw*_ga_CW55HF8NVT*MTY5Nzk0Nzk0Ny4yLjEuMTY5Nzk0ODAyMy41NS4wLjA.">
+          </mat-card-content>
+          <mat-card-actions>
+            <button
+                mat-mini-fab
+                color="accent"
+                matTooltip="Detalle Centro Acopio"
+                aria-label="Detalle Centro Acopio"
+                color="primary"
+                (click)="detalleCentroAcopio(item.id)"
+              >
+              <mat-icon class="mat-18">info</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+  

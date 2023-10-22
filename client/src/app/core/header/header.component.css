@@ -1,0 +1,27 @@
+.navbar-spacer {
+    flex: 1 1 auto;
+}
+
+#appIcon {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    
+}
+
+#appIcon img {
+    width: 55px;
+    height: auto;
+    transition: all 0.2s ease-in-out;
+}
+
+#appIcon:hover img {
+    background-color: aliceblue;
+    margin-right: 5px;
+    border-radius: 50%;
+}
+
+
+#appIcon p {
+    font-weight: bold;
+}
