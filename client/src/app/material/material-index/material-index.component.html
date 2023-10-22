@@ -1,0 +1,22 @@
+<div class="grid-container">
+    <h1 class="mat-h1">Materiales de Reciclaje</h1>
+
+    <mat-grid-list [cols]="3" gutterSize="5px">
+        <mat-grid-tile *ngFor="let material of datos">
+            <mat-card class="material-card">
+                <mat-card-header>
+                    <mat-card-title>
+                        {{material.nombre}}
+                    </mat-card-title>
+                </mat-card-header>
+                <img mat-card-image src="{{material.imagen}}" alt="material" class="material-img" />
+                <mat-card-content>
+            
+                </mat-card-content>
+                <mat-card-footer>
+
+                </mat-card-footer>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

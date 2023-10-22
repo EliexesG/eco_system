@@ -7,18 +7,24 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
 import { ShareModule } from './share/share.module';
 import { HomeModule } from './home/home.module';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { CentroAcopioModule } from './centro-acopio/centro-acopio.module';
+import { MaterialModule } from './material/material.module';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    ToastrModule.forRoot(),
     HttpClientModule,
     BrowserAnimationsModule,
     CoreModule,
     ShareModule,
     HomeModule,
-    AppRoutingModule
+    CentroAcopioModule,
+    MaterialModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -20,7 +20,7 @@ $eco_system_client-warn: mat.define-palette(mat.$orange-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$eco_system_client-theme: mat.define-light-theme((
+$eco_system_client-theme: mat.define-dark-theme((
   color: (
     primary: $eco_system_client-primary,
     accent: $eco_system_client-accent,
@@ -28,7 +28,7 @@ $eco_system_client-theme: mat.define-light-theme((
   )
 ));
 
-$eco_system_client-theme: mat.define-dark-theme((
+$eco_system_client-theme: mat.define-light-theme((
   color: (
     primary: $eco_system_client-primary,
     accent: $eco_system_client-accent,
