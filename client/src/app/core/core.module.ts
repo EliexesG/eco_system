@@ -7,17 +7,19 @@ import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent],
   imports: [
     CommonModule,
+    RouterModule,
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
-    MatCardModule,
-    RouterModule,
+    MatMenuModule,
+    MatBadgeModule,
   ],
   exports: [HeaderComponent, FooterComponent],
 })
