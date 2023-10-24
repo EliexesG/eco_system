@@ -1,10 +1,34 @@
 <mat-toolbar color="primary">
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+    [matMenuTriggerFor]="menu1"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <a (click)="homeClick()" id="appIcon"
+    ><img src="icon.png" />
+    <p>ECO SYSTEM</p></a
+  >
+  <mat-menu #menu1="matMenu">
+    <button
+      mat-menu-item
+      [routerLink]="['/']"
+      routerLinkActive="mat-raised-button"
+    >
+      <mat-icon>home</mat-icon>Home
     </button>
-    <a (click)="homeClick()" id="appIcon"><img src="icon.png" /> <p>ECO SYSTEM</p></a>
-    <span class="navbar-spacer"></span>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-        <mat-icon>person</mat-icon>
+    <button mat-menu-item [routerLink]="['/material']">
+      <mat-icon>recycling</mat-icon>Materiales
     </button>
+  </mat-menu>
+  <span class="navbar-spacer"></span>
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with share icon"
+  >
+    <mat-icon>person</mat-icon>
+  </button>
 </mat-toolbar>

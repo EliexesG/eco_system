@@ -99,6 +99,7 @@ model material {
   nombre            String
   imagen            String
   codColor          String            @unique
+  descripcion       String            @db.VarChar(1000)
   unidadMedida      String            
   monedasUnidad     Int
   centrosAcopio     centroAcopio[]
