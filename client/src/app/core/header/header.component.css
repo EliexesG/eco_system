@@ -6,7 +6,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    
+    transition: all 0.2s ease-in-out;
 }
 
 #appIcon img {
@@ -21,6 +21,9 @@
     border-radius: 50%;
 }
 
+#appIcon:active {
+    transform: translate(5px);
+}
 
 #appIcon p {
     font-weight: bold;
