@@ -53,7 +53,10 @@
   </mat-card>
 </div>
 <div class="grid-container" *ngIf="!datos">
-  <h1 class="mat-h1" [style]="{ 'align-items': 'center' }">
+  <h1 class="mat-h1 no-datos" [style]="{ 'align-items': 'center' }">
     Material Inexistente
   </h1>
+  <button mat-button color="primary" (click)="devolverse()">
+    <mat-icon>arrow_back_ios</mat-icon> Ir Atrás
+  </button>
 </div>

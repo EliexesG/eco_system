@@ -7,10 +7,14 @@
     color: white;
 }
 
+.no-datos {
+    color: black;
+}
+
 .dataContainer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .mat-h3 {
