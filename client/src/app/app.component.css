@@ -1,5 +1,6 @@
 .body-container {
     position: relative;
-    margin: auto 10px;
+    margin: auto 15px;
     padding-bottom: 85px;
+    padding-top: 25px;
 }
