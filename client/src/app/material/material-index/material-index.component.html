@@ -1,6 +1,11 @@
 <div class="grid-container">
   <h1 class="mat-h1">Materiales de Reciclaje</h1>
-  <mat-grid-list [cols]="4" rowHeight="565px" gutterSize="5px">
+  <p class="mat-body descripcionTitulo">
+    A continuación una lista con los productos de reciclaje que soportamos, esto
+    para el canjeo de Eco-Monedas
+  </p>
+  <hr [style]="" />
+  <mat-grid-list [cols]="4" rowHeight="570px" gutterSize="5px">
     <mat-grid-tile *ngFor="let material of datos">
       <mat-card class="material-card">
         <mat-card-header>

@@ -6,6 +6,10 @@ hr {
   margin-bottom: 15px;
 }
 
+.descripcionTitulo {
+  text-align: center;
+}
+
 mat-card {
   padding: 15px;
   border-radius: 15px;
