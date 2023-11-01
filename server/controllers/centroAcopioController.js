@@ -96,9 +96,9 @@ module.exports.getById = async (request, response, next) => {
 
     const centroAcopio = await prisma.centroAcopio.findUnique({
       include: {
-        administrador: true,
         materiales: true,
         horarios: true,
+        administrador: true,
         direccionCentroAcopio: true,
       },
       where: { id: id },

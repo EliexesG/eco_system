@@ -8,7 +8,12 @@ const app = express();
 //const prism = new PrismaClient();
 
 //--- Archives de rutas ---
-
+const materialRoutes = require("./routes/matarialRoutes");
+const cuponRoutes = require("./routes/cuponRoutes");
+const centroAcopioRoutes = require("./routes/centroAcopioRoutes");
+const usuarioRoutes = require("./routes/usuarioRoutes");
+const canjeoMaterialesRoutes = require("./routes/canjeoMaterialesRoutes");
+const canjeoCuponRoutes = require("./routes/canjeoCuponRoutes");
 
 // Acceder  a la configuracion del archivo .env
 dotEnv.config();
@@ -25,13 +30,21 @@ app.use(logger("dev"));
 // Middlewaare para gestionar Requests y Response json
 app.use(express.json());
 app.use(
-    express.urlencoded({
-        extended: true,
-    })
+  express.urlencoded({
+    extended: true,
+  })
 );
 
 //--- Definir rutas ---
+app.use("/material", materialRoutes);
+app.use("/cupon", cuponRoutes);
+app.use("/centroacopio", centroAcopioRoutes);
+app.use("/usuario", usuarioRoutes);
+app.use("/canjeomateriales", canjeoMaterialesRoutes);
+app.use("/canjeocupon", canjeoCuponRoutes);
+
+// Servidor
 app.listen(port, () => {
-    console.log(`http//localhost:${port}`);
-    console.log("Presione CTRL-C para detener la ejecución");
+  console.log(`http//localhost:${port}`);
+  console.log("Presione CTRL-C para detener la ejecución");
 });
