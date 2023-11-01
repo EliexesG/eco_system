@@ -1,0 +1,44 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Materiales de Reciclaje</h1>
+  <p class="mat-body descripcionTitulo">
+    A continuación una lista con los productos de reciclaje que soportamos, esto
+    para el canjeo de Eco-Monedas
+  </p>
+  <hr [style]="" />
+  <mat-grid-list [cols]="4" rowHeight="570px" gutterSize="5px">
+    <mat-grid-tile *ngFor="let material of datos">
+      <mat-card class="material-card">
+        <mat-card-header>
+          <h3 class="card-title">
+            {{ material.nombre }}
+          </h3>
+        </mat-card-header>
+        <img
+          mat-card-image
+          src="{{ material.imagen }}"
+          alt="material"
+          class="material-img"
+        />
+        <mat-card-content>
+          <p mat-card-subtitle>Eco-Monedas: {{ material.monedasUnidad }}</p>
+          <p mat-card-subtitle>Unidad de Medida: {{ material.unidadMedida }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button
+            class="botonDetalle"
+            mat-mini-fab
+            aria-label="Mostrar Detalle"
+            matToolTip="Mostrar Detalle"
+            [style.background-color]="material.codColor"
+            (click)="detalleMaterial(material.id)"
+          >
+            <mat-icon [style.color]="'white'"> info </mat-icon>
+          </button>
+        </mat-card-actions>
+        <mat-card-footer>
+          <div [style.background-color]="material.codColor" class="color"></div>
+        </mat-card-footer>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

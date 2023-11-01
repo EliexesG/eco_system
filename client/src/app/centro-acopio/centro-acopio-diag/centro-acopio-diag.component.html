@@ -1,0 +1,34 @@
+  <script src="https://gist.github.com/josuenoel/80daca657b71bc1cfd95a4e27d547abe.js"></script>
+  <div *ngIf="datos" class="info">
+    <h1 color="primary">{{ datos.nombre }}</h1>
+    <table>
+      <tr>
+        <td><b>Horario:</b></td>
+        <td> De {{datos.horarios.horaInicio  |date:"shortTime" }} a {{datos.horarios.horaInicio  |date:"shortTime" }}</td>
+      </tr>
+      <tr>
+        <td><b>Dirección:</b></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><b>Telefono:</b></td>
+        <td>{{datos.telefono}}</td>
+      </tr>
+      <tr>
+        <td><b>Encargado:</b></td>
+        <td>{{datos.administrador.nombre}} {{datos.administrador.primerApellido}} {{datos.administrador.segundoApellido}}</td>
+      </tr>
+      <tr>
+        <td colspan="2"><b>Materiales admitidos en el centro: </b></td>
+      </tr>
+    </table>
+    <mat-dialog-content>
+      <ul *ngIf="datos.materiales">
+        <li *ngFor="let item of datos.materiales"><p>{{ item.nombre }}</p></li>
+      </ul>
+    </mat-dialog-content>
+
+    <button mat-raised-button class="boton" [mat-dialog-close]="true">Cerrar</button>
+  </div>
+
+  

@@ -1,0 +1,34 @@
+<mat-toolbar color="primary" >
+  <a (click)="homeClick()" id="appIcon">
+    <img src="icon.png" />
+    <p>ECO SYSTEM</p>
+  </a>
+  <mat-menu #menu1="matMenu">
+    <button
+      mat-menu-item
+      [routerLink]="['/']"
+      routerLinkActive="mat-raised-button"
+    >
+      <mat-icon>home</mat-icon>Home
+    </button>
+    <button mat-menu-item [routerLink]="['/material']">
+      <mat-icon>recycling</mat-icon>Materiales
+    </button>
+  </mat-menu>
+  <span class="navbar-spacer"></span>
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with share icon"
+  >
+    <mat-icon>person</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-toolbar class="scondtoolbar">
+    <button mat-menu-item id="buttonMenu" [routerLink]="['/inicio']"><mat-icon class="material-icons color_white" fontIcon="home"></mat-icon> INICIO </button>
+    <button mat-menu-item id="buttonMenu" [routerLink]="['/material']"><mat-icon class="material-icons color_white">recycling</mat-icon> MATERIALES </button>
+    <button mat-menu-item id="buttonMenu" [routerLink]="['/cupon']"><mat-icon class="material-icons color_white"  fontIcon="tag"></mat-icon> CUPONES </button>
+    <button mat-menu-item id="buttonMenu" [routerLink]="['/centroacopio']"><mat-icon class="material-icons color_white" fontIcon="domain"></mat-icon>Centros de acopio</button>
+  
+</mat-toolbar>

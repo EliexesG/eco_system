@@ -1,0 +1,28 @@
+<div class="grid-container">
+    <h1 class="mat-h1">Centos de acopio</h1>
+    <mat-grid-list [cols]="4" rowHeight="20em" gutterSize="5px">
+      <mat-grid-tile *ngFor="let item of datos">
+        <mat-card class="dashboard-card">
+          <mat-card-header>
+            <h3 class="card-title">
+              {{ item.nombre }}
+            </h3>
+          </mat-card-header>
+          <mat-divider inset></mat-divider>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item> <p><mat-icon>map</mat-icon> {{item.direccionCentroAcopio.sennas}}</p></mat-list-item>
+              <mat-list-item><mat-icon>call</mat-icon> {{item.telefono}}</mat-list-item>
+             </mat-list>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button class="boton" matTooltip="Detalle Centro Acopio" aria-label="Detalle Centro Acopio" (click)="detalleCentroAcopio(item.id)" xtended>
+              <mat-icon >info</mat-icon>
+              Ver más
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+  

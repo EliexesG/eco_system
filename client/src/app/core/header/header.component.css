@@ -1,0 +1,58 @@
+.navbar-spacer {
+    flex: 1 1 auto;
+}
+
+#appIcon {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+#appIcon img {
+    width: 55px;
+    height: auto;
+    transition: all 0.2s ease-in-out;
+}
+
+#appIcon:hover img {
+    background-color: aliceblue;
+    border-radius: 50%;
+}
+
+#appIcon:active {
+    transform: translate(5px);
+}
+
+#appIcon p {
+    font-weight: bold;
+}
+
+#buttonMenu {
+    width: min-content;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+#buttonMenu:hover {
+    background-color: #006064;
+    border-radius: 10px;
+}
+
+#buttonMenu:active {
+    transform: translate(5px);
+}
+
+#buttonMenu p {
+    font-weight: bold;
+}
+
+.scondtoolbar{
+ background-color: #0097A7;
+ justify-content: center;
+}
+
+.material-icons.color_white { color: #FFFFFF; }
