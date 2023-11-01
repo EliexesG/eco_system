@@ -20,8 +20,20 @@
           class="material-img"
         />
         <mat-card-content>
-          <p mat-card-subtitle>Eco-Monedas: {{ material.monedasUnidad }}</p>
-          <p mat-card-subtitle>Unidad de Medida: {{ material.unidadMedida }}</p>
+          <p class="contenido">
+            {{ material.monedasUnidad }}
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2FOtros%2Fmoneda.jpg?alt=media&token=1ddb658f-00c4-408b-b0a0-a1ae54db3aaf&_gl=1*11taqe0*_ga*MTQ0ODYwMTA4Ny4xNjk2Mzg1NzYw*_ga_CW55HF8NVT*MTY5ODgxNTg5NS41LjEuMTY5ODgxNjU2MS42MC4wLjA."
+              alt=""
+              style="
+                width: 20px;
+                height: 20px;
+                margin-left: 5px;
+                margin-right: 5px;
+              "
+            />
+            x {{ material.unidadMedida }}
+          </p>
         </mat-card-content>
         <mat-card-actions>
           <button

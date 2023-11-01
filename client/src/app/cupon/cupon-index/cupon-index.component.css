@@ -1,62 +1,67 @@
-.imagen{
-    width: 100%;
-    border-radius: 10px;
+.imagen {
+  width: 100%;
+  border-radius: 10px;
 }
 
 .boton {
-    color: white;
-    font-weight: bold;
-    font-size: larger;
-    border-radius: 5px;
-    margin: 5px;
-    width: 93%;
-    padding: 10px;
-    background-color: #2ccee0;
-  }
-  
-  .boton:hover{
-     transition: all 1s cubic-bezier(.25, .4, .45, 1.4);
-    background-color: #0097A7;
-  }
+  color: white !important;
+  font-weight: bold;
+  font-size: larger;
+  border-radius: 5px;
+  margin: 5px;
+  width: 100%;
+  padding: 10px;
+  transition: all 0.2s cubic-bezier(0.25, 0.4, 0.45, 1.4);
+}
 
-  .mat-h1 {
-    text-align: center;
-  }
-  
-  hr {
-    margin-bottom: 15px;
-  }
-  
-  .descripcionTitulo {
-    text-align: center;
-  }
+.boton:hover {
+  filter: brightness(90%);
+}
 
-  .card-title{
-    font-weight: bold;
-    width: 100%;
-    text-align: center !important;
-    margin-top: 0px;
-  }
-  
-  mat-card-subtitle {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  mat-card-content {
-    margin-top: 5px;
-  }
-  
-  mat-card-footer {
-    text-align: center;
-  }
+.mat-h1 {
+  text-align: center;
+}
 
-  .material-card{
-    background-color: white;
-    
-    border-radius: 15px;
-  }
+hr {
+  margin-bottom: 15px;
+}
 
-  .contenido{
-    height: 420px;
-  }
+.descripcionTitulo {
+  text-align: center;
+}
+
+.card-title {
+  font-weight: bold;
+  width: 100%;
+  text-align: center !important;
+  margin-top: 0px;
+}
+
+mat-card-subtitle {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+mat-card-content {
+  margin-top: 5px;
+}
+
+mat-card-footer {
+  text-align: center;
+}
+
+.material-card {
+  background-color: white;
+
+  border-radius: 15px;
+}
+
+.contenido {
+  height: 420px;
+}
+
+.contenidoMonedas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

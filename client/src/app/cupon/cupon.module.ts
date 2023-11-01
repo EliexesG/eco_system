@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatCardModule,
     MatListModule,
     MatDialogModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonModule
   ]
 })
 export class CuponModule { }
