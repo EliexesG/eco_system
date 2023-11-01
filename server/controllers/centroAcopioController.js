@@ -9,7 +9,10 @@ module.exports.get = async (request, response, next) => {
         nombre: "asc",
       },
       include: {
+        administrador: true,
         materiales: true,
+        horarios: true,
+        direccionCentroAcopio: true,
       },
     });
 

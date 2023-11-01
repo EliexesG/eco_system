@@ -16,7 +16,7 @@ module.exports.getByUsuario = async (request, response, next) => {
         fecha: "desc",
       },
       include: {
-        cupon: true,  
+        cupon: true,
         billetera: {
           select: {
             cliente: {
