@@ -74,12 +74,11 @@
 
     <h1>Materiales</h1>
     <div class="imagenes">
-        <div *ngFor="let material of datos" style="background-image: url('{{ material.imagen }}');"
-            [style.color]="material.codColor">
+        <div *ngFor="let material of datos" style="background-image: url('{{ material.imagen }}');">
             <table style="width: 100%; height: 100%;">
                 <tr>
                     <td class="top">
-                        <h3 class="info">{{material.nombre}}</h3>
+                        <h3 class="info" [style.background-color]="material.codColor">{{material.nombre}}</h3>
                     </td>
                 </tr>
                 <tr>
