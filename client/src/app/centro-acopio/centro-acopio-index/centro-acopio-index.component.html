@@ -1,25 +1,24 @@
 <div class="grid-container">
-    <h1 class="mat-h1">Centros de acopio</h1>
-    <mat-grid-list [cols]="3" rowHeight="12em" gutterSize="10px">
+    <h1 class="mat-h1">Centos de acopio</h1>
+    <mat-grid-list [cols]="4" rowHeight="20em" gutterSize="5px">
       <mat-grid-tile *ngFor="let item of datos">
         <mat-card class="dashboard-card">
           <mat-card-header>
-            <mat-card-title>{{item.nombre}} </mat-card-title>
+            <h3 class="card-title">
+              {{ item.nombre }}
+            </h3>
           </mat-card-header>
           <mat-divider inset></mat-divider>
           <mat-card-content>
-            <img src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2Fmateriales%2Faparatos%20electricos%20y%20electronicos.jpg?alt=media&token=2825c274-4803-4f1a-8eea-b69126602b00&_gl=1*1hkvkpb*_ga*MTQ0ODYwMTA4Ny4xNjk2Mzg1NzYw*_ga_CW55HF8NVT*MTY5Nzk0Nzk0Ny4yLjEuMTY5Nzk0ODAyMy41NS4wLjA.">
+            <mat-list>
+              <mat-list-item> <p><mat-icon>map</mat-icon> {{item.direccionCentroAcopio.sennas}}</p></mat-list-item>
+              <mat-list-item><mat-icon>call</mat-icon> {{item.telefono}}</mat-list-item>
+             </mat-list>
           </mat-card-content>
           <mat-card-actions>
-            <button
-                mat-mini-fab
-                color="accent"
-                matTooltip="Detalle Centro Acopio"
-                aria-label="Detalle Centro Acopio"
-                color="primary"
-                (click)="detalleCentroAcopio(item.id)"
-              >
-              <mat-icon class="mat-18">info</mat-icon>
+            <button mat-raised-button class="boton" matTooltip="Detalle Centro Acopio" aria-label="Detalle Centro Acopio" (click)="detalleCentroAcopio(item.id)" xtended>
+              <mat-icon >info</mat-icon>
+              Ver más
             </button>
           </mat-card-actions>
         </mat-card>

@@ -11,6 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { CentroAcopioModule } from './centro-acopio/centro-acopio.module';
 import { MaterialModule } from './material/material.module';
 import { ToastrModule } from 'ngx-toastr';
+import { CuponModule } from './cupon/cupon.module';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +25,8 @@ import { ToastrModule } from 'ngx-toastr';
     ShareModule,
     HomeModule,
     CentroAcopioModule,
-    MaterialModule,
+    MaterialModule,    
+    CuponModule,
     AppRoutingModule,
   ],
   providers: [],

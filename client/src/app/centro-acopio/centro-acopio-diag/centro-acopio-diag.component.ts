@@ -13,6 +13,8 @@ export class CentroAcopioDiagComponent implements OnInit{
   datosDialog:any;
   destroy$:Subject<boolean>= new Subject<boolean>();
 
+  apertura: Date;
+  cierre: Date;
   
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
@@ -32,7 +34,7 @@ export class CentroAcopioDiagComponent implements OnInit{
     .get('centroacopio',id)
     .pipe(takeUntil(this.destroy$))
     .subscribe((data:any)=>{
-        this.datos=data; 
+        this.datos=data;
     });
    
   }

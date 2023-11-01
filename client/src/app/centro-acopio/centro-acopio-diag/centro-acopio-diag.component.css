@@ -1,11 +1,25 @@
-.dashboard-card {
-    margin: 2%;
-  }
-    
-  .dashboard-card-content {
+
+.dashboard-card-content {
     text-align: left;
-    line-height: 1.5em;
   }
+
 .info{
-  margin: 1em 1em;
+  margin: 30px;
+}
+
+.boton {
+  color: white;
+  font-weight: bold;
+  font-size: larger;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
+  width: 93%;
+  vertical-align: bottom;
+  background-color: #2ccee0;
+}
+
+.boton:hover{
+   transition: all 1s cubic-bezier(.25, .4, .45, 1.4);
+  background-color: #0097A7;
 }
