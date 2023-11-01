@@ -29,7 +29,7 @@ export class CuponIndexComponent {
   }
 
   
-  detalleCentroAcopio(id:number){
+  detalleCupon(id:number){
     //Detalle en formato diálogo
     const dialogConfig=new MatDialogConfig();
     dialogConfig.disableClose=false;

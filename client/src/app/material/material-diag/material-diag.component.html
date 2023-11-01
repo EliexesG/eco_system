@@ -1,0 +1,57 @@
+<script src="https://gist.github.com/josuenoel/80daca657b71bc1cfd95a4e27d547abe.js"></script>
+<div *ngIf="datos" class="info">
+  <h1 class="mat-h1" [style.background-color]="datos.codColor">
+    {{ datos.nombre }}
+  </h1>
+  <hr [style]="{ 'margin-bottom': '25px', 'margin-top': '15px' }" />
+  <mat-card>
+    <img
+      mat-card-image
+      src="{{ datos.imagen }}"
+      alt="material"
+      class="material-img"
+    />
+    <mat-card-content>
+      <div class="dataContainer">
+        <div>
+          <h3 class="mat-h3">
+            <mat-icon>attach_money</mat-icon> Eco-Monedas:
+            <span [style]="{ 'margin-left': '10px' }" class="mat-body">{{
+              datos.monedasUnidad
+            }}</span>
+          </h3>
+        </div>
+        <div>
+          <h3 class="mat-h3">
+            <mat-icon>line_weight</mat-icon> Unidad de Medida:
+            <span [style]="{ 'margin-left': '10px' }" class="mat-body">{{
+              datos.unidadMedida
+            }}</span>
+          </h3>
+        </div>
+        <div>
+          <h3 class="mat-h3">
+            <mat-icon>color_lens</mat-icon> Color que le Representa:
+            <div
+              [style]="{
+                'margin-left': '10px',
+                'background-color': datos.codColor
+              }"
+              class="color"
+            ></div>
+          </h3>
+        </div>
+      </div>
+      <hr [style]="{ 'margin-bottom': '25px', 'margin-top': '15px' }" />
+      <div class="descripcionContainer">
+        <h3 class="mat-h3"><mat-icon>description</mat-icon> Descripción</h3>
+        <p class="mat-body">{{ datos.descripcion }}</p>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button [mat-dialog-close]="true" color="primary">
+        <mat-icon>arrow_back_ios</mat-icon> Ir Atrás
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

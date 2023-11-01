@@ -1,34 +1,61 @@
-  <script src="https://gist.github.com/josuenoel/80daca657b71bc1cfd95a4e27d547abe.js"></script>
-  <div *ngIf="datos" class="info">
-    <h1 color="primary">{{ datos.nombre }}</h1>
-    <table>
-      <tr>
-        <td><b>Horario:</b></td>
-        <td> De {{datos.horarios.horaInicio  |date:"shortTime" }} a {{datos.horarios.horaInicio  |date:"shortTime" }}</td>
-      </tr>
-      <tr>
-        <td><b>Dirección:</b></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><b>Telefono:</b></td>
-        <td>{{datos.telefono}}</td>
-      </tr>
-      <tr>
-        <td><b>Encargado:</b></td>
-        <td>{{datos.administrador.nombre}} {{datos.administrador.primerApellido}} {{datos.administrador.segundoApellido}}</td>
-      </tr>
-      <tr>
-        <td colspan="2"><b>Materiales admitidos en el centro: </b></td>
-      </tr>
-    </table>
-    <mat-dialog-content>
-      <ul *ngIf="datos.materiales">
-        <li *ngFor="let item of datos.materiales"><p>{{ item.nombre }}</p></li>
-      </ul>
-    </mat-dialog-content>
-
-    <button mat-raised-button class="boton" [mat-dialog-close]="true">Cerrar</button>
-  </div>
-
-  
+<script src="https://gist.github.com/josuenoel/80daca657b71bc1cfd95a4e27d547abe.js"></script>
+<div *ngIf="datos" class="info">
+  <mat-card>
+    <mat-card-header>
+      <h1 color="primary">{{ datos.nombre }}</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="horario">
+        <h4>Horario:</h4>
+        <p>
+          De {{ datos.horarios.horaInicio | date : "shortTime" }} a
+          {{ datos.horarios.horaInicio | date : "shortTime" }}
+        </p>
+      </div>
+      <div class="direccion">
+        <h4>Dirección:</h4>
+        <td>
+          {{ distrito }}, {{ canton }},
+          {{ provincia }}
+        </td>
+      </div>
+      <div class="sennas">
+        <h4>Señas:</h4>
+        <p>{{ datos.direccionCentroAcopio.sennas }}</p>
+      </div>
+      <div class="telefono">
+        <h4>Telefono:</h4>
+        <p>{{ datos.telefono }}</p>
+      </div>
+      <div class="encargado">
+        <h4>Encargado:</h4>
+        <p>
+          {{ datos.administrador.nombre }}
+          {{ datos.administrador.primerApellido }}
+          {{ datos.administrador.segundoApellido }}
+        </p>
+      </div>
+      <hr />
+      <div class="materiales">
+        <h4>Materiales admitidos en el centro:</h4>
+        <div *ngIf="datos.materiales" class="listadoMateriales">
+          <div *ngFor="let item of datos.materiales" class="material">
+            <div
+              [style]="{
+                'margin-left': '10px',
+                'background-color': item.codColor
+              }"
+              class="color"
+            ></div>
+            <p>{{ item.nombre }}</p>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button class="boton" [mat-dialog-close]="true">
+        Cerrar
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

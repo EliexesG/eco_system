@@ -8,9 +8,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MaterialDiagComponent } from './material-diag/material-diag.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [MaterialDetalleComponent, MaterialIndexComponent],
+  declarations: [MaterialDetalleComponent, MaterialIndexComponent, MaterialDiagComponent],
   imports: [
     CommonModule,
     MaterialRoutingModule,
@@ -19,6 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatListModule,
     MatIconModule,
     MatButtonModule,
+    MatDialogModule
   ],
 })
 export class MaterialModule {}

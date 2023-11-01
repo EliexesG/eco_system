@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class LocalizacionService {
-  baseUrl: string = 'https://ubicaciones.paginasweb.cr/';
+  private baseUrl: string = 'https://ubicaciones.paginasweb.cr/';
 
   constructor(private http: HttpClient) {}
 
