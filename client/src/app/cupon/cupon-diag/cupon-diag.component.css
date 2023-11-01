@@ -1,44 +1,47 @@
-.imagen{
-    background-color: aqua;
-    width: 500px;
-    height: 500px;
-    margin: 0px;
-    padding: 0px;
-    float:left;
+.imagen {
+  background-color: aqua;
+  width: 500px;
+  height: auto;
+  margin: 0px;
+  padding: 0px;
+  float: left;
 }
 
-.info{
-    margin: 0px;
-    padding: 0px;
-    float:right;
+.info {
+  margin: 0px;
+  padding: 0px;
+  float: right;
+  min-width: 450px;
+  max-width: 450px;
 }
-
 
 .boton {
-    color: white;
-    font-weight: bold;
-    font-size: larger;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 5px;
-    width: 93%;
-    vertical-align: bottom;
-    background-color: #2ccee0;
-  }
-  
-  .boton:hover{
-     transition: all 1s cubic-bezier(.25, .4, .45, 1.4);
-    background-color: #0097A7;
-  }
+  color: white;
+  font-weight: bold;
+  font-size: larger;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
+  width: 100%;
+  transition: all 0.2s cubic-bezier(0.25, 0.4, 0.45, 1.4);
+}
+
+.boton:hover {
+  filter: brightness(90%);
+}
 
 .categoria,
 .Comienza,
 .Finaliza,
-.descripcion,
-.Monedas{
+.Monedas {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   margin-bottom: -15px;
+}
+
+.descripcion p {
+  margin-top: -15px;
+  text-align: justify;
 }

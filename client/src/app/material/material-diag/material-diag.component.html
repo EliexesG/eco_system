@@ -15,10 +15,19 @@
       <div class="dataContainer">
         <div>
           <h3 class="mat-h3">
-            <mat-icon>attach_money</mat-icon> Eco-Monedas:
-            <span [style]="{ 'margin-left': '10px' }" class="mat-body">{{
-              datos.monedasUnidad
-            }}</span>
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2FOtros%2Fmoneda.jpg?alt=media&token=1ddb658f-00c4-408b-b0a0-a1ae54db3aaf&_gl=1*11taqe0*_ga*MTQ0ODYwMTA4Ny4xNjk2Mzg1NzYw*_ga_CW55HF8NVT*MTY5ODgxNTg5NS41LjEuMTY5ODgxNjU2MS42MC4wLjA."
+              alt=""
+              style="width: 25px; height: 25px; margin-right: 5px"
+            />
+            Eco-Monedas:
+            <span
+              [style]="{
+                'margin-left': '10px',
+              }"
+              class="mat-body"
+              >{{ datos.monedasUnidad }}
+            </span>
           </h3>
         </div>
         <div>
@@ -49,8 +58,8 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button [mat-dialog-close]="true" color="primary">
-        <mat-icon>arrow_back_ios</mat-icon> Ir Atrás
+      <button class="boton" mat-raised-button [mat-dialog-close]="true" color="accent">
+        <mat-icon>close</mat-icon> Cerrar
       </button>
     </mat-card-actions>
   </mat-card>

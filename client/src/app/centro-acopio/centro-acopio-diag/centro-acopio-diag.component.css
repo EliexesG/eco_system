@@ -7,20 +7,19 @@
 }
 
 .boton {
-  color: white;
+  color: white !important;
   font-weight: bold;
   font-size: larger;
   border-radius: 5px;
   padding: 10px;
   margin: 5px;
-  width: 93%;
+  width: 100%;
   vertical-align: bottom;
-  background-color: #2ccee0;
+  transition: all 0.2s cubic-bezier(0.25, 0.4, 0.45, 1.4);
 }
 
 .boton:hover {
-  transition: all 1s cubic-bezier(0.25, 0.4, 0.45, 1.4);
-  background-color: #0097a7;
+  filter: brightness(90%);
 }
 
 .horario,

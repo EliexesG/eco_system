@@ -11,10 +11,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CentroAcopioDiagComponent } from './centro-acopio-diag/centro-acopio-diag.component';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [CentroAcopioDetalleComponent, CentroAcopioIndexComponent, CentroAcopioDiagComponent],
+  declarations: [
+    CentroAcopioDetalleComponent,
+    CentroAcopioIndexComponent,
+    CentroAcopioDiagComponent,
+  ],
   imports: [
     CommonModule,
     CentroAcopioRoutingModule,
@@ -23,7 +27,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatListModule,
     MatIconModule,
     MatDialogModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButtonModule,
   ],
 })
 export class CentroAcopioModule {}
