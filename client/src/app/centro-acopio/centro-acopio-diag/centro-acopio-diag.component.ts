@@ -45,6 +45,14 @@ export class CentroAcopioDiagComponent implements OnInit {
     }
   }
 
+  formatHours(date: Date) {
+    return date.toLocaleString('en-US', {
+      hour: '2-digit',
+      minute:'2-digit',
+      timeZone: 'GMT'
+    });
+  }
+
   ngOnInit(): void {
     if (this.datosDialog.id) {
       this.obtenerCentroAcopio(this.datosDialog.id);
@@ -56,6 +64,10 @@ export class CentroAcopioDiagComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         this.datos = data;
+        this.apertura = new Date(this.datos.horarios.horaInicio)
+        this.cierre = new Date(this.datos.horarios.horaCierre)
+
+        console.log(this.apertura, this.cierre)
 
         this.lService
           .getProvincias()
