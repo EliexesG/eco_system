@@ -8,8 +8,8 @@
       <div class="horario">
         <h4>Horario:</h4>
         <p>
-          De {{ datos.horarios.horaInicio | date : "shortTime" }} a
-          {{ datos.horarios.horaInicio | date : "shortTime" }}
+          De {{ formatHours(apertura) }} a
+          {{ formatHours(cierre) }}
         </p>
       </div>
       <div class="direccion">
