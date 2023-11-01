@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/generic.service';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MaterialDiagComponent } from '../material-diag/material-diag.component';
 
 @Component({
   selector: 'app-material-index',
@@ -13,11 +13,7 @@ export class MaterialIndexComponent {
   datos: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private gService: GenericService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
+  constructor(private gService: GenericService, private dialog: MatDialog) {
     this.listarMateriales();
   }
 
@@ -32,9 +28,12 @@ export class MaterialIndexComponent {
   }
 
   detalleMaterial(id: number) {
-    this.router.navigate(['/material', id], {
-      relativeTo: this.route,
-    });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.data = {
+      id: id,
+    };
+    this.dialog.open(MaterialDiagComponent, dialogConfig);
   }
 
   ngOnDestroy() {

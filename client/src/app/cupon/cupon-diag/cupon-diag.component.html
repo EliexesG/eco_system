@@ -1,1 +1,46 @@
-<p>cupon-diag works!</p>
+<div *ngIf="datos" class="cuadro">
+    <div class="imagen">
+        <img src="{{datos.imagen}}" alt="" class="imagen">
+    </div>
+    <div class="info">
+        <mat-card-header>
+            <h2 color="primary">{{ datos.nombre }}</h2>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="descripcion">
+              <h4>Descripcion:</h4>
+              <p>
+                {{datos.descripcion}}
+              </p>
+            </div>
+            <div class="categoria">
+                <h4>Categoria:</h4>
+                <p>
+                  {{datos.categoria}}
+                </p>
+              </div>
+              <div class="Comienza">
+                <h4>Comienza:</h4>
+                <p>
+                  {{datos.fechaInicio| date: 'mediumDate'}}
+                </p>
+              </div>
+              <div class="Finaliza">
+                <h4>Finaliza:</h4>
+                <p>
+                  {{datos.fechaFin | date: 'mediumDate'}}
+                </p>
+              </div>
+              <hr>
+              <div class="Monedas" style="vertical-align: middle;">
+                <h4>Cantidad de Eco-Monedas:</h4>                        
+                    <div style="float: left; ">
+                        <h1 style="text-align: center;">
+                            {{datos.monedasCupon}}<img src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2FOtros%2Fmoneda.jpg?alt=media&token=1ddb658f-00c4-408b-b0a0-a1ae54db3aaf&_gl=1*11taqe0*_ga*MTQ0ODYwMTA4Ny4xNjk2Mzg1NzYw*_ga_CW55HF8NVT*MTY5ODgxNTg5NS41LjEuMTY5ODgxNjU2MS42MC4wLjA." alt="" style="width: 25px; height: 25px;">
+                        </h1>
+                    </div>
+              </div>
+        </mat-card-content>
+        <button mat-raised-button class="boton" [mat-dialog-close]="true">Cerrar</button>
+    </div>
+</div>
