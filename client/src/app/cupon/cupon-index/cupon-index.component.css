@@ -52,7 +52,6 @@ mat-card-footer {
 
 .material-card {
   background-color: white;
-
   border-radius: 15px;
 }
 
@@ -64,4 +63,17 @@ mat-card-footer {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.mat-h2 {
+  position: relative;
+  margin: 10px auto;
+  border-radius: 15px;
+  padding: 15px;
+  color: white;
+  width: max-content;
+}
+
+.categoria {
+  margin: 25px auto;
 }
