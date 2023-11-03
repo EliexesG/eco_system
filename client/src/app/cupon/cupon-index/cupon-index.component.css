@@ -74,6 +74,10 @@ mat-card-footer {
   width: max-content;
 }
 
+.mat-h2-container {
+  margin-bottom: 15px;
+}
+
 .categoria {
   margin: 25px auto;
 }

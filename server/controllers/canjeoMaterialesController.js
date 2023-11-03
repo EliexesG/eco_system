@@ -54,6 +54,9 @@ module.exports.getByUsuario = async (request, response, next) => {
       orderBy: {
         fecha: "desc",
       },
+      include: {
+        centroAcopio: true,
+      },
     });
 
     response.json(canjeosMateriales);

@@ -12,6 +12,7 @@ import { CentroAcopioModule } from './centro-acopio/centro-acopio.module';
 import { MaterialModule } from './material/material.module';
 import { ToastrModule } from 'ngx-toastr';
 import { CuponModule } from './cupon/cupon.module';
+import { CanjeoMaterialesModule } from './canjeo-materiales/canjeo-materiales.module';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { CuponModule } from './cupon/cupon.module';
     CentroAcopioModule,
     MaterialModule,    
     CuponModule,
+    CanjeoMaterialesModule,
     AppRoutingModule,
   ],
   providers: [],
