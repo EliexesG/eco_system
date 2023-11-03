@@ -11,7 +11,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class MaterialDiagComponent implements OnInit {
   datos: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  datosDialog: any;
+  datosDialog: { id: number };
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,

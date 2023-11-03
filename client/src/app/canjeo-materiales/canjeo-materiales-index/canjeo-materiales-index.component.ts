@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/generic.service';
+import { CanjeoMaterialesDiagComponent } from '../canjeo-materiales-diag/canjeo-materiales-diag.component';
 
 @Component({
   selector: 'app-canjeo-materiales-index',
@@ -45,6 +46,15 @@ export class CanjeoMaterialesIndexComponent {
       });
 
     this.gService;
+  }
+
+  detalleCanjeoMateriales(id: number) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.data = {
+      id: id,
+    };
+    this.dialog.open(CanjeoMaterialesDiagComponent, dialogConfig);
   }
 
   ngOnDestroy() {

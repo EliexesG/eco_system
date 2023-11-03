@@ -7,39 +7,40 @@ import { CentroAcopioDiagComponent } from '../centro-acopio-diag/centro-acopio-d
 @Component({
   selector: 'app-centro-acopio-index',
   templateUrl: './centro-acopio-index.component.html',
-  styleUrls: ['./centro-acopio-index.component.css']
+  styleUrls: ['./centro-acopio-index.component.css'],
 })
 export class CentroAcopioIndexComponent {
-  datos:any; //Respuesta del API
-  destroy$: Subject<boolean>= new Subject<boolean>();
+  datos: any; //Respuesta del API
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private gService: GenericService, private dialog:MatDialog){
+  constructor(private gService: GenericService, private dialog: MatDialog) {
     this.listarCentrosAcopio();
   }
 
-  listarCentrosAcopio(){
+  listarCentrosAcopio() {
     //Solicitud al API para listar todos los centro de acopio
     //localhost:3000/centrosacopio
-    this.gService.list('centroacopio/')
+    this.gService
+      .list('centroacopio/')
       .pipe(takeUntil(this.destroy$))
-      .subscribe((response:any)=>{
+      .subscribe((response: any) => {
         console.log(response);
-        this.datos=response;
-      })
+        this.datos = response;
+      });
   }
 
-  detalleCentroAcopio(id:number){
+  detalleCentroAcopio(id: number) {
     //Detalle en formato diálogo
-    const dialogConfig=new MatDialogConfig();
-    dialogConfig.disableClose=false;
-    dialogConfig.data={
-      id:id
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.data = {
+      id: id,
     };
-    this.dialog.open(CentroAcopioDiagComponent,dialogConfig);
+    this.dialog.open(CentroAcopioDiagComponent, dialogConfig);
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-  } 
+  }
 }
