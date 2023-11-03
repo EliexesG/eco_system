@@ -11,7 +11,7 @@ import { LocalizacionService } from 'src/app/share/localizacion.service';
 })
 export class CentroAcopioDiagComponent implements OnInit {
   datos: any;
-  datosDialog: any;
+  datosDialog: {id:number};
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   apertura: Date;
@@ -58,7 +58,7 @@ export class CentroAcopioDiagComponent implements OnInit {
       this.obtenerCentroAcopio(this.datosDialog.id);
     }
   }
-  obtenerCentroAcopio(id: any) {
+  obtenerCentroAcopio(id: number) {
     this.gService
       .get('centroacopio', id)
       .pipe(takeUntil(this.destroy$))

@@ -1,20 +1,8 @@
-<mat-toolbar color="primary" >
+<mat-toolbar color="primary">
   <a (click)="homeClick()" id="appIcon">
     <img src="icon.png" />
     <p>ECO SYSTEM</p>
   </a>
-  <mat-menu #menu1="matMenu">
-    <button
-      mat-menu-item
-      [routerLink]="['/']"
-      routerLinkActive="mat-raised-button"
-    >
-      <mat-icon>home</mat-icon>Home
-    </button>
-    <button mat-menu-item [routerLink]="['/material']">
-      <mat-icon>recycling</mat-icon>Materiales
-    </button>
-  </mat-menu>
   <span class="navbar-spacer"></span>
   <button
     mat-icon-button
@@ -26,9 +14,32 @@
 </mat-toolbar>
 
 <mat-toolbar class="scondtoolbar">
-    <button mat-menu-item id="buttonMenu" [routerLink]="['/inicio']"><mat-icon class="material-icons color_white" fontIcon="home"></mat-icon> INICIO </button>
-    <button mat-menu-item id="buttonMenu" [routerLink]="['/material']"><mat-icon class="material-icons color_white">recycling</mat-icon> MATERIALES </button>
-    <button mat-menu-item id="buttonMenu" [routerLink]="['/cupon']"><mat-icon class="material-icons color_white"  fontIcon="tag"></mat-icon> CUPONES </button>
-    <button mat-menu-item id="buttonMenu" [routerLink]="['/centroacopio']"><mat-icon class="material-icons color_white" fontIcon="domain"></mat-icon>Centros de acopio</button>
-  
+  <button mat-button class="button" [routerLink]="['/inicio']">
+    <mat-icon class="material-icons color_white" fontIcon="home"></mat-icon>
+    INICIO
+  </button>
+  <button mat-button class="button" [routerLink]="['/material']">
+    <mat-icon class="material-icons color_white">recycling</mat-icon> MATERIALES
+  </button>
+  <button mat-button class="button" [routerLink]="['/cupon']">
+    <mat-icon class="material-icons color_white" fontIcon="tag"></mat-icon>
+    CUPONES
+  </button>
+  <button mat-button class="button" [routerLink]="['/centroacopio']">
+    <mat-icon class="material-icons color_white" fontIcon="domain"></mat-icon
+    >CENTROS DE ACOPIO
+  </button>
+  <button mat-button class="button" [matMenuTriggerFor]="canjeos">
+    <mat-icon class="material-icons color_white" fontIcon="money"></mat-icon
+    >CANJEOS
+  </button>
+  <mat-menu #canjeos>
+    <button mat-menu-item [routerLink]="'/canjeomateriales'">
+      <mat-icon
+        class="material-icons color_black"
+        fontIcon="history"
+      ></mat-icon>
+      Historial de Canjeo de Materiales
+    </button>
+  </mat-menu>
 </mat-toolbar>

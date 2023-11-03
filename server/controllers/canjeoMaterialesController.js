@@ -22,6 +22,8 @@ module.exports.getByCentroAcopio = async (request, response, next) => {
                 tipoUsuario: true,
                 identificacion: true,
                 nombre: true,
+                primerApellido: true,
+                segundoApellido: true,
                 correo: true,
                 createdAt: true,
                 updatedAt: true,
@@ -53,6 +55,9 @@ module.exports.getByUsuario = async (request, response, next) => {
       },
       orderBy: {
         fecha: "desc",
+      },
+      include: {
+        centroAcopio: true,
       },
     });
 
@@ -151,6 +156,8 @@ module.exports.getById = async (request, response, next) => {
                 tipoUsuario: true,
                 identificacion: true,
                 nombre: true,
+                primerApellido: true,
+                segundoApellido: true,
                 correo: true,
                 createdAt: true,
                 updatedAt: true,

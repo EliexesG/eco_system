@@ -1,48 +1,59 @@
-<div class="grid-container">
+<div class="grid-container" >
   <h1 class="mat-h1">Cupones</h1>
   <p class="mat-body descripcionTitulo">
-    A continuación una lista de los cupones que ofrecemos para canjear, esto utilizando las Eco-Monedas.
+    A continuación una lista de los cupones que ofrecemos para canjear, esto
+    utilizando las Eco-Monedas.
   </p>
-  <hr [style]="" />
-  <mat-grid-list [cols]="4" rowHeight="36em" gutterSize="10px">
-    <mat-grid-tile *ngFor="let cupon of datos">
-      <mat-card class="material-card">
-        <mat-card-header>
-          <h3 class="card-title">
-            {{ cupon.nombre }}
-          </h3>
-        </mat-card-header>
-        <mat-card-content class="contenido">
-          <img src="{{ cupon.imagen }}" class="imagen" alt="" />
-          <p class="contenidoMonedas">
-            Eco-Monedas {{ cupon.monedasCupon }}
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2FOtros%2Fmoneda.jpg?alt=media&token=1ddb658f-00c4-408b-b0a0-a1ae54db3aaf&_gl=1*11taqe0*_ga*MTQ0ODYwMTA4Ny4xNjk2Mzg1NzYw*_ga_CW55HF8NVT*MTY5ODgxNTg5NS41LjEuMTY5ODgxNjU2MS42MC4wLjA."
-              alt=""
-              style="
-                width: 20px;
-                height: 20px;
-                margin-left: 5px;
-                margin-right: 5px;
-              "
-            />
-          </p>
-        </mat-card-content>
-        <mat-card-actions>
-          <button
-            mat-raised-button
-            color="primary"
-            class="boton"
-            matTooltip="Detalle Centro Acopio"
-            aria-label="Detalle cupon"
-            (click)="detalleCupon(cupon.id)"
-            xtended
-          >
-            <mat-icon>info</mat-icon>
-            Ver más
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+  <hr />
+  <div *ngFor="let categoria of datos">
+    <div class="categoria">
+      <div class="mat-h2-container">
+        <h2 class="mat-h2" [style]="{ 'background-color': '#64ffda' }">
+          {{ categoria.categoria }}
+        </h2>
+      </div>
+      <mat-grid-list [cols]="4" rowHeight="36em" gutterSize="10px">
+        <mat-grid-tile *ngFor="let cupon of categoria.cupones">
+          <mat-card class="material-card">
+            <mat-card-header>
+              <h3 class="card-title">
+                {{ cupon.nombre }}
+              </h3>
+            </mat-card-header>
+            <mat-card-content class="contenido">
+              <img src="{{ cupon.imagen }}" class="imagen" alt="" />
+              <p class="contenidoMonedas">
+                Eco-Monedas {{ cupon.monedasCupon }}
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2FOtros%2Fmoneda.jpg?alt=media&token=1ddb658f-00c4-408b-b0a0-a1ae54db3aaf&_gl=1*11taqe0*_ga*MTQ0ODYwMTA4Ny4xNjk2Mzg1NzYw*_ga_CW55HF8NVT*MTY5ODgxNTg5NS41LjEuMTY5ODgxNjU2MS42MC4wLjA."
+                  alt=""
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    margin-left: 5px;
+                    margin-right: 5px;
+                  "
+                />
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button
+                mat-raised-button
+                color="primary"
+                class="boton"
+                matTooltip="Detalle Centro Acopio"
+                aria-label="Detalle cupon"
+                (click)="detalleCupon(cupon.id)"
+                xtended
+              >
+                <mat-icon>info</mat-icon>
+                Ver más
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+    <hr />
+  </div>
 </div>

@@ -1,0 +1,43 @@
+.mat-h1 {
+  text-align: center;
+}
+
+.descripcionTitulo {
+  text-align: center;
+}
+
+hr {
+  margin-bottom: 15px;
+}
+
+.card-title {
+  font-weight: bold;
+  width: 100%;
+  text-align: center !important;
+  margin-top: 0px;
+}
+
+.contenidoFlex {
+    display: flex;
+    align-items: center;
+}
+
+.contenidoFlex p {
+    margin-left: 5px;
+}
+
+.lista, mat-card {
+    margin: 15px auto;
+}
+
+mat-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 15px auto;
+}
+
+.lista mat-card-content {
+    justify-content: space-between;
+    height: 50px;
+}
