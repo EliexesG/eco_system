@@ -1,8 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { GenericService } from 'src/app/share/generic.service';
+import { GenericService } from 'src/app/share/services/generic.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { LocalizacionService } from 'src/app/share/localizacion.service';
+import { LocalizacionService } from 'src/app/share/services/localizacion.service';
+import { formatHours } from 'src/app/share/utils/formater';
+import { filtrarElementoByKey } from 'src/app/share/utils/arrayUtils';
 
 @Component({
   selector: 'app-centro-acopio-diag',
@@ -11,11 +13,11 @@ import { LocalizacionService } from 'src/app/share/localizacion.service';
 })
 export class CentroAcopioDiagComponent implements OnInit {
   datos: any;
-  datosDialog: {id:number};
+  datosDialog: { id: number };
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  apertura: Date;
-  cierre: Date;
+  apertura: string;
+  cierre: string;
 
   provincia: string;
   canton: string;
@@ -30,50 +32,29 @@ export class CentroAcopioDiagComponent implements OnInit {
     this.datosDialog = data;
   }
 
-  private filtrarElementoByKey(
-    cod: number,
-    elementos: { [key: number]: string }
-  ) {
-    let elemento = Object.entries(elementos).find(([key, value]) => {
-      return Number(key) === cod;
-    });
-
-    if (!elemento) {
-      return undefined;
-    } else {
-      return elemento[1];
-    }
-  }
-
-  formatHours(date: Date) {
-    return date.toLocaleString('en-US', {
-      hour: '2-digit',
-      minute:'2-digit',
-      timeZone: 'GMT'
-    });
-  }
-
   ngOnInit(): void {
     if (this.datosDialog.id) {
       this.obtenerCentroAcopio(this.datosDialog.id);
     }
   }
+
   obtenerCentroAcopio(id: number) {
     this.gService
       .get('centroacopio', id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         this.datos = data;
-        this.apertura = new Date(this.datos.horarios.horaInicio)
-        this.cierre = new Date(this.datos.horarios.horaCierre)
 
-        console.log(this.apertura, this.cierre)
+        this.apertura = formatHours(new Date(this.datos.horarios.horaInicio));
+        this.cierre = formatHours(new Date(this.datos.horarios.horaCierre));
+
+        console.log(this.apertura, this.cierre);
 
         this.lService
           .getProvincias()
           .pipe(takeUntil(this.destroy$))
           .subscribe((provincias) => {
-            this.provincia = this.filtrarElementoByKey(
+            this.provincia = filtrarElementoByKey(
               this.datos.direccionCentroAcopio.codProvincia,
               provincias
             );
@@ -83,7 +64,7 @@ export class CentroAcopioDiagComponent implements OnInit {
           .getCantonByPronvicia(this.datos.direccionCentroAcopio.codProvincia)
           .pipe(takeUntil(this.destroy$))
           .subscribe((cantones) => {
-            this.canton = this.filtrarElementoByKey(
+            this.canton = filtrarElementoByKey(
               this.datos.direccionCentroAcopio.codCanton,
               cantones
             );
@@ -96,7 +77,7 @@ export class CentroAcopioDiagComponent implements OnInit {
           )
           .pipe(takeUntil(this.destroy$))
           .subscribe((distritos) => {
-            this.distrito = this.filtrarElementoByKey(
+            this.distrito = filtrarElementoByKey(
               this.datos.direccionCentroAcopio.codDistrito,
               distritos
             );

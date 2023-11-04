@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { GenericService } from 'src/app/share/generic.service';
+import { GenericService } from 'src/app/share/services/generic.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MaterialDiagComponent } from '../material-diag/material-diag.component';
 

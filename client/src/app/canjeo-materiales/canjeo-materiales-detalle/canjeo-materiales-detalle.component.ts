@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { GenericService } from 'src/app/share/generic.service';
+import { GenericService } from 'src/app/share/services/generic.service';
+import { formatHours } from 'src/app/share/utils/formater';
 
 @Component({
   selector: 'app-canjeo-materiales-detalle',
@@ -11,7 +12,7 @@ import { GenericService } from 'src/app/share/generic.service';
 export class CanjeoMaterialesDetalleComponent {
   datos: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  fecha: Date;
+  fecha: string;
 
   columns: string[] = ['material', 'cantidad', 'precio', 'subtotal'];
 
@@ -26,14 +27,6 @@ export class CanjeoMaterialesDetalleComponent {
     }
   }
 
-  formatHours(date: Date) {
-    return date.toLocaleString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      timeZone: 'GMT',
-    });
-  }
-
   obtenerCanjeoMateriales(id: number) {
     this.gService
       .get(`canjeomateriales`, id)
@@ -41,7 +34,7 @@ export class CanjeoMaterialesDetalleComponent {
       .subscribe((data: any) => {
         console.log(data);
         this.datos = data;
-        this.fecha = new Date(this.datos.fecha);
+        this.fecha = formatHours(new Date(this.datos.fecha));
       });
   }
 
