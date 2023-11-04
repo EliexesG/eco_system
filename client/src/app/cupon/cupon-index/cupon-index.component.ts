@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
-import { GenericService } from 'src/app/share/generic.service';
+import { GenericService } from 'src/app/share/services/generic.service';
 import { CuponDiagComponent } from '../cupon-diag/cupon-diag.component';
 
 @Component({
@@ -17,6 +17,20 @@ export class CuponIndexComponent {
     this.listarCentrosAcopio();
   }
 
+  sortCupones(data: any) {
+    return data.sort((a, b) => {
+      const categoriaA = a.categoria.toUpperCase();
+      const categoriaB = b.categoria.toUpperCase();
+      if (categoriaA < categoriaB) {
+        return -1;
+      }
+      if (categoriaA > categoriaB) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
   listarCentrosAcopio() {
     //Solicitud al API para listar todos los centro de acopio
     //localhost:3000/centrosacopio
@@ -24,7 +38,6 @@ export class CuponIndexComponent {
       .list('cupon/validos')
       .pipe(takeUntil(this.destroy$))
       .subscribe((response: any) => {
-        
         console.log(response);
 
         let data: Array<{ categoria: string; cupones: any }> = [];
@@ -43,17 +56,7 @@ export class CuponIndexComponent {
           }
         });
 
-        data = data.sort((a, b) => {
-          const categoriaA = a.categoria.toUpperCase();
-          const categoriaB = b.categoria.toUpperCase();
-          if (categoriaA < categoriaB) {
-            return -1;
-          }
-          if (categoriaA > categoriaB) {
-            return 1;
-          }
-          return 0;
-        });
+        data = this.sortCupones(data);
 
         console.log(data);
 

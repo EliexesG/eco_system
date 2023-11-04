@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
-import { GenericService } from 'src/app/share/generic.service';
+import { GenericService } from 'src/app/share/services/generic.service';
+import { formatHours } from 'src/app/share/utils/formater';
 
 @Component({
   selector: 'app-canjeo-materiales-diag',
@@ -12,7 +13,7 @@ export class CanjeoMaterialesDiagComponent implements OnInit {
   datos: any;
   datosDialog: { id: number };
   destroy$: Subject<boolean> = new Subject<boolean>();
-  fecha: Date;
+  fecha: string;
 
   columns: string[] = ['material', 'cantidad', 'precio', 'subtotal'];
 
@@ -22,14 +23,6 @@ export class CanjeoMaterialesDiagComponent implements OnInit {
     private gService: GenericService
   ) {
     this.datosDialog = data;
-  }
-
-  formatHours(date: Date) {
-    return date.toLocaleString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      timeZone: 'GMT',
-    });
   }
 
   ngOnInit(): void {
@@ -46,7 +39,7 @@ export class CanjeoMaterialesDiagComponent implements OnInit {
       .subscribe((data: any) => {
         console.log(data);
         this.datos = data;
-        this.fecha = new Date(this.datos.fecha);
+        this.fecha = formatHours(new Date(this.datos.fecha));
       });
   }
 
