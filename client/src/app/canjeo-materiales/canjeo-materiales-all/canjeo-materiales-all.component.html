@@ -1,0 +1,80 @@
+<mat-card class="ag-full-width-container">
+  <mat-card-header>
+    <h1 class="mat-h1">Historial de Canjeos de Materiales</h1>
+  </mat-card-header>
+  <mat-card-content>
+    <p class="mat-body descripcionTitulo">
+      A continuación un listado de los canjeos de materiales en el centro de
+      acopio.
+    </p>
+    <mat-card class="card-centroacopio" *ngIf="datosCentroAcopio">
+      <mat-card-header>
+        <h3 class="card-title">
+          {{ datosCentroAcopio.nombre }}
+        </h3>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="contenidoFlex">
+          <mat-icon fontIcon="format_list_numbered_rtl"></mat-icon>
+          <h3 mat-card-title>Total de Canjeos:</h3>
+          <p>{{ datos.canjeos.length }}</p>
+        </div>
+        <div class="contenidoFlex">
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2FOtros%2Fmoneda.jpg?alt=media&token=1ddb658f-00c4-408b-b0a0-a1ae54db3aaf&_gl=1*11taqe0*_ga*MTQ0ODYwMTA4Ny4xNjk2Mzg1NzYw*_ga_CW55HF8NVT*MTY5ODgxNTg5NS41LjEuMTY5ODgxNjU2MS42MC4wLjA."
+            alt=""
+            style="
+              width: 20px;
+              height: 20px;
+              margin-left: 5px;
+              margin-right: 5px;
+            "
+          />
+          <h3 mat-card-title>Total de Eco-Monedas:</h3>
+          <p>{{ datos.totalMonedas }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card-actions>
+      <button class="boton" mat-mini-fab color="primary">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-card-actions>
+    <hr />
+    <table class="mat-elevation-z1" mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+        <td mat-cell *matCellDef="let row">{{ row.fecha | date }}</td>
+      </ng-container>
+      <ng-container matColumnDef="ecomonedas">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Eco-Monedas</th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.cantMonedas }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let row">
+          <button
+            mat-mini-fab
+            color="primary"
+            class="boton"
+            (click)="detalleCanjeoMateriales(row.id)"
+          >
+            <mat-icon>info</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+    <mat-paginator
+      #paginator
+      [length]="dataSource.data.length"
+      [pageIndex]="0"
+      [pageSize]="2"
+      [pageSizeOptions]="[2, 5, 10]"
+      aria-label="Seleccione una Página"
+    ></mat-paginator>
+  </mat-card-content>
+</mat-card>
