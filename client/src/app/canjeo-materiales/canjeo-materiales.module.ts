@@ -9,9 +9,18 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { CanjeoMaterialesDiagComponent } from './canjeo-materiales-diag/canjeo-materiales-diag.component';
 import { MatTableModule } from '@angular/material/table';
+import { CanjeoMaterialesDetalleComponent } from './canjeo-materiales-detalle/canjeo-materiales-detalle.component';
+import { CanjeoMaterialesAllComponent } from './canjeo-materiales-all/canjeo-materiales-all.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
-  declarations: [CanjeoMaterialesIndexComponent, CanjeoMaterialesDiagComponent],
+  declarations: [
+    CanjeoMaterialesIndexComponent,
+    CanjeoMaterialesDiagComponent,
+    CanjeoMaterialesDetalleComponent,
+    CanjeoMaterialesAllComponent,
+  ],
   imports: [
     CommonModule,
     CanjeoMaterialesRoutingModule,
@@ -21,6 +30,8 @@ import { MatTableModule } from '@angular/material/table';
     MatListModule,
     MatCardModule,
     MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   exports: [CanjeoMaterialesIndexComponent],
 })

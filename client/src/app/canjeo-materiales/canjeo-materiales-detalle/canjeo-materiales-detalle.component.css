@@ -1,0 +1,39 @@
+h1 {
+  text-align: center !important;
+  width: 100%;
+}
+
+.contenidoFlex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: -15px;
+}
+
+table {
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.dataConIcon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.boton {
+  color: white !important;
+  font-weight: bold;
+  font-size: larger;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
+  width: 100%;
+  vertical-align: bottom;
+  transition: all 0.2s cubic-bezier(0.25, 0.4, 0.45, 1.4);
+}
+
+.boton:hover {
+  filter: brightness(90%);
+}

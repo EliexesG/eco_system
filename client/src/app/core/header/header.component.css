@@ -60,3 +60,7 @@
 .material-icons.color_black {
   color: black;
 }
+
+mat-menu {
+  width: 500px !important;
+}

@@ -31,7 +31,7 @@
   </button>
   <button mat-button class="button" [matMenuTriggerFor]="canjeos">
     <mat-icon class="material-icons color_white" fontIcon="money"></mat-icon
-    >CANJEOS
+    >CANJEOS DE MATERIALES
   </button>
   <mat-menu #canjeos>
     <button mat-menu-item [routerLink]="'/canjeomateriales'">
@@ -39,7 +39,14 @@
         class="material-icons color_black"
         fontIcon="history"
       ></mat-icon>
-      Historial de Canjeo de Materiales
+      Mi historial
+    </button>
+    <button mat-menu-item [routerLink]="'/canjeomateriales/all'">
+      <mat-icon
+        class="material-icons color_black"
+        fontIcon="money"
+      ></mat-icon>
+      Por Centro de Acopio
     </button>
   </mat-menu>
 </mat-toolbar>
