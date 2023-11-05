@@ -30,12 +30,23 @@ export class MaterialDetalleComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe((response: any) => {
         console.log(response);
+
+        if(!response) {
+          this.redirigirError();
+        }
+
         this.datos = response;
       });
   }
 
   devolverse() {
     this.router.navigate(['/material'], {
+      relativeTo: this.route,
+    });
+  }
+
+  redirigirError() {
+    this.router.navigate(['/page-not-found/'], {
       relativeTo: this.route,
     });
   }

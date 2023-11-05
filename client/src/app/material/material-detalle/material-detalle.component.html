@@ -35,9 +35,9 @@
         <div>
           <h3 class="mat-h3">
             <mat-icon>line_weight</mat-icon> Unidad de Medida:
-            <span [style]="{ 'margin-left': '10px' }" class="mat-body">{{
-              datos.unidadMedida
-            }}</span>
+            <span [style]="{ 'margin-left': '10px' }" class="mat-body"
+              >1 {{ datos.unidadMedida }}</span
+            >
           </h3>
         </div>
         <div>
@@ -60,12 +60,4 @@
       </div>
     </mat-card-content>
   </mat-card>
-</div>
-<div class="grid-container" *ngIf="!datos">
-  <h1 class="mat-h1 no-datos" [style]="{ 'align-items': 'center' }">
-    Material Inexistente
-  </h1>
-  <button mat-button color="primary" (click)="devolverse()">
-    <mat-icon>arrow_back_ios</mat-icon> Ir Atrás
-  </button>
 </div>
