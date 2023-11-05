@@ -45,19 +45,19 @@
         <ng-container matColumnDef="cantidad">
           <th mat-header-cell *matHeaderCellDef>Cantidad</th>
           <td mat-cell *matCellDef="let canjeo">
-            {{ canjeo.cantidadUnidades }}
+            {{ canjeo.cantidadUnidades }} {{canjeo.material.unidadMedida}}(s)
           </td>
         </ng-container>
         <ng-container matColumnDef="precio">
-          <th mat-header-cell *matHeaderCellDef>Precio</th>
+          <th mat-header-cell *matHeaderCellDef>Precio x Unidad</th>
           <td mat-cell *matCellDef="let canjeo">
-            {{ canjeo.material.monedasUnidad }}
+            {{ canjeo.material.monedasUnidad }} Eco-Moneda(s)
           </td>
         </ng-container>
         <ng-container matColumnDef="subtotal">
           <th mat-header-cell *matHeaderCellDef>SubTotal</th>
           <td mat-cell *matCellDef="let canjeo">
-            {{ canjeo.cantMonedas }}
+            {{ canjeo.cantMonedas }} Eco-Moneda(s)
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
@@ -82,12 +82,4 @@
       </div>
     </mat-card-content>
   </mat-card>
-</div>
-<div class="grid-container" *ngIf="!datos">
-  <h1 class="mat-h1 no-datos" [style]="{ 'align-items': 'center' }">
-    Canjeo de Materiales Inexistente
-  </h1>
-  <button mat-button color="primary" (click)="devolverse()">
-    <mat-icon>arrow_back_ios</mat-icon> Ir Atrás
-  </button>
 </div>

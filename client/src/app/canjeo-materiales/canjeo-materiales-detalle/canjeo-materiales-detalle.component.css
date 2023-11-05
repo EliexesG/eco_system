@@ -37,3 +37,8 @@ table {
 .boton:hover {
   filter: brightness(90%);
 }
+
+td, th {
+  text-align: center !important;
+  vertical-align: middle !important;
+}

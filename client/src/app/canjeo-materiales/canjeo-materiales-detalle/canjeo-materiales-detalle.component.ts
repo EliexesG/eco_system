@@ -33,6 +33,11 @@ export class CanjeoMaterialesDetalleComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         console.log(data);
+
+        if (!data) {
+          this.redirigirError();
+        }
+
         this.datos = data;
         this.fecha = formatHours(new Date(this.datos.fecha));
       });
@@ -40,6 +45,12 @@ export class CanjeoMaterialesDetalleComponent {
 
   devolverse() {
     this.router.navigate(['/canjeomateriales/all'], {
+      relativeTo: this.route,
+    });
+  }
+
+  redirigirError() {
+    this.router.navigate(['/page-not-found/'], {
       relativeTo: this.route,
     });
   }
