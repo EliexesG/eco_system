@@ -1,0 +1,104 @@
+<form [formGroup]="materialForm" (ngSubmit)="submitMaterial()" novalidate>
+  <input type="hidden" formControlName="id" />
+  <mat-card>
+    <mat-card-header>
+      <h1 class="mat-h1">{{ titleForm }} Material</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="nombre" placeholder="Nombre" />
+            <mat-error *ngIf="errorHandling('nombre', 'required')">
+              Nombre es <strong>requerido</strong>
+            </mat-error>
+            <mat-error *ngIf="errorHandling('nombre', 'minlength')">
+              Nombre debe tener <strong>3 caracteres</strong>
+            </mat-error>
+            <mat-error *ngIf="errorHandling('nombre', 'maxlength')">
+              Nombre debe tener maximo <strong> 30 caracteres</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <textarea
+              matInput
+              formControlName="descripcion"
+              placeholder="Descripción"
+            ></textarea>
+            <mat-error *ngIf="errorHandling('descripcion', 'required')">
+              Descripción es <strong>requerido</strong>
+            </mat-error>
+            <mat-error *ngIf="errorHandling('descripcion', 'minlength')">
+              Descripción debe tener minimo <strong> 50 caracteres</strong>
+            </mat-error>
+            <mat-error *ngIf="errorHandling('descripcion', 'maxlength')">
+              Descripción debe tener maximo <strong> 1000 caracteres</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input
+              type="color"
+              matInput
+              formControlName="codColor"
+              placeholder="Color"
+            />
+            <mat-error *ngIf="errorHandling('codColor', 'required')">
+              Color es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input
+              matInput
+              formControlName="monedasUnidad"
+              placeholder="Monedas por Unidad"
+              type="number"
+            />
+            <mat-error *ngIf="errorHandling('monedasUnidad', 'pattern')">
+              Monedas por Unidad deben ser un dato <strong>numérico </strong>
+            </mat-error>
+            <mat-error *ngIf="errorHandling('monedasUnidad', 'required')">
+              Monedas por Unidad es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col" *ngIf="unidadesMedida">
+          <mat-form-field class="full-width">
+            <mat-select
+              placeholder="Unidad de medida"
+              formControlName="unidadMedida"
+            >
+              <mat-option *ngFor="let item of unidadesMedida" [value]="item">
+                {{ item }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="errorHandling('unidadMedida', 'required')">
+              Unidad de Medida es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="example-button-row">
+        <button mat-raised-button color="warn" (click)="onReset()">
+          Reset
+        </button>
+        <button mat-raised-button color="primary" (click)="onBack()">
+          Regresar
+        </button>
+        <button mat-raised-button color="accent" type="submit">Guardar</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</form>

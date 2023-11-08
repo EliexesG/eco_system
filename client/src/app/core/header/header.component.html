@@ -29,24 +29,34 @@
     <mat-icon class="material-icons color_white" fontIcon="domain"></mat-icon
     >CENTROS DE ACOPIO
   </button>
-  <button mat-button class="button" [matMenuTriggerFor]="canjeos">
-    <mat-icon class="material-icons color_white" fontIcon="money"></mat-icon
-    >CANJEOS DE MATERIALES
+  <button mat-button class="button" [routerLink]="['/canjeomateriales']">
+    <mat-icon class="material-icons color_white" fontIcon="history"></mat-icon>
+    CANJEO DE MATERIALES
   </button>
-  <mat-menu #canjeos>
-    <button mat-menu-item [routerLink]="'/canjeomateriales'">
-      <mat-icon
-        class="material-icons color_black"
-        fontIcon="history"
-      ></mat-icon>
-      Mi historial
-    </button>
+  <button mat-button class="button" [matMenuTriggerFor]="administracionCentro">
+    <mat-icon
+      class="material-icons color_white"
+      fontIcon="create_new_folder"
+    ></mat-icon
+    >ADMINISTRACIÓN POR CENTRO
+  </button>
+  <mat-menu #administracionCentro>
     <button mat-menu-item [routerLink]="'/canjeomateriales/all'">
-      <mat-icon
-        class="material-icons color_black"
-        fontIcon="money"
-      ></mat-icon>
-      Por Centro de Acopio
+      <mat-icon class="material-icons color_black" fontIcon="money"></mat-icon>
+      CANJEO DE MATERIALES
+    </button>
+  </mat-menu>
+  <button mat-button class="button" [matMenuTriggerFor]="administracion">
+    <mat-icon
+      class="material-icons color_white"
+      fontIcon="create_new_folder"
+    ></mat-icon
+    >ADMINISTRACIÓN
+  </button>
+  <mat-menu #administracion>
+    <button mat-menu-item [routerLink]="'/material/all'">
+      <mat-icon class="material-icons color_black" fontIcon="recycling"></mat-icon>
+      MATERIALES
     </button>
   </mat-menu>
 </mat-toolbar>

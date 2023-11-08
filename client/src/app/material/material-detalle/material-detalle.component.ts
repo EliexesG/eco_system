@@ -40,7 +40,7 @@ export class MaterialDetalleComponent {
   }
 
   devolverse() {
-    this.router.navigate(['/material'], {
+    this.router.navigate(['/material/all'], {
       relativeTo: this.route,
     });
   }

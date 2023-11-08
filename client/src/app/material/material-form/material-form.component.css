@@ -1,0 +1,22 @@
+.full-width {
+  width: 100%;
+}
+
+textarea {
+    min-width: 150px !important;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+}
+
+.col {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.col:last-child {
+  margin-right: 0;
+}
