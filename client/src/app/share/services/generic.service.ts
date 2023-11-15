@@ -4,20 +4,17 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GenericService {
-
   // URL del API, definida en enviroments->enviroment.ts
   urlAPI: string = environment.baseUrl;
   //Información usuario actual
   currentUser: any;
 
   //Inyectar cliente HTTP para las solicitudes al API
-  constructor(private http: HttpClient) {
-   
-  }
- 
+  constructor(private http: HttpClient) {}
+
   // Listar
   list(endopoint: string): Observable<any> {
     return this.http.get<any>(this.urlAPI + endopoint);
@@ -37,5 +34,4 @@ export class GenericService {
       objUpdate
     );
   }
-
 }

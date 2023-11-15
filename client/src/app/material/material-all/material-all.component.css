@@ -20,17 +20,6 @@ table {
   margin-bottom: 15px;
 }
 
-.card-centroacopio {
-  margin: 15px auto;
-}
-
-.card-centroacopio mat-card-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 15px auto;
-}
-
 .contenidoFlex {
   display: flex;
   align-items: center;
@@ -48,17 +37,15 @@ table {
   font-size: larger;
   vertical-align: bottom;
   transition: all 0.2s cubic-bezier(0.25, 0.4, 0.45, 1.4);
+  margin-right: 15px;
 }
 
 .boton:hover {
   filter: brightness(90%);
 }
 
-:host ::ng-deep .mat-sort-header-container {
-  display: flex;
-  justify-content: center;
-}
-
-td, th {
-  text-align: center;
+.color {
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
 }

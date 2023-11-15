@@ -10,9 +10,25 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MaterialDiagComponent } from './material-diag/material-diag.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MaterialAllComponent } from './material-all/material-all.component';
+import { MaterialFormComponent } from './material-form/material-form.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
-  declarations: [MaterialDetalleComponent, MaterialIndexComponent, MaterialDiagComponent],
+  declarations: [
+    MaterialDetalleComponent,
+    MaterialIndexComponent,
+    MaterialDiagComponent,
+    MaterialAllComponent,
+    MaterialFormComponent,
+  ],
   imports: [
     CommonModule,
     MaterialRoutingModule,
@@ -21,7 +37,15 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatListModule,
     MatIconModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatInputModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    NgxMatFileInputModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class MaterialModule {}

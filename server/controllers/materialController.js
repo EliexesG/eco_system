@@ -32,3 +32,77 @@ module.exports.getById = async (request, response, next) => {
     );
   }
 };
+
+//crear Material
+module.exports.create = async (request, response, next) => {
+  try {
+    let data = request.body;
+
+    const newMaterial = await prisma.material.create({
+      data: {
+        codColor: data.codColor,
+        descripcion: data.descripcion,
+        imagen: data.imagen,
+        monedasUnidad: data.monedasUnidad,
+        nombre: data.nombre,
+        unidadMedida: data.unidadMedida,
+      },
+    });
+
+    response.json(newMaterial);
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+};
+
+//Actualizar Material
+module.exports.update = async (request, response, next) => {
+  try {
+    let data = request.body;
+    let id = parseInt(request.params.id);
+
+    const newMaterial = await prisma.material.update({
+      data: {
+        codColor: data.codColor,
+        descripcion: data.descripcion,
+        imagen: data.imagen,
+        monedasUnidad: data.monedasUnidad,
+        nombre: data.nombre,
+        unidadMedida: data.unidadMedida,
+      },
+      where: {
+        id: id,
+      },
+    });
+
+    response.json(newMaterial);
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+};
+
+//Obtener Colores
+module.exports.getColors = async (request, response, next) => {
+  try {
+
+    const colores = await prisma.material.findMany({
+      orderBy: {
+        codColor: 'asc'
+      },
+      select: {
+        codColor: true
+      }
+    })
+
+    response.json(colores);
+
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+}
