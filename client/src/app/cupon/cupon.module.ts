@@ -9,22 +9,41 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule} from '@angular/material/input';
+import { MatSelectModule} from '@angular/material/select';
+import { MatButtonModule} from '@angular/material/button';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { CuponFormComponent } from './cupon-form/cupon-form.component';
+import { CuponAllComponent } from './cupon-all/cupon-all.component';
 
 @NgModule({
   declarations: [
     CuponIndexComponent,
-    CuponDiagComponent
+    CuponDiagComponent,
+    CuponFormComponent,
+    CuponAllComponent
   ],
   imports: [
     CommonModule,
     CuponRoutingModule,
     MatGridListModule,
     MatCardModule,
-    MatListModule,
-    MatDialogModule,
+    MatMenuModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDividerModule,
+    MatDialogModule,
+    MatInputModule,
+    MatSelectModule,
+    ReactiveFormsModule,
   ]
 })
 export class CuponModule { }

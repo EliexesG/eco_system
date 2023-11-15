@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <a (click)="homeClick()" id="appIcon">
-    <img src="icon.png" />
+    <img src="icon.png" alt="" />
     <p>ECO SYSTEM</p>
   </a>
   <span class="navbar-spacer"></span>
@@ -57,6 +57,10 @@
     <button mat-menu-item [routerLink]="'/material/all'">
       <mat-icon class="material-icons color_black" fontIcon="recycling"></mat-icon>
       MATERIALES
+    </button>
+    <button mat-menu-item [routerLink]="'/cupon/all'">
+      <mat-icon class="material-icons color_black" fontIcon="cupon"></mat-icon>
+      CUPONES
     </button>
   </mat-menu>
 </mat-toolbar>
