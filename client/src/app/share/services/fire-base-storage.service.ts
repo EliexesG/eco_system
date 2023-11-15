@@ -23,7 +23,7 @@ export class FireBaseStorageService {
     return this.storage.ref(`${this.rootPath}/${path}/${nombreImagen}`).getDownloadURL();
   }
 
-  getFile(url:string): Observable<any> {
+  getMetadata(url:string): Observable<any> {
     return this.storage.refFromURL(url).getMetadata();
   }
 }

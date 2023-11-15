@@ -72,13 +72,17 @@ export class MaterialFormComponent implements OnInit {
                 imagen: '',
               });
 
-              return this.fbService.getFile(this.materialInfo.imagen).pipe(
+              return this.fbService.getMetadata(this.materialInfo.imagen).pipe(
                 takeUntil(this.destroy$),
                 concatMap((metadata) => {
-                  console.log(metadata.name)
-                  const file = new File([metadata.downloadBytes], metadata.name, {
-                    type: metadata.contentType
-                  });
+                  console.log(metadata.name);
+                  const file = new File(
+                    [metadata.downloadBytes],
+                    metadata.name,
+                    {
+                      type: metadata.contentType,
+                    }
+                  );
 
                   this.materialForm.get('imagen').setValue(file);
                   this.imagenPrevia = metadata;
@@ -193,7 +197,7 @@ export class MaterialFormComponent implements OnInit {
       });
     } else {
       this.cargando = true;
-      
+
       let update$ = this.fbService
         .uploadArchivoImagen(
           this.createFileName(valorForm.nombre, valorForm.imagen.name),
@@ -205,7 +209,7 @@ export class MaterialFormComponent implements OnInit {
           takeUntil(this.destroy$),
           filter((porcentaje: number) => porcentaje == 100),
           switchMap((_) => {
-            console.log(_)
+            console.log(_);
             return this.fbService
               .getURLArchivoImagen(
                 this.createFileName(valorForm.nombre, valorForm.imagen.name),
@@ -214,7 +218,7 @@ export class MaterialFormComponent implements OnInit {
               .pipe(
                 takeUntil(this.destroy$),
                 concatMap((url: string) => {
-                  console.log(url)
+                  console.log(url);
                   valorForm.imagen = url;
                   return this.gService.update('material', valorForm).pipe(
                     takeUntil(this.destroy$),
@@ -242,7 +246,7 @@ export class MaterialFormComponent implements OnInit {
     }
   }
 
-  private createFileName (materialName: string, fileName: string) {
+  private createFileName(materialName: string, fileName: string) {
     let extension: string = fileName.split('.')[1];
     return `material_${materialName}.${extension}`;
   }
