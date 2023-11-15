@@ -63,7 +63,7 @@ module.exports.update = async (request, response, next) => {
     let data = request.body;
     let id = parseInt(request.params.id);
 
-    const newMaterial = await prisma.material.create({
+    const newMaterial = await prisma.material.update({
       data: {
         codColor: data.codColor,
         descripcion: data.descripcion,
@@ -84,3 +84,25 @@ module.exports.update = async (request, response, next) => {
     );
   }
 };
+
+//Obtener Colores
+module.exports.getColors = async (request, response, next) => {
+  try {
+
+    const colores = await prisma.material.findMany({
+      orderBy: {
+        codColor: 'asc'
+      },
+      select: {
+        codColor: true
+      }
+    })
+
+    response.json(colores);
+
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+}

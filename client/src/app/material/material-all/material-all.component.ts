@@ -12,6 +12,7 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./material-all.component.css'],
 })
 export class MaterialAllComponent implements AfterViewInit {
+
   datos: any;
   datosMateriales: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -60,6 +61,12 @@ export class MaterialAllComponent implements AfterViewInit {
     this.router.navigate(['/material/create'], {
       relativeTo: this.route,
     });
+  }
+
+  actualizarMaterial(id: number) {
+    this.router.navigate(['/material/update', id], {
+      relativeTo: this.route,
+    });;
   }
 
   ngOnDestroy() {

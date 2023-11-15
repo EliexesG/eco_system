@@ -6,21 +6,24 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class FireBaseStorageService {
+
+  rootPath: string = 'Imagenes';
+
   constructor(private storage: AngularFireStorage) {}
 
-  uploadArchivoImagen(nombreImagen: string, datos: any): AngularFireUploadTask {
-    return this.storage.upload(nombreImagen, datos);
+  uploadArchivoImagen(nombreImagen: string, datos: any, path: string): AngularFireUploadTask {
+    return this.storage.upload(`${this.rootPath}/${path}/${nombreImagen}`, datos);
   }
 
-  deleteArchivoImagen(nombreImagen: string): Observable<any> {
-    return this.storage.ref(nombreImagen).delete();
+  deleteArchivoImagen(url:string): Observable<any> {
+    return this.storage.refFromURL(url).delete();
   }
 
-  updateArchivoImagen(nombreImagen: string, datos: any): Observable<any> {
-    return this.storage.ref(nombreImagen).updateMetadata(datos);
+  getURLArchivoImagen(nombreImagen: string, path: string): Observable<string> {
+    return this.storage.ref(`${this.rootPath}/${path}/${nombreImagen}`).getDownloadURL();
   }
 
-  getURLArchivoImagen(nombreImagen: string): Observable<string> {
-    return this.storage.ref(nombreImagen).getDownloadURL();
+  getFile(url:string): Observable<any> {
+    return this.storage.refFromURL(url).getMetadata();
   }
 }
