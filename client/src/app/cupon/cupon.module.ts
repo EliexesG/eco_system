@@ -20,6 +20,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { CuponFormComponent } from './cupon-form/cupon-form.component';
 import { CuponAllComponent } from './cupon-all/cupon-all.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +48,12 @@ import { CuponAllComponent } from './cupon-all/cupon-all.component';
     MatDialogModule,
     MatInputModule,
     MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxMatFileInputModule,
+    MatProgressSpinnerModule,
     ReactiveFormsModule,
-  ]
+  ],
+  providers: [MatDatepickerModule]
 })
 export class CuponModule { }

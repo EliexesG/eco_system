@@ -1,72 +1,115 @@
-<form [formGroup]="cuponForm" (ngSubmit)="submitCupon()" novalidate >
-    <input type="hidden" formControlName="id" />
-    <mat-card class="shipping-card"> 
-      <mat-card-header>
-        <h1 class="mat-h1">{{ titleForm }} Cupon</h1>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="full-width">
-              <input matInput #nombreCupon formControlName="nombre"  maxlength="50" placeholder="Nombre" >
-              <mat-hint align="end">{{nombreCupon.value.length}} / 50</mat-hint>
-              <mat-error *ngIf="errorHandling('nombre','required')">
-                Nombre es <strong>requerido</strong>
-              </mat-error>
-              <mat-error *ngIf="errorHandling('nombre','minlength')">
-                Nombre debe tener <strong>3 caracteres</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
+<form [formGroup]="cuponForm" (ngSubmit)="submitCupon()" novalidate>
+  <input type="hidden" formControlName="id" />
+  <mat-card class="shipping-card">
+    <mat-card-header>
+      <h1 class="mat-h1">{{ titleForm }} Cupon</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput #nombreCupon formControlName="nombre" maxlength="50" placeholder="Nombre">
+            <mat-hint align="end">{{nombreCupon.value.length}} / 50</mat-hint>
+            <mat-error *ngIf="errorHandling('nombre','required')">
+              Nombre es <strong>requerido</strong>
+            </mat-error>
+            <mat-error *ngIf="errorHandling('nombre','minlength')">
+              Nombre debe tener <strong>3 caracteres</strong>
+            </mat-error>
+          </mat-form-field>
         </div>
-        
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="full-width">
-              <textarea matInput #descripcionCupon formControlName="descripcion"  maxlength="50" placeholder="Descripción"></textarea>
-              <mat-hint align="end">{{descripcionCupon.value.length}} / 500</mat-hint>
-              <mat-error *ngIf="errorHandling('descripcion','required')">
-                Descripción es <strong>requerido</strong>
-              </mat-error>
-              <mat-error *ngIf="errorHandling('descripcion','minlength')">
-                Descripción debe tener <strong>20 caracteres</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-        
+      </div>
 
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="categoria" placeholder="Categoría">
-              <mat-error *ngIf="errorHandling('descripcion','required')">
-                Categoría es <strong>requerido</strong>
-              </mat-error>
-              
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="precio" placeholder="Precio en monedas" >
-              <mat-error *ngIf="errorHandling('precio','required')">
-                Precio es <strong>requerido</strong>
-              </mat-error>
-              <mat-error *ngIf="errorHandling('precio','pattern')">
-                Precio debe tener <strong>números con dos decimales</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>        
-       
-      </mat-card-content>
-      <mat-card-actions>
-        <div class="example-button-row">
-          <button mat-raised-button color="warn" (click)="onReset()">Reset</button>
-          <button mat-raised-button color="primary" (click)="onBack()">Regresar</button>
-          <button mat-raised-button color="accent" type="submit">Guardar</button>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <textarea matInput #descripcionCupon formControlName="descripcion" maxlength="500"
+              placeholder="Descripción"></textarea>
+            <mat-hint align="end">{{descripcionCupon.value.length}} / 500</mat-hint>
+            <mat-error *ngIf="errorHandling('descripcion','required')">
+              Descripción es <strong>requerido</strong>
+            </mat-error>
+            <mat-error *ngIf="errorHandling('descripcion','minlength')">
+              Descripción debe tener <strong>20 caracteres</strong>
+            </mat-error>
+          </mat-form-field>
         </div>
-      </mat-card-actions>
-    </mat-card>
-  </form>
-  
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Categoría" formControlName="categoria">
+              <mat-option *ngFor="let item of listaCategorias" [value]="item">
+                {{ item }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="errorHandling('categoria', 'required')">
+              Categoría es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input type="number" matInput formControlName="monedasCupon" placeholder="Precio en monedas">
+            <mat-error *ngIf="errorHandling('monedasCupon','required')">
+              Precio es <strong>requerido</strong>
+            </mat-error>
+            <mat-error *ngIf="errorHandling('monedasCupon','pattern')">
+              Precio debe tener <strong>números con dos decimales</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Fecha inicio</mat-label>
+            <input matInput [matDatepicker]="dp1" formControlName="fechaInicio" placeholder="">
+            <mat-datepicker-toggle matIconSuffix [for]="dp1"></mat-datepicker-toggle>
+            <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+            <mat-error *ngIf="errorHandling('fechaInicio','pattern')">
+              Fecha de inicio es<strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Fecha inicio</mat-label>
+            <input matInput [matDatepicker]="dp3" formControlName="fechaFin" placeholder="">
+            <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
+            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+            <mat-error *ngIf="errorHandling('fechaFin','pattern')">
+              Fecha de final es<strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <ngx-mat-file-input
+              formControlName="imagen"
+              accept=".png, .jpg, .jpeg"
+              [multiple]="false"
+              placeholder="Escoje una Imagen"
+            ></ngx-mat-file-input>
+            <mat-error *ngIf="errorHandling('imagen', 'required')">
+              La Imagen es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="example-button-row">
+        <button mat-raised-button color="warn" (click)="onReset()">Reset</button>
+        <button mat-raised-button color="primary" (click)="onBack()">Regresar</button>
+        <button mat-raised-button color="accent" type="submit">
+          <p *ngIf="!cargando">Guardar</p>
+          <mat-spinner *ngIf="cargando" color="primary" diameter="20" />
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</form>
