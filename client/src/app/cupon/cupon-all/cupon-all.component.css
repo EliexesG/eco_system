@@ -37,6 +37,7 @@
     font-size: larger;
     vertical-align: bottom;
     transition: all 0.2s cubic-bezier(0.25, 0.4, 0.45, 1.4);
+    margin-right: 15px;
   }
   
   .boton:hover {
