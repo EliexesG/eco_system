@@ -148,6 +148,7 @@ module.exports.create = async (request, response, next) => {
 module.exports.update = async (request, response, next) => {
   try {
     let id = parseInt(request.params.id);
+    console.log(id)
     let data = request.body;
 
     const materialesViejos = await prisma.centroAcopio.findUnique({

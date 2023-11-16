@@ -127,6 +127,7 @@ module.exports.getByTipoUsuario = async (request, response, next) => {
     );
   }
 };
+
 //Obtener por Tipo de Usuario
 module.exports.sByAdminCentroAcopio = async (request, response, next) => {
   try {
@@ -152,6 +153,29 @@ module.exports.sByAdminCentroAcopio = async (request, response, next) => {
     );
   }
 };
+
+//Obtener administradores de centros sin centro
+module.exports.getUsuariosAdminCentroSinCentro = async (request, response, next) => {
+  try {
+
+    const usuarios = await prisma.usuario.findMany({
+      orderBy: {
+        nombre: 'asc'
+      },
+      where: {
+        centroAcopio: null,
+        tipoUsuario: "ADMINISTRADOR_CENTROS_ACOPIO"
+      }
+    })
+
+    response.json(usuarios)
+
+  } catch (e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+}
 
 
 //Obtener Usuario por Id
