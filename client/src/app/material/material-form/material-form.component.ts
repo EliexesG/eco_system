@@ -74,15 +74,17 @@ export class MaterialFormComponent implements OnInit {
 
               return this.fbService.getMetadata(this.materialInfo.imagen).pipe(
                 takeUntil(this.destroy$),
-                concatMap((metadata) => {
-                  console.log(metadata.name);
+                concatMap(async (metadata) => {
+
+                  const promesaArchivo = await fetch(this.materialInfo.imagen);
+                  const archivo = await promesaArchivo.blob();
                   const file = new File(
-                    [metadata.downloadBytes],
+                    [archivo],
                     metadata.name,
                     {
                       type: metadata.contentType,
                     }
-                  );
+                  );   
 
                   this.materialForm.get('imagen').setValue(file);
                   this.imagenPrevia = metadata;

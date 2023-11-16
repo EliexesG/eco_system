@@ -13,6 +13,9 @@ const routes: Routes = [
   },
   {
     path:'cupon/create', component: CuponFormComponent
+  },  
+  {
+    path:'cupon/update/:id', component: CuponFormComponent
   }
 ];
 

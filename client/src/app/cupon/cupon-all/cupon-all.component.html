@@ -49,6 +49,15 @@
           >
             <mat-icon>info</mat-icon>
           </button>
+
+          <button
+          mat-mini-fab
+          color="primary"
+          class="boton"
+          (click)="actualizarCupon(row.id)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="columns"></tr>
