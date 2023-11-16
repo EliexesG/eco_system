@@ -1,0 +1,52 @@
+.mat-h1 {
+    width: 100%;
+    text-align: center !important;
+  }
+  
+  .card-title {
+    font-weight: bold;
+    width: 100%;
+    text-align: center !important;
+    margin-top: 0px;
+  }
+  
+  .descripcionTitulo {
+    text-align: center;
+  }
+  
+  table {
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .contenidoFlex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: -15px;
+  }
+  
+  .contenidoFlex p {
+    margin-left: 5px;
+  }
+  
+  .boton {
+    color: white !important;
+    font-weight: bold;
+    font-size: larger;
+    vertical-align: bottom;
+    transition: all 0.2s cubic-bezier(0.25, 0.4, 0.45, 1.4);
+    margin-right: 15px;
+  }
+  
+  .boton:hover {
+    filter: brightness(90%);
+  }
+  
+  .color {
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+  }
+  
