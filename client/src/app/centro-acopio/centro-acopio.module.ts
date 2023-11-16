@@ -14,6 +14,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { CentroAcopioAllComponent } from './centro-acopio-all/centro-acopio-all.component';
 import { CentroAcopioFormComponent } from './centro-acopio-form/centro-acopio-form.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @NgModule({
   declarations: [
@@ -28,11 +40,22 @@ import { CentroAcopioFormComponent } from './centro-acopio-form/centro-acopio-fo
     CentroAcopioRoutingModule,
     MatGridListModule,
     MatCardModule,
-    MatListModule,
+    MatMenuModule,
     MatIconModule,
-    MatDialogModule,
-    ReactiveFormsModule,
     MatButtonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDividerModule,
+    MatDialogModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatListModule,
+    NgxMatFileInputModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule
   ],
 })
 export class CentroAcopioModule {}
