@@ -24,7 +24,7 @@ export class CentroAcopioFormComponent implements OnInit {
   centroForm: FormGroup;
   idCentro: number = 0;
   isCreate: boolean = true;
-  numRegex = /^[0-9]+$/;
+  numRegex = /^[0-9]{8}$/;
   cargando: boolean = false;
   listaAdministrador: any;
   listaMateriales: any;
@@ -63,8 +63,12 @@ export class CentroAcopioFormComponent implements OnInit {
             console.log(this.centroInfo);
             this.listaAdministrador.push(this.centroInfo.administrador);
 
-            let horaInicio: Date = new Date(this.centroInfo.horarios.horaInicio);
-            let horaCierre: Date =  new Date(this.centroInfo.horarios.horaCierre);
+            let horaInicio: Date = new Date(
+              this.centroInfo.horarios.horaInicio
+            );
+            let horaCierre: Date = new Date(
+              this.centroInfo.horarios.horaCierre
+            );
 
             this.centroForm.setValue({
               id: this.centroInfo.id,
@@ -151,7 +155,11 @@ export class CentroAcopioFormComponent implements OnInit {
       .split(':');
     horaInicio[0] = valorForm.horaInicio.includes('PM')
       ? (parseInt(horaInicio[0]) + 12).toString()
-      : horaInicio[0];
+      : horaInicio[0].toString();
+    horaInicio[0] =
+      horaInicio[0].toString().length == 1
+        ? '0' + horaInicio[0]
+        : horaInicio[0];
     horaInicio[1] = horaInicio[1].replace('undefined', '');
 
     let horaCierre = valorForm.horaCierre
@@ -160,7 +168,11 @@ export class CentroAcopioFormComponent implements OnInit {
       .split(':');
     horaCierre[0] = valorForm.horaCierre.includes('PM')
       ? (parseInt(horaCierre[0]) + 12).toString()
-      : horaCierre[0];
+      : horaCierre[0].toString();
+    horaCierre[0] =
+      horaCierre[0].toString().length == 1
+        ? '0' + horaCierre[0]
+        : horaCierre[0];
     horaCierre[1] = horaCierre[1].replace('undefined', '');
 
     let valorFormFinal = {
@@ -169,12 +181,8 @@ export class CentroAcopioFormComponent implements OnInit {
       telefono: valorForm.telefono,
       desabilitado: valorForm.desabilitado,
       horarios: {
-        horaInicio: new Date(
-          '2023-12-31' + 'T' + horaInicio[0] + ':' + horaInicio[1]
-        ).toISOString(),
-        horaCierre: new Date(
-          '2023-12-31' + 'T' + horaCierre[0] + ':' + horaCierre[1]
-        ).toISOString(),
+        horaInicio: `2000-10-06T${horaInicio[0]}:${horaInicio[1]}:00.000Z`,
+        horaCierre: `2000-10-06T${horaCierre[0]}:${horaCierre[1]}:00.000Z`,
       },
       administrador: { id: valorForm.administrador },
       materiales: valorForm.materiales.map((material) => {
