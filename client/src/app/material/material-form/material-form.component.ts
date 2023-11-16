@@ -34,6 +34,7 @@ export class MaterialFormComponent implements OnInit {
   ];
   colores: { codColor: string }[];
   imagenPrevia: any;
+  imagenBase64: string;
 
   constructor(
     private fb: FormBuilder,
@@ -88,6 +89,7 @@ export class MaterialFormComponent implements OnInit {
 
                   this.materialForm.get('imagen').setValue(file);
                   this.imagenPrevia = metadata;
+                  this.onImagenSeleccionada();
                   return EMPTY;
                 })
               );
@@ -254,6 +256,17 @@ export class MaterialFormComponent implements OnInit {
     let extension: string = split[split.length-1];
     
     return `material_${materialName}.${extension}`;
+  }
+
+  onImagenSeleccionada() {
+    let imagen: File = this.materialForm.value.imagen;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(imagen);
+    reader.onload = () => {
+      console.log(reader.result as string);
+      this.imagenBase64 = reader.result as string;
+    };
   }
 
   onChangeColor(): void {

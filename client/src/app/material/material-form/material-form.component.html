@@ -96,7 +96,9 @@
               formControlName="imagen"
               accept=".png, .jpg, .jpeg"
               [multiple]="false"
-              placeholder="Escoje una Imagen"  style="height: 20px;"
+              placeholder="Escoje una Imagen"
+              style="height: 20px"
+              (change)="onImagenSeleccionada()"
             ></ngx-mat-file-input>
             <mat-error *ngIf="errorHandling('imagen', 'required')">
               La Imagen es <strong>requerida</strong>
@@ -104,12 +106,25 @@
           </mat-form-field>
         </div>
       </div>
+      <div *ngIf="imagenBase64" class="full-width" id="imagenPreview">
+        <h3 class="mat-h3">Imagen Preview</h3>
+        <img src="{{ imagenBase64 }}" alt="imagen" />
+      </div>
     </mat-card-content>
     <mat-card-actions>
       <div class="center">
-        <button mat-raised-button id="boton3" (click)="onBack()">Regresar</button>
-        <button mat-raised-button id="boton2" (click)="onReset()">Reiniciar</button>
-        <button mat-raised-button id="boton1" value="Aceptar" style="vertical-align: middle;">
+        <button mat-raised-button id="boton3" (click)="onBack()">
+          Regresar
+        </button>
+        <button mat-raised-button id="boton2" (click)="onReset()">
+          Reiniciar
+        </button>
+        <button
+          mat-raised-button
+          id="boton1"
+          value="Aceptar"
+          style="vertical-align: middle"
+        >
           <p *ngIf="!cargando">Aceptar</p>
           <mat-spinner *ngIf="cargando" color="primary" diameter="20" />
         </button>
