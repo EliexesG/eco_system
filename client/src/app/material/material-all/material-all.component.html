@@ -7,7 +7,12 @@
       A continuación un listado de los materiales registrados en la aplicación.
     </p>
     <mat-card-actions>
-      <button class="boton" mat-mini-fab color="primary" (click)="crearMaterial()">
+      <button
+        class="boton"
+        mat-mini-fab
+        color="primary"
+        (click)="crearMaterial()"
+      >
         <mat-icon>add</mat-icon>
       </button>
     </mat-card-actions>
@@ -34,11 +39,12 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="color">
-        <th mat-header-cell *matHeaderCellDef>
-          Color
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Color</th>
         <td mat-cell *matCellDef="let row">
-          <div class="color" [style]="{'background-color': row.codColor}"></div>
+          <div
+            class="color"
+            [style]="{ 'background-color': row.codColor }"
+          ></div>
         </td>
       </ng-container>
       <ng-container matColumnDef="acciones">
@@ -69,7 +75,7 @@
       #paginator
       [length]="dataSource.data.length"
       [pageIndex]="0"
-      [pageSize]="2"
+      [pageSize]="5"
       [pageSizeOptions]="[2, 5, 10]"
       aria-label="Seleccione una Página"
     ></mat-paginator>

@@ -142,14 +142,14 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <div class="example-button-row">
-        <button mat-raised-button color="warn" (click)="onReset()">
+      <div class="center">
+        <button mat-raised-button id="boton3" (click)="onReset()">
           Reset
         </button>
-        <button mat-raised-button color="primary" (click)="onBack()">
+        <button mat-raised-button id="boton2" (click)="onBack()">
           Regresar
         </button>
-        <button mat-raised-button color="accent" type="submit">
+        <button mat-raised-button id="boton1" type="submit">
           <p *ngIf="!cargando">Guardar</p>
           <mat-spinner *ngIf="cargando" color="primary" diameter="20" />
         </button>

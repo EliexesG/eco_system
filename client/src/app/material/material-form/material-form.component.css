@@ -2,8 +2,14 @@
   width: 100%;
 }
 
+.mat-h1 {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
 textarea {
-    min-width: 150px !important;
+  min-width: 150px !important;
 }
 
 .row {
@@ -21,7 +27,23 @@ textarea {
   margin-right: 0;
 }
 
-.center{ margin: 0 auto;
+.center {
+  margin: 0 auto;
+}
+
+#imagenPreview {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+#imagenPreview img {
+  max-width: 150%;
+  max-height: 150px;
+  border-radius: 15px;
+  object-fit: scale-down;
 }
 
 button {
@@ -32,9 +54,9 @@ button {
   margin: 28px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
-  font-weight: 500;
+  font-weight: bold;
   color: #000;
-  background-color: #fff;
+  background-color: whitesmoke !important;
   border: none;
   border-radius: 45px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
@@ -43,24 +65,23 @@ button {
   outline: none;
 }
 
-#boton1:hover{
-  background-color: green;
+#boton1:hover {
+  background-color: green !important;
   box-shadow: 0px 15px 20px rgb(13, 252, 252, 0.4);
   color: #fff;
   transform: translateY(-7px);
 }
 
-#boton2:hover{
-  background-color: orangered;
+#boton2:hover {
+  background-color: orangered !important;
   box-shadow: 0px 15px 20px rgb(13, 252, 252, 0.4);
   color: #fff;
   transform: translateY(-7px);
 }
 
-#boton3:hover{
-  background-color: blue;
+#boton3:hover {
+  background-color: blue !important;
   box-shadow: 0px 15px 20px rgb(13, 252, 252, 0.4);
   color: #fff;
   transform: translateY(-7px);
 }
-

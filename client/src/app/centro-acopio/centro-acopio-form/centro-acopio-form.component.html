@@ -1,97 +1,227 @@
 <form [formGroup]="centroForm" (ngSubmit)="submitCentro()" novalidate>
-    <input type="hidden" formControlName="id" />
-    <mat-card class="shipping-card">
-      <mat-card-header>
-        <h1 class="mat-h1">{{ titleForm }} Centro de Acopio</h1>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="full-width">
-              <input matInput #nombreCupon formControlName="nombre" maxlength="50" placeholder="Nombre">
-              <mat-hint align="end">{{nombreCupon.value.length}} / 50</mat-hint>
-              <mat-error *ngIf="errorHandling('nombre','required')">
-                Nombre es <strong>requerido</strong>
-              </mat-error>
-              <mat-error *ngIf="errorHandling('nombre','minlength')">
-                Nombre debe tener <strong>3 caracteres</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
+  <input type="hidden" formControlName="id" />
+  <mat-card class="shipping-card">
+    <mat-card-header>
+      <h1 class="mat-h1">{{ titleForm }} Centro de Acopio</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Nombre</mat-label>
+            <input
+              matInput
+              #nombreCentro
+              formControlName="nombre"
+              maxlength="40"
+              placeholder="Centro de Acopio..."
+            />
+            <mat-error *ngIf="errorHandling('nombre', 'required')">
+              El nombre es <strong>requerido</strong>
+            </mat-error>
+            <mat-error *ngIf="errorHandling('nombre', 'minlength')">
+              El nombre debe tener <strong>3 caracteres</strong>
+            </mat-error>
+            <mat-error *ngIf="errorHandling('nombre', 'maxlength')">
+              El nombre debe tener máximo <strong>40 caracteres</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-          <div class="col">
-            <mat-form-field class="full-width">
-              <input type="number" matInput placeholder="Teléfono" formControlName="telefono">
-              <mat-error *ngIf="errorHandling('telefono', 'required')">
-                Teléfono es <strong>requerido</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
-          
-          <div class="col">
-            <mat-form-field class="full-width">
-              <mat-select placeholder="Administrador" formControlName="administrador">
-                <mat-option *ngFor="let item of listaAdministrador" [value]="item">
-                  {{ item.nombre }} 
-                  {{ item.primerApellido }}
-                  {{ item.segundoApellido }}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="errorHandling('administrador', 'required')">
-                Administrador es <strong>requerido</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Teléfono</mat-label>
+            <input
+              matInput
+              placeholder="25552423"
+              formControlName="telefono"
+            />
+            <mat-error *ngIf="errorHandling('telefono', 'required')">
+              El teléfono es <strong>requerido</strong>
+            </mat-error>
+            <mat-error *ngIf="errorHandling('telefono', 'pattern')">
+              El teléfono debe tener <strong>8 caracteres</strong>
+            </mat-error>
+          </mat-form-field>
         </div>
-  
-        <div class="row">
-            <div class="col">
-                <mat-form-field class="full-width">
-                  <mat-select placeholder="Materiales" formControlName="materiales" multiple>
-                    <mat-option *ngFor="let item of listaMateriales" [value]="item.id">
-                        {{item.nombre}}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="errorHandling('materiales', 'required')">
-                    MAteriales es <strong>requerido</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
 
-              <div class="col">
-                <mat-form-field class="full-width">
-                  <mat-label>Hora apertura</mat-label>
-                  <input matInput [matDatepicker]="dp1" formControlName="horaInicio" placeholder="">
-                  <mat-datepicker-toggle matIconSuffix [for]="dp1"></mat-datepicker-toggle>
-                  <mat-datepicker #dp1 disabled="false"></mat-datepicker>
-                  <mat-error *ngIf="errorHandling('horaInicio','pattern')">
-                    Hora de apertura es<strong>requerido</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="col">
-                <mat-form-field class="full-width">
-                  <mat-label>Hora cierre</mat-label>
-                  <input matInput [matDatepicker]="dp3" formControlName="horaFin" placeholder="">
-                  <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
-                  <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                  <mat-error *ngIf="errorHandling('horaFin','pattern')">
-                    Hora de cierre es <strong>requerido</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Administrador</mat-label>
+            <mat-select
+              placeholder="Juan..."
+              formControlName="administrador"
+            >
+              <mat-option
+                *ngFor="let item of listaAdministrador"
+                [value]="item.id"
+              >
+                {{ item.nombre }}
+                {{ item.primerApellido }}
+                {{ item.segundoApellido }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="errorHandling('administrador', 'required')">
+              El administrador es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
         </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <div class="center">
-          <button mat-raised-button id="boton3" (click)="onBack()">Regresar</button>
-          <button mat-raised-button id="boton2" (click)="onReset()">Reiniciar</button>
-          <button mat-raised-button id="boton1" value="Aceptar" style="vertical-align: middle;">
-            <p *ngIf="!cargando">Aceptar</p>
-            <mat-spinner *ngIf="cargando" color="primary" diameter="20" />
-          </button>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Hora Apertura</mat-label>
+            <input
+              matInput
+              [ngxTimepicker]="horaInicio"
+              formControlName="horaInicio"
+              readonly
+              placeholder="12:00 AM"
+            />
+            <ngx-material-timepicker #horaInicio></ngx-material-timepicker>
+            <mat-error *ngIf="errorHandling('horaInicio', 'required')">
+              La hora de apertura es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
         </div>
-      </mat-card-actions>
-    </mat-card>
-  </form>
-  
+
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Hora Cierre</mat-label>
+            <input
+              matInput
+              [ngxTimepicker]="horaCierre"
+              formControlName="horaCierre"
+              readonly
+              placeholder="12:00 AM"
+            />
+            <ngx-material-timepicker #horaCierre></ngx-material-timepicker>
+            <mat-error *ngIf="errorHandling('horaCierre', 'required')">
+              La hora de cierre es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Materiales</mat-label>
+            <mat-select
+              placeholder="Plastico..."
+              formControlName="materiales"
+              multiple
+            >
+              <mat-option
+                *ngFor="let item of listaMateriales"
+                [value]="item.id"
+              >
+                {{ item.nombre }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="errorHandling('materiales', 'required')">
+              Los materiales son <strong>requeridos</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Provincia</mat-label>
+            <mat-select
+              placeholder="Alajuela..."
+              formControlName="codProvincia"
+              (selectionChange)="onProvinciaChange()"
+            >
+              <mat-option
+                *ngFor="let item of listaProvincias"
+                [value]="item.id"
+              >
+                {{ item.nombre }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="errorHandling('administrador', 'required')">
+              La provincia es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Cantón</mat-label>
+            <mat-select
+              placeholder="Central..."
+              formControlName="codCanton"
+              (selectionChange)="onCantonChange()"
+            >
+              <mat-option *ngFor="let item of listaCantones" [value]="item.id">
+                {{ item.nombre }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="errorHandling('administrador', 'required')">
+              El cantón es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Distrito</mat-label>
+            <mat-select placeholder="San Antonio..." formControlName="codDistrito">
+              <mat-option *ngFor="let item of listaDistritos" [value]="item.id">
+                {{ item.nombre }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="errorHandling('administrador', 'required')">
+              El distrito es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Señas</mat-label>
+            <textarea
+              matInput
+              formControlName="sennas"
+              placeholder="400 mts oeste del parque..."
+            ></textarea>
+            <mat-error *ngIf="errorHandling('sennas', 'required')">
+              Las señas son <strong>requeridas</strong>
+            </mat-error>
+            <mat-error *ngIf="errorHandling('sennas', 'minlength')">
+              Las señas deben tener minimo <strong> 10 caracteres</strong>
+            </mat-error>
+            <mat-error *ngIf="errorHandling('sennas', 'maxlength')">
+              Las señas deben tener maximo <strong> 40 caracteres</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="center">
+        <button mat-raised-button id="boton3" (click)="onBack()">
+          Regresar
+        </button>
+        <button mat-raised-button id="boton2" (click)="onReset()">
+          Reiniciar
+        </button>
+        <button
+          mat-raised-button
+          id="boton1"
+          value="Aceptar"
+          style="vertical-align: middle"
+        >
+          <p *ngIf="!cargando">Aceptar</p>
+          <mat-spinner *ngIf="cargando" color="primary" diameter="20" />
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</form>

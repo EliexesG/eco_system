@@ -16,6 +16,9 @@ router.get("/habilitados", usuarioController.getHabilitados);
 //Ruta: localhost:3000/usuario/desabilitados
 router.get("/desabilitados", usuarioController.getDesabilitados);
 
+//Ruta: localhost:3000/usuario/admincentrosincentro
+router.get("/admincentrosincentro", usuarioController.getUsuariosAdminCentroSinCentro);
+
 //Ruta: localhost:3000/usuario/tipousuario/administrador
 router.get("/tipousuario/:tipousuario", usuarioController.getByTipoUsuario);
 

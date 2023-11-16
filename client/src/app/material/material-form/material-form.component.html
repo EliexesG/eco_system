@@ -8,7 +8,8 @@
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
-            <input matInput formControlName="nombre" placeholder="Nombre" />
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre" placeholder="Plastico..." />
             <mat-error *ngIf="errorHandling('nombre', 'required')">
               El Nombre es <strong>requerido</strong>
             </mat-error>
@@ -24,10 +25,11 @@
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
+            <mat-label>Descripción</mat-label>
             <textarea
               matInput
               formControlName="descripcion"
-              placeholder="Descripción"
+              placeholder="El plastico puede..."
             ></textarea>
             <mat-error *ngIf="errorHandling('descripcion', 'required')">
               La Descripción es <strong>requerida</strong>
@@ -45,6 +47,7 @@
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
+            <mat-label>Color</mat-label>
             <input
               type="color"
               matInput
@@ -59,10 +62,11 @@
         </div>
         <div class="col">
           <mat-form-field class="full-width">
+            <mat-label>Monedas por Unidad</mat-label>
             <input
               matInput
               formControlName="monedasUnidad"
-              placeholder="Monedas por Unidad"
+              placeholder="5"
               type="number"
             />
             <mat-error *ngIf="errorHandling('monedasUnidad', 'pattern')">
@@ -75,8 +79,9 @@
         </div>
         <div class="col" *ngIf="unidadesMedida">
           <mat-form-field class="full-width">
+            <mat-label>Unidad de Medida</mat-label>
             <mat-select
-              placeholder="Unidad de medida"
+              placeholder="kilogramo..."
               formControlName="unidadMedida"
             >
               <mat-option *ngFor="let item of unidadesMedida" [value]="item">
@@ -96,7 +101,9 @@
               formControlName="imagen"
               accept=".png, .jpg, .jpeg"
               [multiple]="false"
-              placeholder="Escoje una Imagen"  style="height: 20px;"
+              placeholder="Escoje una Imagen"
+              style="height: 20px"
+              (change)="onImagenSeleccionada()"
             ></ngx-mat-file-input>
             <mat-error *ngIf="errorHandling('imagen', 'required')">
               La Imagen es <strong>requerida</strong>
@@ -104,12 +111,25 @@
           </mat-form-field>
         </div>
       </div>
+      <div *ngIf="imagenBase64" class="full-width" id="imagenPreview">
+        <h3 class="mat-h3">Imagen Preview</h3>
+        <img src="{{ imagenBase64 }}" alt="imagen" />
+      </div>
     </mat-card-content>
     <mat-card-actions>
       <div class="center">
-        <button mat-raised-button id="boton3" (click)="onBack()">Regresar</button>
-        <button mat-raised-button id="boton2" (click)="onReset()">Reiniciar</button>
-        <button mat-raised-button id="boton1" value="Aceptar" style="vertical-align: middle;">
+        <button mat-raised-button id="boton3" (click)="onBack()">
+          Regresar
+        </button>
+        <button mat-raised-button id="boton2" (click)="onReset()">
+          Reiniciar
+        </button>
+        <button
+          mat-raised-button
+          id="boton1"
+          value="Aceptar"
+          style="vertical-align: middle"
+        >
           <p *ngIf="!cargando">Aceptar</p>
           <mat-spinner *ngIf="cargando" color="primary" diameter="20" />
         </button>
