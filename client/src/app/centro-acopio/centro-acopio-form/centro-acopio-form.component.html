@@ -1,1 +1,97 @@
-<p>centro-acopio-form works!</p>
+<form [formGroup]="centroForm" (ngSubmit)="submitCentro()" novalidate>
+    <input type="hidden" formControlName="id" />
+    <mat-card class="shipping-card">
+      <mat-card-header>
+        <h1 class="mat-h1">{{ titleForm }} Centro de Acopio</h1>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput #nombreCupon formControlName="nombre" maxlength="50" placeholder="Nombre">
+              <mat-hint align="end">{{nombreCupon.value.length}} / 50</mat-hint>
+              <mat-error *ngIf="errorHandling('nombre','required')">
+                Nombre es <strong>requerido</strong>
+              </mat-error>
+              <mat-error *ngIf="errorHandling('nombre','minlength')">
+                Nombre debe tener <strong>3 caracteres</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input type="number" matInput placeholder="Teléfono" formControlName="telefono">
+              <mat-error *ngIf="errorHandling('telefono', 'required')">
+                Teléfono es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-select placeholder="Administrador" formControlName="administrador">
+                <mat-option *ngFor="let item of listaAdministrador" [value]="item">
+                  {{ item.nombre }} 
+                  {{ item.primerApellido }}
+                  {{ item.segundoApellido }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="errorHandling('administrador', 'required')">
+                Administrador es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="Materiales" formControlName="materiales" multiple>
+                    <mat-option *ngFor="let item of listaMateriales" [value]="item.id">
+                        {{item.nombre}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="errorHandling('materiales', 'required')">
+                    MAteriales es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col">
+                <mat-form-field class="full-width">
+                  <mat-label>Hora apertura</mat-label>
+                  <input matInput [matDatepicker]="dp1" formControlName="horaInicio" placeholder="">
+                  <mat-datepicker-toggle matIconSuffix [for]="dp1"></mat-datepicker-toggle>
+                  <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+                  <mat-error *ngIf="errorHandling('horaInicio','pattern')">
+                    Hora de apertura es<strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field class="full-width">
+                  <mat-label>Hora cierre</mat-label>
+                  <input matInput [matDatepicker]="dp3" formControlName="horaFin" placeholder="">
+                  <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
+                  <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                  <mat-error *ngIf="errorHandling('horaFin','pattern')">
+                    Hora de cierre es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="center">
+          <button mat-raised-button id="boton3" (click)="onBack()">Regresar</button>
+          <button mat-raised-button id="boton2" (click)="onReset()">Reiniciar</button>
+          <button mat-raised-button id="boton1" value="Aceptar" style="vertical-align: middle;">
+            <p *ngIf="!cargando">Aceptar</p>
+            <mat-spinner *ngIf="cargando" color="primary" diameter="20" />
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+  
