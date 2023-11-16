@@ -24,3 +24,18 @@ textarea {
 button {
   margin-right: 15px;
 }
+
+#imagenPreview {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+#imagenPreview img {
+  max-width: 150%;
+  max-height: 150px;
+  border-radius: 15px;
+  object-fit: scale-down;
+}

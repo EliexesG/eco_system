@@ -249,7 +249,10 @@ export class MaterialFormComponent implements OnInit {
   }
 
   private createFileName(materialName: string, fileName: string) {
-    let extension: string = fileName.split('.')[1];
+    let split: string[]= fileName.split('.');
+
+    let extension: string = split[split.length-1];
+    
     return `material_${materialName}.${extension}`;
   }
 

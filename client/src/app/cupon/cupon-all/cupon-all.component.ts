@@ -10,13 +10,12 @@ import { GenericService } from 'src/app/share/services/generic.service';
 @Component({
   selector: 'app-cupon-all',
   templateUrl: './cupon-all.component.html',
-  styleUrls: ['./cupon-all.component.css']
+  styleUrls: ['./cupon-all.component.css'],
 })
 export class CuponAllComponent implements AfterViewInit {
   datos: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
@@ -24,40 +23,35 @@ export class CuponAllComponent implements AfterViewInit {
     'nombre',
     'monedasUnidad',
     'categoria',
-    'fechaInicio',
-    'fechaFin',
+    'fechaVigencia',
     'acciones',
   ];
 
-
-  constructor(private gService: GenericService, 
+  constructor(
+    private gService: GenericService,
     private router: Router,
-    private route: ActivatedRoute)
-  {
-
-  }
+    private route: ActivatedRoute
+  ) {}
 
   ngAfterViewInit(): void {
-    this.listarCupones();   
+    this.listarCupones();
   }
-  listarCupones(){
-    this.gService.list('cupon/')
+  listarCupones() {
+    this.gService
+      .list('cupon/')
       .pipe(takeUntil(this.destroy$))
-      .subscribe((response:any)=>{
+      .subscribe((response: any) => {
         console.log(response);
-        this.datos=response;
+        this.datos = response;
         this.dataSource = new MatTableDataSource(this.datos);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        
-      })
+      });
   }
-  detalleCupon(id: number){
-    this.router.navigate(['/cupon',id],
-      {
-        relativeTo:this.route
-      }
-    )
+  detalleCupon(id: number) {
+    this.router.navigate(['/cupon', id], {
+      relativeTo: this.route,
+    });
   }
   actualizarCupon(id: number) {
     this.router.navigate(['/cupon/update', id], {
@@ -70,7 +64,7 @@ export class CuponAllComponent implements AfterViewInit {
       relativeTo: this.route,
     });
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
