@@ -51,11 +51,13 @@ export class CuponAllComponent implements AfterViewInit {
   detalleCupon(id: number) {
     this.router.navigate(['/cupon', id], {
       relativeTo: this.route,
+      skipLocationChange: true
     });
   }
   actualizarCupon(id: number) {
     this.router.navigate(['/cupon/update', id], {
       relativeTo: this.route,
+      skipLocationChange: true
     });
   }
 

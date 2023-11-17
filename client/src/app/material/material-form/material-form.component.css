@@ -8,8 +8,12 @@
   margin-bottom: 25px;
 }
 
+#flexForm {
+  display: flex;
+}
+
 textarea {
-  min-width: 150px !important;
+  min-height: 100px !important;
 }
 
 .row {
@@ -36,12 +40,16 @@ textarea {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 15px;
+  width: 25%;
+}
+
+mat-card {
+  width: 75%;
 }
 
 #imagenPreview img {
-  max-width: 150%;
-  max-height: 150px;
+  max-width: 85%;
+  max-height: 85%;
   border-radius: 15px;
   object-fit: scale-down;
 }

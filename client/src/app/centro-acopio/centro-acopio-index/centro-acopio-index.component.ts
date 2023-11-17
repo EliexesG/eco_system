@@ -21,7 +21,7 @@ export class CentroAcopioIndexComponent {
     //Solicitud al API para listar todos los centro de acopio
     //localhost:3000/centrosacopio
     this.gService
-      .list('centroacopio/')
+      .list('centroacopio/habilitados')
       .pipe(takeUntil(this.destroy$))
       .subscribe((response: any) => {
         console.log(response);
