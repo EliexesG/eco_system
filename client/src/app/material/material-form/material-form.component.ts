@@ -5,7 +5,7 @@ import { EMPTY, Subject, concatMap, filter, switchMap, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/services/generic.service';
 import { NotificacionService } from 'src/app/share/services/notification.service';
 import { TipoMessage } from 'src/app/share/services/notification.service';
-import { FireBaseStorageService } from 'src/app/share/services/fire-base-storage.service';
+import { ImageService } from 'src/app/share/services/image.service';
 
 @Component({
   selector: 'app-material-form',
@@ -33,16 +33,16 @@ export class MaterialFormComponent implements OnInit {
     'bolsa',
   ];
   colores: { codColor: string }[];
-  imagenPrevia: any;
+  imagen: File;
   imagenBase64: string;
 
   constructor(
     private fb: FormBuilder,
     private gService: GenericService,
+    private iService: ImageService,
     private router: Router,
     private activeRouter: ActivatedRoute,
-    private noti: NotificacionService,
-    private fbService: FireBaseStorageService
+    private noti: NotificacionService
   ) {
     this.formularioReactive();
   }
@@ -73,6 +73,8 @@ export class MaterialFormComponent implements OnInit {
                 imagen: '',
               });
 
+              return EMPTY;
+              /*
               return this.fbService.getMetadata(this.materialInfo.imagen).pipe(
                 takeUntil(this.destroy$),
                 concatMap(async (metadata) => {
@@ -93,6 +95,7 @@ export class MaterialFormComponent implements OnInit {
                   return EMPTY;
                 })
               );
+              */
             })
           );
 
@@ -151,50 +154,38 @@ export class MaterialFormComponent implements OnInit {
     if (this.materialForm.invalid) return;
 
     let valorForm = this.materialForm.value;
-    console.log(valorForm);
+
+    let imagename = this.createFileName(valorForm.nombre, this.imagen.name);
+
+    var imageForm = new FormData();
+    imageForm.append('image', this.imagen, imagename);
 
     if (this.isCreate) {
       this.cargando = true;
 
-      let create$ = this.fbService
-        .uploadArchivoImagen(
-          this.createFileName(valorForm.nombre, valorForm.imagen.name),
-          valorForm.imagen,
-          'materiales'
-        )
-        .percentageChanges()
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((porcentaje: number) => porcentaje == 100),
-          switchMap((_) => {
-            return this.fbService
-              .getURLArchivoImagen(
-                this.createFileName(valorForm.nombre, valorForm.imagen.name),
-                'materiales'
-              )
-              .pipe(
-                takeUntil(this.destroy$),
-                concatMap((url: string) => {
-                  valorForm.imagen = url;
+      let create$ = this.iService.uploadImage(imageForm).pipe(
+        takeUntil(this.destroy$),
+        concatMap((result) => {
+          valorForm.imagen = imagename;
+          console.log(valorForm);
 
-                  return this.gService.create('material', valorForm).pipe(
-                    takeUntil(this.destroy$),
-                    concatMap((data) => {
-                      this.cargando = false;
-                      this.respMaterial = data;
-                      this.noti.mensajeRedirect(
-                        'Crear Material',
-                        `Material creado "${data.nombre}"`,
-                        TipoMessage.success,
-                        '/material/all'
-                      );
-                      return EMPTY;
-                    })
-                  );
-                })
+          return this.gService.create('material', valorForm).pipe(
+            takeUntil(this.destroy$),
+            concatMap((data) => {
+              console.log(data);
+              this.cargando = false;
+              this.respMaterial = data;
+              this.noti.mensajeRedirect(
+                'Crear Material',
+                `Material creado "${data.nombre}"`,
+                TipoMessage.success,
+                '/material/all'
               );
-          })
-        );
+              return EMPTY;
+            })
+          );
+        })
+      );
 
       create$.subscribe(() => {
         this.router.navigate(['/material/all']);
@@ -202,47 +193,28 @@ export class MaterialFormComponent implements OnInit {
     } else {
       this.cargando = true;
 
-      let update$ = this.fbService
-        .uploadArchivoImagen(
-          this.createFileName(valorForm.nombre, valorForm.imagen.name),
-          valorForm.imagen,
-          'materiales'
-        )
-        .percentageChanges()
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((porcentaje: number) => porcentaje == 100),
-          switchMap((_) => {
-            console.log(_);
-            return this.fbService
-              .getURLArchivoImagen(
-                this.createFileName(valorForm.nombre, valorForm.imagen.name),
-                'materiales'
-              )
-              .pipe(
-                takeUntil(this.destroy$),
-                concatMap((url: string) => {
-                  console.log(url);
-                  valorForm.imagen = url;
-                  return this.gService.update('material', valorForm).pipe(
-                    takeUntil(this.destroy$),
-                    concatMap((data) => {
-                      console.log(data);
-                      this.cargando = false;
-                      this.respMaterial = data;
-                      this.noti.mensajeRedirect(
-                        'Actualizar Material',
-                        `Material actualizado "${data.nombre}"`,
-                        TipoMessage.success,
-                        '/material/all'
-                      );
-                      return EMPTY;
-                    })
-                  );
-                })
+      let update$ = this.iService.uploadImage(valorForm.imagen).pipe(
+        takeUntil(this.destroy$),
+        concatMap((result) => {
+          return this.gService.update('material', valorForm).pipe(
+            takeUntil(this.destroy$),
+            concatMap((data) => {
+              valorForm.imagen = imagename;
+
+              console.log(data);
+              this.cargando = false;
+              this.respMaterial = data;
+              this.noti.mensajeRedirect(
+                'Actualizar Material',
+                `Material actualizado "${data.nombre}"`,
+                TipoMessage.success,
+                '/material/all'
               );
-          })
-        );
+              return EMPTY;
+            })
+          );
+        })
+      );
 
       update$.subscribe(() => {
         this.router.navigate(['/material/all']);
@@ -251,18 +223,27 @@ export class MaterialFormComponent implements OnInit {
   }
 
   private createFileName(materialName: string, fileName: string) {
-    let split: string[]= fileName.split('.');
+    let split: string[] = fileName.split('.');
 
-    let extension: string = split[split.length-1];
-    
-    return `material_${materialName}.${extension}`;
+    let extension: string = split[split.length - 1];
+
+    return `material_${materialName}.${extension}`.toUpperCase();
   }
 
-  onImagenSeleccionada() {
-    let imagen: File = this.materialForm.value.imagen;
+  onImagenSeleccionada(event: any) {
+    this.imagen = event.target.files[0];
+
+    if (this.imagen) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        // e.target.result contiene la URL de la imagen
+        let eve = e.target.result;
+      };
+      reader.readAsDataURL(this.imagen); // Esto lee el archivo como una URL base64
+    }
 
     const reader = new FileReader();
-    reader.readAsDataURL(imagen);
+    reader.readAsDataURL(this.imagen);
     reader.onload = () => {
       console.log(reader.result as string);
       this.imagenBase64 = reader.result as string;

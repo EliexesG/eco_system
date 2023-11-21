@@ -13,9 +13,6 @@ import { MaterialModule } from './material/material.module';
 import { ToastrModule } from 'ngx-toastr';
 import { CuponModule } from './cupon/cupon.module';
 import { CanjeoMaterialesModule } from './canjeo-materiales/canjeo-materiales.module';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,8 +20,6 @@ import { environment } from 'src/environments/environment';
     BrowserModule,
     ToastrModule.forRoot(),
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireStorageModule,
     BrowserAnimationsModule,
     CoreModule,
     ShareModule,

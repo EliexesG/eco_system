@@ -14,7 +14,6 @@ import {
   NotificacionService,
   TipoMessage,
 } from 'src/app/share/services/notification.service';
-import { FireBaseStorageService } from 'src/app/share/services/fire-base-storage.service';
 
 @Component({
   selector: 'app-cupon-form',
@@ -52,7 +51,6 @@ export class CuponFormComponent implements OnInit {
     private router: Router,
     private activeRouter: ActivatedRoute,
     private noti: NotificacionService,
-    private fbService: FireBaseStorageService
   ) {
     this.formularioReactive();
   }
@@ -79,7 +77,9 @@ export class CuponFormComponent implements OnInit {
               monedasCupon: this.cuponInfo.monedasCupon,
               imagen: '',
             });
-
+            
+            return EMPTY;
+            /*
             return this.fbService.getMetadata(this.cuponInfo.imagen).pipe(
               takeUntil(this.destroy$),
               concatMap(async (metadata) => {
@@ -95,6 +95,7 @@ export class CuponFormComponent implements OnInit {
                 return EMPTY;
               })
             );
+            */
           })
         );
         getCuponData$.subscribe();
@@ -141,6 +142,7 @@ export class CuponFormComponent implements OnInit {
     if (this.cuponForm.invalid) return;
     let valorForm = this.cuponForm.value;
 
+    /*
     if (this.isCreate) {
       this.cargando = true;
       let create$ = this.fbService
@@ -235,6 +237,7 @@ export class CuponFormComponent implements OnInit {
         this.router.navigate(['/cupon/all']);
       });
     }
+    */
   }
 
   private createFileName(materialName: string, fileName: string) {

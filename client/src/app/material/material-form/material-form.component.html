@@ -103,19 +103,18 @@
         </div>
         <div class="row">
           <div class="col">
-            <mat-form-field class="full-width">
-              <ngx-mat-file-input
+              <input
                 formControlName="imagen"
+                type="file"
                 accept=".png, .jpg, .jpeg"
                 [multiple]="false"
                 placeholder="Escoje una Imagen"
                 style="height: 20px"
-                (change)="onImagenSeleccionada()"
-              ></ngx-mat-file-input>
+                (change)="onImagenSeleccionada($event)"
+              />
               <mat-error *ngIf="errorHandling('imagen', 'required')">
                 La Imagen es <strong>requerida</strong>
               </mat-error>
-            </mat-form-field>
           </div>
         </div>
       </mat-card-content>
@@ -140,10 +139,9 @@
       </mat-card-actions>
     </mat-card>
     <mat-card class="full-width" id="imagenPreview">
-
-        <h3 class="mat-h3">Imagen Seleccionada</h3>
-        <img *ngIf="imagenBase64" src="{{ imagenBase64 }}" alt="imagen" />
-        <mat-icon *ngIf="!imagenBase64">?</mat-icon>
+      <h3 class="mat-h3">Imagen Seleccionada</h3>
+      <img *ngIf="imagenBase64" src="{{ imagenBase64 }}" alt="imagen" />
+      <mat-icon *ngIf="!imagenBase64">?</mat-icon>
     </mat-card>
   </div>
 </form>
