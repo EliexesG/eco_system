@@ -34,7 +34,6 @@ export class MaterialFormComponent implements OnInit {
   ];
   colores: { codColor: string }[];
   imagen: File;
-  imagenBase64: string;
 
   constructor(
     private fb: FormBuilder,
@@ -70,32 +69,18 @@ export class MaterialFormComponent implements OnInit {
                 descripcion: this.materialInfo.descripcion,
                 unidadMedida: this.materialInfo.unidadMedida,
                 monedasUnidad: this.materialInfo.monedasUnidad,
-                imagen: '',
               });
 
-              return EMPTY;
-              /*
-              return this.fbService.getMetadata(this.materialInfo.imagen).pipe(
-                takeUntil(this.destroy$),
-                concatMap(async (metadata) => {
+              return this.iService
+                .getImage({ filename: this.materialInfo.imagen })
+                .pipe(
+                  takeUntil(this.destroy$),
+                  concatMap((base64: any) => {
+                    this.imagen = this.dataURItoBlob(base64.base64) as File;
 
-                  const promesaArchivo = await fetch(this.materialInfo.imagen);
-                  const archivo = await promesaArchivo.blob();
-                  const file = new File(
-                    [archivo],
-                    metadata.name,
-                    {
-                      type: metadata.contentType,
-                    }
-                  );   
-
-                  this.materialForm.get('imagen').setValue(file);
-                  this.imagenPrevia = metadata;
-                  this.onImagenSeleccionada();
-                  return EMPTY;
-                })
-              );
-              */
+                    return EMPTY;
+                  })
+                );
             })
           );
 
@@ -123,7 +108,6 @@ export class MaterialFormComponent implements OnInit {
           Validators.maxLength(30),
         ]),
       ],
-      imagen: [null, Validators.required],
       descripcion: [
         null,
         Validators.compose([
@@ -152,11 +136,22 @@ export class MaterialFormComponent implements OnInit {
     this.submitted = true;
 
     if (this.materialForm.invalid) return;
+    if (!this.imagen) {
+      this.noti.mensaje(
+        'Cuidado',
+        'Debe seleccionar una imagen',
+        TipoMessage.warning
+      );
+      return;
+    }
 
     let valorForm = this.materialForm.value;
 
     let imagename = this.createFileName(valorForm.nombre, this.imagen.name);
 
+    console.log(valorForm, imagename, this.imagen);
+
+    /*
     var imageForm = new FormData();
     imageForm.append('image', this.imagen, imagename);
 
@@ -219,7 +214,10 @@ export class MaterialFormComponent implements OnInit {
       update$.subscribe(() => {
         this.router.navigate(['/material/all']);
       });
+
+      
     }
+    */
   }
 
   private createFileName(materialName: string, fileName: string) {
@@ -230,24 +228,9 @@ export class MaterialFormComponent implements OnInit {
     return `material_${materialName}.${extension}`.toUpperCase();
   }
 
-  onImagenSeleccionada(event: any) {
-    this.imagen = event.target.files[0];
-
-    if (this.imagen) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        // e.target.result contiene la URL de la imagen
-        let eve = e.target.result;
-      };
-      reader.readAsDataURL(this.imagen); // Esto lee el archivo como una URL base64
-    }
-
-    const reader = new FileReader();
-    reader.readAsDataURL(this.imagen);
-    reader.onload = () => {
-      console.log(reader.result as string);
-      this.imagenBase64 = reader.result as string;
-    };
+  onImagenSelect(event: any) {
+    console.log(event);
+    this.imagen = event.addedFiles[0];
   }
 
   onChangeColor(): void {
@@ -271,6 +254,29 @@ export class MaterialFormComponent implements OnInit {
       );
       this.materialForm.get('codColor').setValue('');
     }
+  }
+
+  dataURItoBlob(dataURI) {
+    var fileName = dataURI
+      .split(',')[0]
+      .split(';')[0]
+      .split(':')[1]
+      .replace('image/', '.')
+      .toLowerCase();
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0) {
+      byteString = atob(dataURI.split(',')[1]);
+    } else {
+      byteString = unescape(dataURI.split(',')[1]);
+    }
+
+    // Write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new File([ia], fileName, { type: fileName });
   }
 
   onReset(): void {

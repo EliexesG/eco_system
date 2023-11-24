@@ -18,4 +18,12 @@ export class ImageService {
       imageForm
     );
   }
+
+  getImage(filename:any): Observable<any> {
+
+    return this.http.post<any | any[]>(
+      this.urlAPI + 'image/getimage',
+      filename
+    );
+  }
 }

@@ -28,45 +28,21 @@ module.exports.uploadImage = (request, response, next) => {
 module.exports.getImage = async (request, response, next) => {
   try {
 
-    // const { Name,Ext } = req.body;
-    const { fileName } = request.body;
-    const split = fileName.split(".");
+    const filename = request.body.filename;
+    const split = filename.split(".");
     const content_type = split[split.length - 1];
 
     const filePath = path.resolve(
       __dirname,
-      `../public/image/${fileName}`
+      `../public/image/${filename}`
     );
+
     var inicio = `data:image/${content_type};base64, `;
+    
+    let base64 = fs.readFileSync(filePath, {encoding: 'base64'});
 
-    fs.access(filePath, fs.constants.F_OK, (err) => {
-      if (err) {
-        response.StatusCode = HttpStatus.NOT_FOUND;
-        response.Message = "Archivo no encontrado";
-        return response.status(HttpStatus.NOT_FOUND).json(response);
-      }
+    response.json({status: 200, base64: `${inicio}${base64}`});;
 
-      const file = fs.createReadStream(filePath);
-
-      let fileData = Buffer.from("");
-      file.on("data", (chunk) => {
-        fileData = Buffer.concat([fileData, chunk]);
-      });
-
-      file.on("end", () => {
-        response.StatusCode = HttpStatus.OK;
-        response.Message = "Archivo encontrado";
-        response.Data = fileData.toString("base64");
-
-        response.setHeader("Content-Type", "application/octet-stream");
-        response.setHeader(
-          "Content-Disposition",
-          `attachment; filename=${fileName}`
-        );
-
-        response.json(`${inicio}${response.toString()}`);
-      });
-    });
   } catch (error) {
     response.json({ status: 500, mensaje: "Error del servidor" + error });
   }

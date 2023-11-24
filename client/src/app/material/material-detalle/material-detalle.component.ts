@@ -3,6 +3,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/services/generic.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { ImageService } from 'src/app/share/services/image.service';
 
 @Component({
   selector: 'app-material-detalle',
@@ -16,7 +17,8 @@ export class MaterialDetalleComponent {
   constructor(
     private gService: GenericService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private iService: ImageService
   ) {
     let id = this.route.snapshot.paramMap.get('id');
     if (!isNaN(Number(id))) {
@@ -30,12 +32,16 @@ export class MaterialDetalleComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe((response: any) => {
         console.log(response);
-
-        if(!response) {
-          this.redirigirError();
-        }
-
-        this.datos = response;
+        this.iService
+          .getImage({ filename: response.imagen })
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((base64) => {
+            if (!response) {
+              this.redirigirError();
+            }
+            response.base64 = base64.base64;
+            this.datos = response;
+          });
       });
   }
 

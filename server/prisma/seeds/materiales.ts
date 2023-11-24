@@ -1,7 +1,7 @@
 export const materiales= [
     { //1
         nombre: "Papel y Cartón",
-        imagen: "https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2Fmateriales%2FPapel%20y%20carton.png?alt=media&token=f9fe99ab-c4a3-4c73-a258-ae908b2c6633&_gl=1*19rdgkv*_ga*MjAwOTUzNjQ3MS4xNjk2Mzg1Njk1*_ga_CW55HF8NVT*MTY5NjM4NTY5NC4xLjEuMTY5NjM4NzkxMi42MC4wLjA.",
+        imagen: "material_Papel y carton.png",
         codColor: "#A1887F",
         descripcion: "Residuos de papel y cartón que se pueden reutilizar para fabricar nuevos productos. El papel y el cartón se componen principalmente de celulosa, una sustancia que se obtiene de la madera de los árboles. Al reciclar el papel y el cartón, se evita la tala de muchos árboles y se ahorran recursos como el agua, el petróleo y la energía. Además, se reduce la emisión de gases de efecto invernadero como el CO2, que contribuyen al calentamiento global.",
         unidadMedida: "kilogramo",
@@ -9,7 +9,7 @@ export const materiales= [
     },
     { //2
         nombre: "Plástico",
-        imagen: "https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2Fmateriales%2FPlastico.png?alt=media&token=1dd865b9-b44d-4f75-966c-b371b127aee9&_gl=1*188a3mc*_ga*MjAwOTUzNjQ3MS4xNjk2Mzg1Njk1*_ga_CW55HF8NVT*MTY5NjM4NTY5NC4xLjEuMTY5NjM4NzkzNi4zNi4wLjA.",
+        imagen: "material_Plastico.png",
         codColor: "#B2DFDB",
         descripcion: "El plástico es un material sintético que se puede moldear en diferentes formas y que tiene muchas aplicaciones en la industria, la medicina, la construcción, el transporte y la vida cotidiana. Sin embargo, el plástico también tiene un gran impacto negativo en el medio ambiente, ya que tarda mucho tiempo en degradarse y contamina el suelo, el agua y el aire. Por eso, es importante reciclar el plástico para reducir su consumo y aprovechar sus propiedades.",
         unidadMedida: "kilogramo",
@@ -17,7 +17,7 @@ export const materiales= [
     },
     { //3
         nombre: "Telas y Textiles",
-        imagen: "https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2Fmateriales%2Ftelas%20y%20textiles.jpg?alt=media&token=3d3fe7eb-b025-4eea-8148-23e6b3449521&_gl=1*1uumq15*_ga*MjAwOTUzNjQ3MS4xNjk2Mzg1Njk1*_ga_CW55HF8NVT*MTY5NjM4NTY5NC4xLjEuMTY5NjM4Nzk2OC40LjAuMA..",
+        imagen: "material_Telas y Textiles.jpg",
         codColor: "#EDED5D",
         descripcion: "Telas y textiles son materiales que se usan para fabricar ropa, cortinas, tapices, alfombras y otros productos. Estos materiales pueden ser de origen natural, como el algodón, la lana, la seda o el lino, o de origen sintético, como el poliéster, el nylon o el acrílico. El reciclaje de telas y textiles es una forma de aprovechar los residuos de estos materiales y transformarlos en nuevos productos o materias primas.",
         unidadMedida: "kilogramo",
@@ -25,7 +25,7 @@ export const materiales= [
     },
     { //4
         nombre: "Vidrio",
-        imagen: "https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2Fmateriales%2Fvidrio.jpg?alt=media&token=49664e58-6106-4bc2-a71d-f9324d3d7dc4&_gl=1*15ojn7y*_ga*MjAwOTUzNjQ3MS4xNjk2Mzg1Njk1*_ga_CW55HF8NVT*MTY5NjM4NTY5NC4xLjEuMTY5NjM4Nzk5Mi42MC4wLjA.",
+        imagen: "material_vidrio.jpg",
         codColor: "#9CEDF1",
         descripcion: "El vidrio es un material que se puede reciclar muchas veces sin perder su pureza o calidad. El reciclaje del vidrio consiste en recuperar los envases de vidrio usados y transformarlos en nuevos productos o materias primas. El reciclaje del vidrio tiene muchos beneficios para el medio ambiente y la economía,",
         unidadMedida: "kilogramo",
@@ -33,7 +33,7 @@ export const materiales= [
     },
     { //5
         nombre: "Chatarra y Metales",
-        imagen: "https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2Fmateriales%2FChatarra%20y%20metales.png?alt=media&token=f04c6856-d761-40ec-912d-8c48e5102a2a&_gl=1*epwfyd*_ga*MjAwOTUzNjQ3MS4xNjk2Mzg1Njk1*_ga_CW55HF8NVT*MTY5NjM4NTY5NC4xLjEuMTY5NjM4Nzg3OC4zMy4wLjA.",
+        imagen: "material_Chatarra y metales.png",
         codColor: "#F9A825",
         descripcion: "El vidrio es un material que se puede reciclar muchas veces sin perder su pureza o calidad. El reciclaje del vidrio consiste en recuperar los envases de vidrio usados y transformarlos en nuevos productos o materias primas. El reciclaje del vidrio tiene muchos beneficios para el medio ambiente y la economía, el proceso de reciclaje de la chatarra y los metales varía según el tipo de material.",
         unidadMedida: "kilogramo",
@@ -41,7 +41,7 @@ export const materiales= [
     },
     { //6
         nombre: "Aparatos Eléctricos y Electrónicos",
-        imagen: "https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2Fmateriales%2Faparatoselectronicos.png?alt=media&token=f5cd3efd-4759-41b8-a84c-dbbd422d2910&_gl=1*18",
+        imagen: "material_aparatos electricos y electronicos.jpg",
         codColor: "#303F9F",
         descripcion: "Los aparatos eléctricos y electrónicos son aquellos que funcionan con electricidad o baterías y que tienen componentes electrónicos, como circuitos, chips, pantallas, etc. Estos aparatos pueden ser desde ordenadores, teléfonos móviles, televisores, cámaras, hasta electrodomésticos, juguetes, herramientas o instrumentos musicales, además, el reciclaje de los aparatos eléctricos y electrónicos es muy importante para el medio ambiente y la economía, ya que estos aparatos contienen materiales valiosos que se pueden recuperar y reutilizar, como metales, plásticos, vidrio o fibra óptica.",
         unidadMedida: "kilogramo",

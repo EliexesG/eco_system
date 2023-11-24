@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/services/generic.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ImageService } from 'src/app/share/services/image.service';
 
 @Component({
   selector: 'app-material-diag',
@@ -16,7 +17,8 @@ export class MaterialDiagComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     private gService: GenericService,
-    private dialogRef: MatDialogRef<MaterialDiagComponent>
+    private dialogRef: MatDialogRef<MaterialDiagComponent>,
+    private iService: ImageService
   ) {
     this.datosDialog = data;
   }
@@ -32,8 +34,13 @@ export class MaterialDiagComponent implements OnInit {
       .get('material', id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((response: any) => {
-        console.log(response);
-        this.datos = response;
+        this.iService
+          .getImage({ filename: response.imagen })
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((base64) => {
+            response.base64 = base64.base64;
+            this.datos = response;
+          });
       });
   }
 
