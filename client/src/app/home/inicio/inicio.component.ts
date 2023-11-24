@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/services/generic.service';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+import { ImageService } from 'src/app/share/services/image.service';
 
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.component.html',
-  styleUrls: ['./inicio.component.css']
+  styleUrls: ['./inicio.component.css'],
 })
 export class InicioComponent {
   datos: any;
@@ -15,22 +14,33 @@ export class InicioComponent {
 
   constructor(
     private gService: GenericService,
-    private router: Router,
-    private route: ActivatedRoute
+    private iService: ImageService
   ) {
     this.listarMateriales();
   }
 
-  
-
   listarMateriales() {
-    this.gService
-      .list('material')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((response: any) => {
-        console.log(response);
-        this.datos = response;
-      });
+    
+    let materiales$ = this.gService.list('material').pipe(
+      takeUntil(this.destroy$),
+      switchMap((materiales: any) => {
+        materiales.map((material: any) => {
+          this.iService
+            .getImage({filename: material.imagen})
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((base64) => {
+              console.log(base64)
+              material.base64 = base64.base64;
+            });
+        });
+
+        this.datos = materiales;
+
+        return EMPTY;
+      })
+    );
+
+    materiales$.subscribe();
   }
 
   ngOnDestroy() {

@@ -15,13 +15,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-module.exports.upload = upload.single("image");
+module.exports.upload = upload.single("imagen");
 
 module.exports.uploadImage = (request, response, next) => {
   try {
-    response.json({ status: 200, mensaje: "Imagen subida" });
+    response.json({ error: false, status: 200, mensaje: "Imagen subida" });
   } catch (e) {
-    response.json({ status: 500, mensaje: "Error al subir imagen" });
+    response.json({ error: true, status: 500, mensaje: "Error al subir imagen" });
   }
 };
 

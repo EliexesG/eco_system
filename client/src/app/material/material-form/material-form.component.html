@@ -123,10 +123,10 @@
       </mat-card-actions>
     </mat-card>
     <mat-card id="dropzone">
+        <h3 class="mat-h3">Imagen</h3>
         <ngx-dropzone accept="image/jpeg,image/jpg,image/png,image/gif" class="full-width full-height" [multiple]="false" (change)="onImagenSelect($event)">
-          <ngx-dropzone-label>Imagen</ngx-dropzone-label>
+          <ngx-dropzone-label>Arrastra y Suelta!</ngx-dropzone-label>
           <ngx-dropzone-image-preview class="full-width full-height" ngProjectAs="ngx-dropzone-preview" *ngIf="imagen" [file]="imagen">
-            <ngx-dropzone-label>{{ imagen.name }} ({{ imagen.type }})</ngx-dropzone-label>
           </ngx-dropzone-image-preview>
         </ngx-dropzone>
     </mat-card>
