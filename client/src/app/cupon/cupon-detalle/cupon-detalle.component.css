@@ -1,0 +1,71 @@
+.imagen {
+  background-color: aqua;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.mat-h1 {
+  border-radius: 15px;
+  padding: 10px;
+  width: max-content;
+  position: relative;
+  margin: 15px auto;
+  color: white;
+}
+
+.mat-h4 {
+  display: flex;
+  align-items: center;
+}
+
+.boton {
+  color: white;
+  font-weight: bold;
+  font-size: larger;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
+  width: 100%;
+  transition: all 0.2s cubic-bezier(0.25, 0.4, 0.45, 1.4);
+}
+
+.boton:hover {
+  filter: brightness(90%);
+}
+
+#info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 15px;
+}
+
+.categoria,
+.Comienza,
+.Finaliza {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: -15px;
+}
+
+.monedas {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: -15px;
+}
+
+.categoria h4,
+.Comienza h4,
+.Finaliza h4 {
+  margin-right: 5px;
+}
+
+.descripcion p {
+  margin-top: -15px;
+  text-align: justify;
+}

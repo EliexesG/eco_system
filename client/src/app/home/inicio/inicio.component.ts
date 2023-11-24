@@ -34,7 +34,7 @@ export class InicioComponent {
             });
         });
 
-        this.datos = materiales;
+        this.datos = materiales.slice(0, 6);
 
         return EMPTY;
       })

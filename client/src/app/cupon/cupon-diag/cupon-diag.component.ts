@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/services/generic.service';
+import { ImageService } from 'src/app/share/services/image.service';
 
 @Component({
   selector: 'app-cupon-diag',
@@ -19,7 +20,8 @@ export class CuponDiagComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     private dialogRef: MatDialogRef<CuponDiagComponent>,
-    private gService: GenericService
+    private gService: GenericService,
+    private iService: ImageService
   ) {
     this.datosDialog = data;
   }
@@ -29,14 +31,23 @@ export class CuponDiagComponent implements OnInit {
       this.obtenerCupon(this.datosDialog.id);
     }
   }
+  
   obtenerCupon(id: number) {
     this.gService
       .get('cupon', id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
+        this.iService
+          .getImage({ filename: data.imagen })
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((base64: any) => {
+            data.base64 = base64.base64;
+          });
+
         this.datos = data;
       });
   }
+
   close() {
     //Dentro de close ()
     //this.form.value

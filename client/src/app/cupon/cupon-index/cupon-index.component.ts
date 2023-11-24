@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Subject, takeUntil } from 'rxjs';
+import { EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/services/generic.service';
 import { CuponDiagComponent } from '../cupon-diag/cupon-diag.component';
+import { ImageService } from 'src/app/share/services/image.service';
 
 @Component({
   selector: 'app-cupon-index',
@@ -10,58 +11,57 @@ import { CuponDiagComponent } from '../cupon-diag/cupon-diag.component';
   styleUrls: ['./cupon-index.component.css'],
 })
 export class CuponIndexComponent {
-  datos: any; //Respuesta del API
+  datos: any;
+  datosShow: any;
+  categorias: any[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private gService: GenericService, private dialog: MatDialog) {
+  constructor(
+    private gService: GenericService,
+    private dialog: MatDialog,
+    private iService: ImageService
+  ) {
     this.listarCentrosAcopio();
   }
 
-  sortCupones(data: any) {
-    return data.sort((a, b) => {
-      const categoriaA = a.categoria.toUpperCase();
-      const categoriaB = b.categoria.toUpperCase();
-      if (categoriaA < categoriaB) {
-        return -1;
-      }
-      if (categoriaA > categoriaB) {
-        return 1;
-      }
-      return 0;
-    });
-  }
-
   listarCentrosAcopio() {
-    //Solicitud al API para listar todos los centro de acopio
-    //localhost:3000/centrosacopio
-    this.gService
-      .list('cupon/validos')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((response: any) => {
-        console.log(response);
-
-        let data: Array<{ categoria: string; cupones: any }> = [];
-        let usedCategorias: Array<string> = [];
-
-        response.forEach((cupon: any) => {
-          if (!usedCategorias.includes(cupon.categoria)) {
-            usedCategorias.push(cupon.categoria);
-            let cupones = response.filter(
-              (element: any) => element.categoria === cupon.categoria
-            );
-            data.push({
-              categoria: cupon.categoria.toLowerCase(),
-              cupones: cupones,
+    let cupones$ = this.gService.list('cupon/validos').pipe(
+      takeUntil(this.destroy$),
+      switchMap((cupones: any) => {
+        cupones.map((cupon: any) => {
+          this.iService
+            .getImage({ filename: cupon.imagen })
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((base64) => {
+              cupon.base64 = base64.base64;
             });
-          }
         });
 
-        data = this.sortCupones(data);
+        this.datos = cupones;
+        this.datosShow = { categoria: 'TODOS', cupones: cupones };
+        this.categorias = [
+          ...new Set(cupones.map((cupon: any) => cupon.categoria)),
+        ];
+        console.log(this.categorias);
 
-        console.log(data);
+        return EMPTY;
+      })
+    );
 
-        this.datos = data;
-      });
+    cupones$.subscribe();
+  }
+
+  onCategoriaChange(event) {
+    
+    this.datosShow.categoria = event;
+
+    if(event === "TODOS") {
+      this.datosShow.cupones = this.datos;
+    }
+    else {
+      this.datosShow.cupones = this.datos.filter((cupon: any) => cupon.categoria === event);
+    }
+
   }
 
   detalleCupon(id: number) {

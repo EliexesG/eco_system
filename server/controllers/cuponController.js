@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const { categoriaCupon } = require("@prisma/client");
 
 //Obtener listado
 module.exports.get = async (request, response, next) => {
@@ -137,11 +138,13 @@ module.exports.create = async (request, response, next) => {
       },
     });
 
-    response.json(newCupon);
+    response.json({ error: false, response: newCupon, status: 200 });
   } catch (e) {
-    response.json(
-      "Ocurrió un error, contacte al administrador: \n" + e.message
-    );
+    response.json({
+      error: true,
+      response: "Ocurrió un error, contacte al administrador: \n" + e.message,
+      status: 400,
+    });
   }
 };
 
@@ -151,7 +154,7 @@ module.exports.update = async (request, response, next) => {
     let cupon = request.body;
     let idCupon = parseInt(request.params.id);
 
-    const newCupon = await prisma.cupon.update({
+    const cuponUpdated = await prisma.cupon.update({
       where: {
         id: idCupon,
       },
@@ -166,10 +169,27 @@ module.exports.update = async (request, response, next) => {
       },
     });
 
-    response.json(newCupon);
+    response.json({ error: false, response: cuponUpdated, status: 200 });
+  } catch (e) {
+    response.json({
+      error: true,
+      response: "Ocurrió un error, contacte al administrador: \n" + e.message,
+      status: 400,
+    });
+  }
+};
+
+//Obtener Categorias
+module.exports.getCategorias = (request, response, next) => {
+  try {
+    
+    let categorias = Object.values(categoriaCupon);
+
+    response.json(categorias); 
+
   } catch (e) {
     response.json(
       "Ocurrió un error, contacte al administrador: \n" + e.message
     );
   }
-};
+}
