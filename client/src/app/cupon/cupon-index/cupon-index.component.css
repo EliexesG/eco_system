@@ -65,19 +65,20 @@ mat-card-footer {
   justify-content: center;
 }
 
-.mat-h2 {
-  position: relative;
-  margin: 10px auto;
+.mat-h2-container {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around !important;
+
+}
+
+.title {
+  margin: 10px auto !;
   border-radius: 15px;
   padding: 15px;
   color: white;
   width: max-content;
-}
-
-.mat-h2-container {
-  margin-bottom: 15px;
-}
-
-.categoria {
-  margin: 25px auto;
+  margin-right: 10px;
 }
