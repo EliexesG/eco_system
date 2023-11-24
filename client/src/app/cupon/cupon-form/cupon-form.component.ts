@@ -1,19 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import {
-  EMPTY,
-  Subject,
-  concatMap,
-  filter,
-  switchMap,
-  takeUntil
-} from 'rxjs';
+import { EMPTY, Subject, concatMap, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/services/generic.service';
+import { ImageService } from 'src/app/share/services/image.service';
 import {
   NotificacionService,
   TipoMessage,
 } from 'src/app/share/services/notification.service';
+import { dataURItoBlob, createFileName } from 'src/app/share/utils/fileUtils';
 
 @Component({
   selector: 'app-cupon-form',
@@ -23,7 +18,6 @@ import {
 export class CuponFormComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   titleForm: string = 'Crear';
-  categoriaList: any;
   cuponInfo: any;
   respCupon: any;
   submitted = false;
@@ -32,31 +26,31 @@ export class CuponFormComponent implements OnInit {
   isCreate: boolean = true;
   numRegex = /^[0-9]+$/;
   cargando: boolean = false;
-  listaCategorias: string[] = [
-    'ALIMENTOS',
-    'EDUCACION',
-    'HOGAR',
-    'JARDINERIA',
-    'ROPA',
-    'TRANSPORTE',
-    'TURISMO',
-    'VARIOS',
-  ];
-  imagenPrevia: any;
-  imagenBase64: string;
+  listaCategorias: string[];
+  imagen: File;
 
   constructor(
     private fb: FormBuilder,
     private gService: GenericService,
+    private iService: ImageService,
     private router: Router,
     private activeRouter: ActivatedRoute,
-    private noti: NotificacionService,
+    private noti: NotificacionService
   ) {
     this.formularioReactive();
   }
   ngOnInit(): void {
+    let categoriasData$ = this.gService
+      .list('cupon/categorias')
+      .pipe(takeUntil(this.destroy$));
+    categoriasData$.subscribe((categorias) => {
+      console.log(categorias);
+      this.listaCategorias = categorias;
+    });
+
     this.activeRouter.params.subscribe((params: Params) => {
       this.idCupon = params['id'];
+
       if (this.idCupon && !isNaN(Number(this.idCupon))) {
         this.isCreate = false;
         this.titleForm = 'Actualizar';
@@ -75,33 +69,23 @@ export class CuponFormComponent implements OnInit {
               fechaInicio: this.cuponInfo.fechaInicio,
               fechaFin: this.cuponInfo.fechaFin,
               monedasCupon: this.cuponInfo.monedasCupon,
-              imagen: '',
             });
-            
-            return EMPTY;
-            /*
-            return this.fbService.getMetadata(this.cuponInfo.imagen).pipe(
-              takeUntil(this.destroy$),
-              concatMap(async (metadata) => {
-                const promesaArchivo = await fetch(this.cuponInfo.imagen);
-                const archivo = await promesaArchivo.blob();
-                const file = new File([archivo], metadata.name, {
-                  type: metadata.contentType,
-                });
 
-                this.cuponForm.get('imagen').setValue(file);
-                this.imagenPrevia = metadata;
-                this.onImagenSeleccionada();
-                return EMPTY;
-              })
-            );
-            */
+            return this.iService
+              .getImage({ filename: this.cuponInfo.imagen })
+              .pipe(
+                takeUntil(this.destroy$),
+                concatMap((base64: any) => {
+                  this.imagen = dataURItoBlob(base64.base64) as File;
+
+                  return EMPTY;
+                })
+              );
           })
         );
+
         getCuponData$.subscribe();
       }
-
-      this.gService.list('cupon/');
     });
   }
 
@@ -110,11 +94,16 @@ export class CuponFormComponent implements OnInit {
       id: [null, null],
       nombre: [
         null,
-        Validators.compose([Validators.required, Validators.minLength(3)]),
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(50),
+        ]),
       ],
       descripcion: [
         null,
         Validators.compose([
+          Validators.required,
           Validators.maxLength(500),
           Validators.minLength(20),
         ]),
@@ -126,7 +115,6 @@ export class CuponFormComponent implements OnInit {
           Validators.pattern(this.numRegex),
         ]),
       ],
-      imagen: [null, Validators.required],
       categoria: [null, Validators.required],
       fechaInicio: [null, Validators.required],
       fechaFin: [null, Validators.required],
@@ -139,137 +127,145 @@ export class CuponFormComponent implements OnInit {
 
   submitCupon(): void {
     this.submitted = true;
-    if (this.cuponForm.invalid) return;
-    let valorForm = this.cuponForm.value;
 
-    /*
+    if (this.cuponForm.invalid) return;
+    if (!this.imagen) {
+      this.noti.mensaje(
+        'Cuidado',
+        'Debe seleccionar una imagen',
+        TipoMessage.warning
+      );
+      return;
+    }
+
+    let formValues = this.cuponForm.value;
+    let fileName = createFileName(formValues.nombre, this.imagen.name, 'cupon');
+
+    var imageToForm = new FormData();
+    imageToForm.append('imagen', this.imagen, fileName);
+    console.log(formValues)
+
     if (this.isCreate) {
       this.cargando = true;
-      let create$ = this.fbService
-        .uploadArchivoImagen(
-          this.createFileName(valorForm.nombre, valorForm.imagen.name),
-          valorForm.imagen,
-          'cupones'
-        )
-        .percentageChanges()
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((porcentaje: number) => porcentaje == 100),
-          switchMap((_) => {
-            return this.fbService
-              .getURLArchivoImagen(
-                this.createFileName(valorForm.nombre, valorForm.imagen.name),
-                'cupones'
-              )
-              .pipe(
-                takeUntil(this.destroy$),
-                concatMap((url: string) => {
-                  valorForm.imagen = url;
-                  return this.gService.create('cupon/', valorForm).pipe(
-                    takeUntil(this.destroy$),
-                    concatMap((data) => {
-                      console.log(data);
-                      this.cargando = false;
-                      this.respCupon = data;
-                      this.noti.mensajeRedirect(
-                        'Crear cupón',
-                        `Cupón creado "${data.nombre}"`,
-                        TipoMessage.success,
-                        '/cupon/all'
-                      );
-                      return EMPTY;
-                    })
-                  );
-                })
-              );
-          })
-        );
 
-      create$.subscribe(() => {
-        this.router.navigate(['/cupon/all']);
-      });
+      let create$ = this.iService.uploadImage(imageToForm).pipe(
+        takeUntil(this.destroy$),
+        concatMap((result) => {
+          formValues.imagen = fileName;
+
+
+          if (!result.error) {
+            return this.gService.create('cupon', formValues).pipe(
+              takeUntil(this.destroy$),
+              concatMap((data) => {
+                this.cargando = false;
+
+                if (!data.error) {
+                  this.respCupon = data;
+
+                  //refreshing form
+                  this.onReset();
+
+                  this.noti.mensajeRedirect(
+                    'Crear Cupon',
+                    `Cupon creado "${data.response.nombre}"`,
+                    TipoMessage.success,
+                    '/cupon/all'
+                  );
+                } else {
+                  this.noti.mensaje(
+                    'Error',
+                    'Error al guardar cupon',
+                    TipoMessage.error
+                  );
+                }
+
+                return EMPTY;
+              })
+            );
+          } else {
+            this.noti.mensaje(
+              'Error',
+              'Error al guardar imagen',
+              TipoMessage.error
+            );
+            return EMPTY;
+          }
+        })
+      );
+
+      create$.subscribe();
     } else {
       this.cargando = true;
 
-      let update$ = this.fbService
-        .uploadArchivoImagen(
-          this.createFileName(valorForm.nombre, valorForm.imagen.name),
-          valorForm.imagen,
-          'cupones'
-        )
-        .percentageChanges()
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((porcentaje: number) => porcentaje == 100),
-          switchMap((_) => {
-            console.log(_);
-            return this.fbService
-              .getURLArchivoImagen(
-                this.createFileName(valorForm.nombre, valorForm.imagen.name),
-                'cupones'
-              )
-              .pipe(
-                takeUntil(this.destroy$),
-                concatMap((url: string) => {
-                  console.log(url);
-                  valorForm.imagen = url;
-                  return this.gService.update('cupon', valorForm).pipe(
-                    takeUntil(this.destroy$),
-                    concatMap((data) => {
-                      console.log(data);
-                      this.cargando = false;
-                      this.respCupon = data;
-                      this.noti.mensajeRedirect(
-                        'Actualizar cupón',
-                        `Cupón actualizado "${data.nombre}"`,
-                        TipoMessage.success,
-                        '/cupon/all'
-                      );
-                      return EMPTY;
-                    })
+      let update$ = this.iService.uploadImage(imageToForm).pipe(
+        takeUntil(this.destroy$),
+        concatMap((result) => {
+          formValues.imagen = fileName;
+
+          if (!result.error) {
+            return this.gService.update('cupon', formValues).pipe(
+              takeUntil(this.destroy$),
+              concatMap((data) => {
+                this.cargando = false;
+
+                if (!data.error) {
+                  this.respCupon = data;
+
+                  //refreshing form
+                  this.onReset();
+
+                  this.noti.mensajeRedirect(
+                    'Actualizar Cupon',
+                    `Cupon actualizado "${data.response.nombre}"`,
+                    TipoMessage.success,
+                    '/cupon/all'
                   );
-                })
-              );
-          })
-        );
+                } else {
+                  console.log(data.response)
+                  this.noti.mensaje(
+                    'Error',
+                    'Error al actualizar cupon',
+                    TipoMessage.error
+                  );
+                }
+
+                return EMPTY;
+              })
+            );
+          } else {
+            this.noti.mensaje(
+              'Error',
+              'Error al actualizar imagen',
+              TipoMessage.error
+            );
+            return EMPTY;
+          }
+        })
+      );
 
       update$.subscribe(() => {
         this.router.navigate(['/cupon/all']);
       });
     }
-    */
   }
 
-  private createFileName(materialName: string, fileName: string) {
-    let split: string[] = fileName.split('.');
-
-    let extension: string = split[split.length - 1];
-
-    return `cupon_${materialName}.${extension}`;
-  }
-
-  onImagenSeleccionada() {
-    let imagen: File = this.cuponForm.value.imagen;
-
-    const reader = new FileReader();
-    reader.readAsDataURL(imagen);
-    reader.onload = () => {
-      console.log(reader.result as string);
-      this.imagenBase64 = reader.result as string;
-    };
+  onImagenSelect(event: any) {
+    this.imagen = event.addedFiles[0];
   }
 
   onReset() {
     this.submitted = false;
     this.cuponForm.reset();
-    this.imagenBase64 = '';
+    this.imagen = null;
   }
+
   onBack() {
     this.router.navigate(['/cupon/all']);
   }
+
   ngOnDestroy() {
     this.destroy$.next(true);
-    // Desinscribirse
     this.destroy$.unsubscribe();
   }
 }

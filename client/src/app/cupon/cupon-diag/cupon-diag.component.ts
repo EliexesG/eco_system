@@ -31,6 +31,7 @@ export class CuponDiagComponent implements OnInit {
       this.obtenerCupon(this.datosDialog.id);
     }
   }
+  
   obtenerCupon(id: number) {
     this.gService
       .get('cupon', id)
@@ -46,6 +47,7 @@ export class CuponDiagComponent implements OnInit {
         this.datos = data;
       });
   }
+
   close() {
     //Dentro de close ()
     //this.form.value

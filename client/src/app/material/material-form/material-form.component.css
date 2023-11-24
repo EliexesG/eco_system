@@ -39,23 +39,8 @@ textarea {
   margin: 0 auto;
 }
 
-#imagenPreview {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 25%;
-}
-
 mat-card {
-  width: 75%;
-}
-
-#imagenPreview img {
-  max-width: 85%;
-  max-height: 85%;
-  border-radius: 15px;
-  object-fit: scale-down;
+  width: 50%;
 }
 
 button {

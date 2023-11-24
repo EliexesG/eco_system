@@ -49,11 +49,13 @@ module.exports.create = async (request, response, next) => {
       },
     });
 
-    response.json({error: false, response: newMaterial, status: 200});
+    response.json({ error: false, response: newMaterial, status: 200 });
   } catch (e) {
-    response.json(
-      {error: true, response: "Ocurrió un error, contacte al administrador: \n" + e.message, status: 400}
-    );
+    response.json({
+      error: true,
+      response: "Ocurrió un error, contacte al administrador: \n" + e.message,
+      status: 400,
+    });
   }
 };
 
@@ -77,32 +79,32 @@ module.exports.update = async (request, response, next) => {
       },
     });
 
-    response.json({error: false, response: materialUpdated, status: 200});
+    response.json({ error: false, response: materialUpdated, status: 200 });
   } catch (e) {
-    response.json(
-      {error: true, response: "Ocurrió un error, contacte al administrador: \n" + e.message, status: 400}
-    );
+    response.json({
+      error: true,
+      response: "Ocurrió un error, contacte al administrador: \n" + e.message,
+      status: 400,
+    });
   }
 };
 
 //Obtener Colores
 module.exports.getColors = async (request, response, next) => {
   try {
-
     const colores = await prisma.material.findMany({
       orderBy: {
-        codColor: 'asc'
+        codColor: "asc",
       },
       select: {
-        codColor: true
-      }
-    })
+        codColor: true,
+      },
+    });
 
     response.json(colores);
-
   } catch (e) {
     response.json(
       "Ocurrió un error, contacte al administrador: \n" + e.message
     );
   }
-}
+};

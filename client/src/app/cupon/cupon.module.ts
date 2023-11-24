@@ -24,6 +24,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { CuponDetalleComponent } from './cupon-detalle/cupon-detalle.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     CuponDiagComponent,
     CuponFormComponent,
     CuponAllComponent,
+    CuponDetalleComponent,
   ],
   imports: [
     CommonModule,

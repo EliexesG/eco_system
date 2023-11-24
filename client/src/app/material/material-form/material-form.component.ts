@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { EMPTY, Subject, concatMap, filter, switchMap, takeUntil } from 'rxjs';
+import { EMPTY, Subject, concatMap, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/services/generic.service';
 import { NotificacionService } from 'src/app/share/services/notification.service';
 import { TipoMessage } from 'src/app/share/services/notification.service';
@@ -147,11 +147,14 @@ export class MaterialFormComponent implements OnInit {
     }
 
     let formValues = this.materialForm.value;
-    let fileName = createFileName(formValues.nombre, this.imagen.name, 'material');
+    let fileName = createFileName(
+      formValues.nombre,
+      this.imagen.name,
+      'material'
+    );
 
     var imageToForm = new FormData();
     imageToForm.append('imagen', this.imagen, fileName);
-    console.log(imageToForm.get('imagen'));
 
     if (this.isCreate) {
       this.cargando = true;
