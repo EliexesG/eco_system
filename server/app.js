@@ -14,6 +14,7 @@ const centroAcopioRoutes = require("./routes/centroAcopioRoutes");
 const usuarioRoutes = require("./routes/usuarioRoutes");
 const canjeoMaterialesRoutes = require("./routes/canjeoMaterialesRoutes");
 const canjeoCuponRoutes = require("./routes/canjeoCuponRoutes");
+const imageManagamentRoutes = require("./routes/imageManagamentRoutes");
 
 // Acceder  a la configuracion del archivo .env
 dotEnv.config();
@@ -42,6 +43,8 @@ app.use("/centroacopio", centroAcopioRoutes);
 app.use("/usuario", usuarioRoutes);
 app.use("/canjeomateriales", canjeoMaterialesRoutes);
 app.use("/canjeocupon", canjeoCuponRoutes);
+app.use("/image", imageManagamentRoutes);
+app.use(express.json({ limit: '50000kb' }));
 
 // Servidor
 app.listen(port, () => {

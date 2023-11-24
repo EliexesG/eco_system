@@ -15,7 +15,7 @@ export class CanjeoMaterialesAllComponent implements AfterViewInit {
   datos: any;
   datosCentroAcopio: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  idCentroAcopio: number = 2;
+  idCentroAcopio: number = 1;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -66,6 +66,7 @@ export class CanjeoMaterialesAllComponent implements AfterViewInit {
   detalleCanjeoMateriales(id: number) {
     this.router.navigate(['/canjeomateriales', id], {
       relativeTo: this.route,
+      skipLocationChange: true
     });
   }
 

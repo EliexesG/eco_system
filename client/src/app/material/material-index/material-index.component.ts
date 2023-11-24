@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { EMPTY, Subject, concatMap, switchMap, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/services/generic.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MaterialDiagComponent } from '../material-diag/material-diag.component';
+import { ImageService } from 'src/app/share/services/image.service';
 
 @Component({
   selector: 'app-material-index',
@@ -13,18 +14,35 @@ export class MaterialIndexComponent {
   datos: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private gService: GenericService, private dialog: MatDialog) {
+  constructor(
+    private gService: GenericService,
+    private dialog: MatDialog,
+    private iService: ImageService
+  ) {
     this.listarMateriales();
   }
 
   listarMateriales() {
-    this.gService
-      .list('material')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((response: any) => {
-        console.log(response);
-        this.datos = response;
-      });
+    let materiales$ = this.gService.list('material').pipe(
+      takeUntil(this.destroy$),
+      switchMap((materiales: any) => {
+        materiales.map((material: any) => {
+          this.iService
+            .getImage({filename: material.imagen})
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((base64) => {
+              console.log(base64)
+              material.base64 = base64.base64;
+            });
+        });
+
+        this.datos = materiales;
+
+        return EMPTY;
+      })
+    );
+
+    materiales$.subscribe();
   }
 
   detalleMaterial(id: number) {

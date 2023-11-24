@@ -20,6 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     ReactiveFormsModule,
     NgxMatFileInputModule,
     MatProgressSpinnerModule,
+    NgxDropzoneModule,
   ],
 })
 export class MaterialModule {}

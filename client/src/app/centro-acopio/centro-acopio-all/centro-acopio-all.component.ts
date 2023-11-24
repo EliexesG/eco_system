@@ -19,7 +19,13 @@ export class CentroAcopioAllComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
-  columns: string[] = ['nombre', 'adminstrador', 'telefono', 'estado', 'acciones'];
+  columns: string[] = [
+    'nombre',
+    'adminstrador',
+    'telefono',
+    'estado',
+    'acciones',
+  ];
 
   provincia: string;
   canton: string;
@@ -52,12 +58,14 @@ export class CentroAcopioAllComponent implements AfterViewInit {
   detalleCentro(id: number) {
     this.router.navigate(['/centroacopio', id], {
       relativeTo: this.route,
+      skipLocationChange: true,
     });
   }
 
   actualizarCentro(id: number) {
     this.router.navigate(['/centroacopio/update', id], {
       relativeTo: this.route,
+      skipLocationChange: true,
     });
   }
 
@@ -66,6 +74,16 @@ export class CentroAcopioAllComponent implements AfterViewInit {
       relativeTo: this.route,
     });
   }
+
+  cambiarEstado(id: number) {
+    this.gService
+      .create(`centroacopio/habilitarodesabilitar/${id}`, {})
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((response: any) => {
+        this.listarCentros();
+      });
+  }
+
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

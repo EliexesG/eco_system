@@ -5,7 +5,8 @@ import { EMPTY, Subject, concatMap, filter, switchMap, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/services/generic.service';
 import { NotificacionService } from 'src/app/share/services/notification.service';
 import { TipoMessage } from 'src/app/share/services/notification.service';
-import { FireBaseStorageService } from 'src/app/share/services/fire-base-storage.service';
+import { ImageService } from 'src/app/share/services/image.service';
+import { createFileName, dataURItoBlob } from 'src/app/share/utils/fileUtils';
 
 @Component({
   selector: 'app-material-form',
@@ -33,16 +34,15 @@ export class MaterialFormComponent implements OnInit {
     'bolsa',
   ];
   colores: { codColor: string }[];
-  imagenPrevia: any;
-  imagenBase64: string;
+  imagen: File;
 
   constructor(
     private fb: FormBuilder,
     private gService: GenericService,
+    private iService: ImageService,
     private router: Router,
     private activeRouter: ActivatedRoute,
-    private noti: NotificacionService,
-    private fbService: FireBaseStorageService
+    private noti: NotificacionService
   ) {
     this.formularioReactive();
   }
@@ -70,29 +70,18 @@ export class MaterialFormComponent implements OnInit {
                 descripcion: this.materialInfo.descripcion,
                 unidadMedida: this.materialInfo.unidadMedida,
                 monedasUnidad: this.materialInfo.monedasUnidad,
-                imagen: '',
               });
 
-              return this.fbService.getMetadata(this.materialInfo.imagen).pipe(
-                takeUntil(this.destroy$),
-                concatMap(async (metadata) => {
+              return this.iService
+                .getImage({ filename: this.materialInfo.imagen })
+                .pipe(
+                  takeUntil(this.destroy$),
+                  concatMap((base64: any) => {
+                    this.imagen = dataURItoBlob(base64.base64) as File;
 
-                  const promesaArchivo = await fetch(this.materialInfo.imagen);
-                  const archivo = await promesaArchivo.blob();
-                  const file = new File(
-                    [archivo],
-                    metadata.name,
-                    {
-                      type: metadata.contentType,
-                    }
-                  );   
-
-                  this.materialForm.get('imagen').setValue(file);
-                  this.imagenPrevia = metadata;
-                  this.onImagenSeleccionada();
-                  return EMPTY;
-                })
-              );
+                    return EMPTY;
+                  })
+                );
             })
           );
 
@@ -120,7 +109,6 @@ export class MaterialFormComponent implements OnInit {
           Validators.maxLength(30),
         ]),
       ],
-      imagen: [null, Validators.required],
       descripcion: [
         null,
         Validators.compose([
@@ -149,124 +137,125 @@ export class MaterialFormComponent implements OnInit {
     this.submitted = true;
 
     if (this.materialForm.invalid) return;
+    if (!this.imagen) {
+      this.noti.mensaje(
+        'Cuidado',
+        'Debe seleccionar una imagen',
+        TipoMessage.warning
+      );
+      return;
+    }
 
-    let valorForm = this.materialForm.value;
-    console.log(valorForm);
+    let formValues = this.materialForm.value;
+    let fileName = createFileName(formValues.nombre, this.imagen.name, 'material');
+
+    var imageToForm = new FormData();
+    imageToForm.append('imagen', this.imagen, fileName);
+    console.log(imageToForm.get('imagen'));
 
     if (this.isCreate) {
       this.cargando = true;
 
-      let create$ = this.fbService
-        .uploadArchivoImagen(
-          this.createFileName(valorForm.nombre, valorForm.imagen.name),
-          valorForm.imagen,
-          'materiales'
-        )
-        .percentageChanges()
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((porcentaje: number) => porcentaje == 100),
-          switchMap((_) => {
-            return this.fbService
-              .getURLArchivoImagen(
-                this.createFileName(valorForm.nombre, valorForm.imagen.name),
-                'materiales'
-              )
-              .pipe(
-                takeUntil(this.destroy$),
-                concatMap((url: string) => {
-                  valorForm.imagen = url;
+      let create$ = this.iService.uploadImage(imageToForm).pipe(
+        takeUntil(this.destroy$),
+        concatMap((result) => {
+          formValues.imagen = fileName;
 
-                  return this.gService.create('material', valorForm).pipe(
-                    takeUntil(this.destroy$),
-                    concatMap((data) => {
-                      this.cargando = false;
-                      this.respMaterial = data;
-                      this.noti.mensajeRedirect(
-                        'Crear Material',
-                        `Material creado "${data.nombre}"`,
-                        TipoMessage.success,
-                        '/material/all'
-                      );
-                      return EMPTY;
-                    })
+          if (!result.error) {
+            return this.gService.create('material', formValues).pipe(
+              takeUntil(this.destroy$),
+              concatMap((data) => {
+                this.cargando = false;
+
+                if (!data.error) {
+                  this.respMaterial = data;
+
+                  //refreshing form
+                  this.onReset();
+
+                  this.noti.mensajeRedirect(
+                    'Crear Material',
+                    `Material creado "${data.response.nombre}"`,
+                    TipoMessage.success,
+                    '/material/all'
                   );
-                })
-              );
-          })
-        );
+                } else {
+                  this.noti.mensaje(
+                    'Error',
+                    'Error al guardar material',
+                    TipoMessage.error
+                  );
+                }
 
-      create$.subscribe(() => {
-        this.router.navigate(['/material/all']);
-      });
+                return EMPTY;
+              })
+            );
+          } else {
+            this.noti.mensaje(
+              'Error',
+              'Error al guardar imagen',
+              TipoMessage.error
+            );
+            return EMPTY;
+          }
+        })
+      );
+
+      create$.subscribe();
     } else {
       this.cargando = true;
 
-      let update$ = this.fbService
-        .uploadArchivoImagen(
-          this.createFileName(valorForm.nombre, valorForm.imagen.name),
-          valorForm.imagen,
-          'materiales'
-        )
-        .percentageChanges()
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((porcentaje: number) => porcentaje == 100),
-          switchMap((_) => {
-            console.log(_);
-            return this.fbService
-              .getURLArchivoImagen(
-                this.createFileName(valorForm.nombre, valorForm.imagen.name),
-                'materiales'
-              )
-              .pipe(
-                takeUntil(this.destroy$),
-                concatMap((url: string) => {
-                  console.log(url);
-                  valorForm.imagen = url;
-                  return this.gService.update('material', valorForm).pipe(
-                    takeUntil(this.destroy$),
-                    concatMap((data) => {
-                      console.log(data);
-                      this.cargando = false;
-                      this.respMaterial = data;
-                      this.noti.mensajeRedirect(
-                        'Actualizar Material',
-                        `Material actualizado "${data.nombre}"`,
-                        TipoMessage.success,
-                        '/material/all'
-                      );
-                      return EMPTY;
-                    })
-                  );
-                })
-              );
-          })
-        );
+      let update$ = this.iService.uploadImage(imageToForm).pipe(
+        takeUntil(this.destroy$),
+        concatMap((result) => {
+          formValues.imagen = fileName;
 
-      update$.subscribe(() => {
-        this.router.navigate(['/material/all']);
-      });
+          if (!result.error) {
+            return this.gService.update('material', formValues).pipe(
+              takeUntil(this.destroy$),
+              concatMap((data) => {
+                this.cargando = false;
+
+                if (!data.error) {
+                  this.respMaterial = data;
+
+                  //refreshing form
+                  this.onReset();
+
+                  this.noti.mensajeRedirect(
+                    'Actualizar Material',
+                    `Material actualizado "${data.response.nombre}"`,
+                    TipoMessage.success,
+                    '/material/all'
+                  );
+                } else {
+                  this.noti.mensaje(
+                    'Error',
+                    'Error al actualizar material',
+                    TipoMessage.error
+                  );
+                }
+
+                return EMPTY;
+              })
+            );
+          } else {
+            this.noti.mensaje(
+              'Error',
+              'Error al aztualizar imagen',
+              TipoMessage.error
+            );
+            return EMPTY;
+          }
+        })
+      );
+
+      update$.subscribe();
     }
   }
 
-  private createFileName(materialName: string, fileName: string) {
-    let split: string[]= fileName.split('.');
-
-    let extension: string = split[split.length-1];
-    
-    return `material_${materialName}.${extension}`;
-  }
-
-  onImagenSeleccionada() {
-    let imagen: File = this.materialForm.value.imagen;
-
-    const reader = new FileReader();
-    reader.readAsDataURL(imagen);
-    reader.onload = () => {
-      console.log(reader.result as string);
-      this.imagenBase64 = reader.result as string;
-    };
+  onImagenSelect(event: any) {
+    this.imagen = event.addedFiles[0];
   }
 
   onChangeColor(): void {
@@ -295,6 +284,7 @@ export class MaterialFormComponent implements OnInit {
   onReset(): void {
     this.submitted = false;
     this.materialForm.reset();
+    this.imagen = null;
   }
 
   onBack(): void {

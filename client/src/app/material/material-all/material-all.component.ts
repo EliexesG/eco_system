@@ -54,6 +54,7 @@ export class MaterialAllComponent implements AfterViewInit {
   detalleMaterial(id: number) {
     this.router.navigate(['/material', id], {
       relativeTo: this.route,
+      skipLocationChange: true
     });
   }
 
@@ -66,6 +67,7 @@ export class MaterialAllComponent implements AfterViewInit {
   actualizarMaterial(id: number) {
     this.router.navigate(['/material/update', id], {
       relativeTo: this.route,
+      skipLocationChange: true
     });;
   }
 

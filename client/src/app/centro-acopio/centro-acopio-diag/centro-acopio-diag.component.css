@@ -60,3 +60,7 @@
   height: 25px;
   width: 25px;
 }
+
+mat-card {
+  min-width: 500px;
+}

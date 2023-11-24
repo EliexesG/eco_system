@@ -31,6 +31,12 @@ module.exports.getHabilitados = async (request, response, next) => {
       orderBy: {
         nombre: "asc",
       },
+      include: {
+        administrador: true,
+        materiales: true,
+        horarios: true,
+        direccionCentroAcopio: true,
+      },
       where: {
         desabilitado: false,
       },
@@ -50,6 +56,12 @@ module.exports.getDeshabilitados = async (request, response, next) => {
     const centrosAcopio = await prisma.centroAcopio.findMany({
       orderBy: {
         nombre: "asc",
+      },
+      include: {
+        administrador: true,
+        materiales: true,
+        horarios: true,
+        direccionCentroAcopio: true,
       },
       where: {
         desabilitado: true,
