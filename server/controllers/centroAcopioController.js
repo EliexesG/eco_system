@@ -105,6 +105,7 @@ module.exports.getByIdUsuario = async (request, response, next) => {
 module.exports.getById = async (request, response, next) => {
   try {
     let id = parseInt(request.params.id);
+    console.log(id)
 
     const centroAcopio = await prisma.centroAcopio.findUnique({
       include: {

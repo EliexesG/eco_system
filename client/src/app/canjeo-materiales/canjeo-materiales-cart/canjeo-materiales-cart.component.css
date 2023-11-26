@@ -1,0 +1,54 @@
+button {
+    height: 45px;
+    width: 155px;
+    padding: 1.3em 3em;
+    font-size: 12px;
+    margin: 28px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: bold;
+    color: #000;
+    background-color: whitesmoke !important;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  #boton1:hover {
+    background-color: cadetblue !important;
+    box-shadow: 0px 15px 20px rgb(13, 252, 252, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+
+  h1 {
+    text-align: center !important;
+    width: 100%;
+  }
+  
+  .contenidoFlex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: -15px;
+  }
+  
+  table {
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .dataConIcon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  td, th {
+    text-align: center !important;
+    vertical-align: middle !important;
+  }

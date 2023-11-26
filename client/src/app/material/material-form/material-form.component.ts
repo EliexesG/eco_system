@@ -72,6 +72,9 @@ export class MaterialFormComponent implements OnInit {
                 monedasUnidad: this.materialInfo.monedasUnidad,
               });
 
+              let objIndex = this.colores.findIndex((color) => color.codColor == this.materialInfo.codColor);
+              this.colores.splice(objIndex, 1);
+
               return this.iService
                 .getImage({ filename: this.materialInfo.imagen })
                 .pipe(
@@ -262,13 +265,16 @@ export class MaterialFormComponent implements OnInit {
   }
 
   onChangeColor(): void {
+
     let color = {
       codColor: this.materialForm.get('codColor').value.toUpperCase(),
     };
+
+    console.log(color)
     let colorExiste: boolean = false;
 
     for (let colorActual of this.colores) {
-      if (colorActual.codColor === color.codColor) {
+      if (colorActual.codColor.toUpperCase() === color.codColor) {
         colorExiste = true;
         break;
       }

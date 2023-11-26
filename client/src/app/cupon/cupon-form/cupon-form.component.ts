@@ -143,7 +143,7 @@ export class CuponFormComponent implements OnInit {
 
     var imageToForm = new FormData();
     imageToForm.append('imagen', this.imagen, fileName);
-    console.log(formValues)
+    console.log(formValues);
 
     if (this.isCreate) {
       this.cargando = true;
@@ -152,7 +152,6 @@ export class CuponFormComponent implements OnInit {
         takeUntil(this.destroy$),
         concatMap((result) => {
           formValues.imagen = fileName;
-
 
           if (!result.error) {
             return this.gService.create('cupon', formValues).pipe(
@@ -222,7 +221,7 @@ export class CuponFormComponent implements OnInit {
                     '/cupon/all'
                   );
                 } else {
-                  console.log(data.response)
+                  console.log(data.response);
                   this.noti.mensaje(
                     'Error',
                     'Error al actualizar cupon',
