@@ -154,6 +154,33 @@ module.exports.sByAdminCentroAcopio = async (request, response, next) => {
   }
 };
 
+//Obtener usuario cliente por correo
+module.exports.getUsuarioClienteByCorreo = async (request, response, next) => {
+  try {
+    const tipoUsuario = 'CLIENTE';
+    const correo = String(request.params.correo);
+
+    const usuario = await prisma.usuario.findUnique({
+      include: {
+        billetera: true,
+      },
+      where: {
+        tipoUsuario: tipoUsuario,
+        correo: correo,
+      },
+    });
+
+    const usuarioSinContrasenna = usuario ? exclude(usuario, ["contrasenna"]) : null;
+
+    response.json(usuarioSinContrasenna);
+  }
+  catch(e) {
+    response.json(
+      "Ocurrió un error, contacte al administrador: \n" + e.message
+    );
+  }
+}
+
 //Obtener administradores de centros sin centro
 module.exports.getUsuariosAdminCentroSinCentro = async (request, response, next) => {
   try {

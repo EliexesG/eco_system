@@ -13,6 +13,10 @@ import { CanjeoMaterialesDetalleComponent } from './canjeo-materiales-detalle/ca
 import { CanjeoMaterialesAllComponent } from './canjeo-materiales-all/canjeo-materiales-all.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { CanjeoMaterialesCartComponent } from './canjeo-materiales-cart/canjeo-materiales-cart.component';
+import { MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +24,7 @@ import { MatSortModule } from '@angular/material/sort';
     CanjeoMaterialesDiagComponent,
     CanjeoMaterialesDetalleComponent,
     CanjeoMaterialesAllComponent,
+    CanjeoMaterialesCartComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +34,9 @@ import { MatSortModule } from '@angular/material/sort';
     MatIconModule,
     MatListModule,
     MatCardModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,

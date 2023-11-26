@@ -22,6 +22,9 @@ router.get("/admincentrosincentro", usuarioController.getUsuariosAdminCentroSinC
 //Ruta: localhost:3000/usuario/tipousuario/administrador
 router.get("/tipousuario/:tipousuario", usuarioController.getByTipoUsuario);
 
+//Ruta: localhost:3000/usuario/usuarioclientecorreo/administrador
+router.get("/usuarioclientecorreo/:correo", usuarioController.getUsuarioClienteByCorreo);
+
 //Ruta: localhost:3000/usuario/id
 router.get("/:id", usuarioController.getById);
 
