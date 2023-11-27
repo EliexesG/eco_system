@@ -8,6 +8,14 @@
     mat-icon-button
     class="example-icon"
     aria-label="Example icon-button with share icon"
+    (click)="canjeoMaterialesClick()"
+  >
+    <mat-icon>shopping_bag</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with share icon"
   >
     <mat-icon>person</mat-icon>
   </button>
@@ -55,7 +63,10 @@
   </button>
   <mat-menu #administracion>
     <button mat-menu-item [routerLink]="'/material/all'">
-      <mat-icon class="material-icons color_black" fontIcon="recycling"></mat-icon>
+      <mat-icon
+        class="material-icons color_black"
+        fontIcon="recycling"
+      ></mat-icon>
       MATERIALES
     </button>
 
@@ -68,6 +79,5 @@
       <mat-icon class="material-icons color_black" fontIcon="note"></mat-icon>
       CUPONES
     </button>
-    
   </mat-menu>
 </mat-toolbar>

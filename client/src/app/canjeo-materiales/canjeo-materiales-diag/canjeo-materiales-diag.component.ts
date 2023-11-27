@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
+import { CanjeoMaterialesService } from 'src/app/share/services/canjeo-materiales.service';
 import { GenericService } from 'src/app/share/services/generic.service';
 import { formatHours } from 'src/app/share/utils/formater';
 
@@ -20,7 +21,7 @@ export class CanjeoMaterialesDiagComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     private dialogRef: MatDialogRef<CanjeoMaterialesDiagComponent>,
-    private gService: GenericService
+    private gService: GenericService,
   ) {
     this.datosDialog = data;
   }

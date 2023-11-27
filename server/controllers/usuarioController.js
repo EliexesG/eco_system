@@ -128,32 +128,6 @@ module.exports.getByTipoUsuario = async (request, response, next) => {
   }
 };
 
-//Obtener por Tipo de Usuario
-module.exports.sByAdminCentroAcopio = async (request, response, next) => {
-  try {
-    const tipoUsuario = String(request.params.tipousuario).toUpperCase();
-
-    const usuarios = await prisma.usuario.findMany({
-      orderBy: {
-        nombre: "asc",
-      },
-      where: {
-        tipoUsuario: "ADMINISTRADOR_CENTROS_ACOPIO",
-      },
-    });
-
-    const usuariosSinContrasenna = usuarios.map((usuario) => {
-      return exclude(usuario, ["contrasenna"]);
-    });
-
-    response.json(usuariosSinContrasenna);
-  } catch (e) {
-    response.json(
-      "Ocurrió un error, contacte al administrador: \n" + e.message
-    );
-  }
-};
-
 //Obtener usuario cliente por correo
 module.exports.getUsuarioClienteByCorreo = async (request, response, next) => {
   try {
@@ -163,6 +137,7 @@ module.exports.getUsuarioClienteByCorreo = async (request, response, next) => {
     const usuario = await prisma.usuario.findUnique({
       include: {
         billetera: true,
+        direccionUsuario: true,
       },
       where: {
         tipoUsuario: tipoUsuario,

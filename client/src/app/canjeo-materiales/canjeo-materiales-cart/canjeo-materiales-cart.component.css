@@ -1,6 +1,6 @@
-button {
+#button1 {
     height: 45px;
-    width: 155px;
+    width: 45px;
     padding: 1.3em 3em;
     font-size: 12px;
     margin: 28px;
@@ -10,7 +10,7 @@ button {
     color: #000;
     background-color: whitesmoke !important;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease 0s;
     cursor: pointer;
@@ -33,7 +33,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: -15px;
+    height: 35px;
   }
   
   table {
@@ -52,3 +52,17 @@ button {
     text-align: center !important;
     vertical-align: middle !important;
   }
+
+  mat-icon{
+    color: #000;
+  }
+
+  #canjeoMaterialesContainer{
+    overflow: scroll;
+    max-height: 90vh;
+  }
+
+  #Cuadro{
+    height: 10px;
+  }
+  
