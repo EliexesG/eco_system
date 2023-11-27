@@ -1,111 +1,140 @@
-<div class="grid-container">
+<div id="canjeoMaterialesContainer" class="grid-container">
+  <!--Tarjeta que muestra los datos del Centro-->
+  <mat-card *ngIf="centroAcopio">
+    <mat-card-header>
+      <mat-card-title
+        ><h3>{{ centroAcopio.nombre }}</h3></mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <div class="contenidoFlex">
+        <h4 class="mat-h4">Fecha:</h4>
+        <p class="mat-body">{{ fecha | date : "MMMM d, y" }}</p>
+      </div>
+      <div class="contenidoFlex">
+        <h4 class="mat-h4">Hora:</h4>
+        <p class="mat-body">{{ fecha | date: "hh:mm a" }}</p>
+      </div>
+      <div class="contenidoFlex">
+        <h4 class="mat-h4">Administrador:</h4>
+        <p class="mat-body">
+          {{ centroAcopio.administrador.nombre }}
+          {{ centroAcopio.administrador.primerApellido }}
+          {{ centroAcopio.administrador.segundoApellido }}
+        </p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <br />
 
-    <!--Tarjeta que muestra los datos del Centro-->
-    <mat-card *ngIf="centroAcopio">
-        <mat-card-header>
-            <mat-card-title><h1>{{ centroAcopio.nombre}}</h1></mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-              <div class="contenidoFlex">
-                <h4 class="mat-h4">Fecha:</h4>
-                <p class="mat-body">{{fecha | date: 'MMMM d, y'}}</p> 
-              </div>
-              <div class="contenidoFlex">
-                <h4 class="mat-h4">Administrador:</h4>
-                <p class="mat-body">{{centroAcopio.administrador.nombre}} {{centroAcopio.administrador.primerApellido}} {{centroAcopio.administrador.segundoApellido}}</p> 
-              </div>
-        </mat-card-content>
-    </mat-card>
-    <br>
-    
-    
-    <!--Tarjeta que muestra los datos del cliente-->
-    <mat-card>
-        <mat-card-header>
-          <mat-card-title><h1>Datos cliente</h1></mat-card-title>
-        </mat-card-header>
+  <!--Tarjeta que muestra los datos del cliente-->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title><h3>Datos cliente</h3></mat-card-title>
+    </mat-card-header>
 
-        <!--Muestra si cliente esta cargado mediane ngIf-->
-        <mat-card-content *ngIf="cliente">
-            <div class="contenidoFlex">
-                <h4 class="mat-h4">Nombre:</h4>
-                <p class="mat-body">{{cliente.nombre}} {{cliente.primerApellido}} {{cliente.segundoApellido}}</p>
-            </div>
-            <div class="contenidoFlex">
-                <h4 class="mat-h4">Cedula:</h4>
-                <p class="mat-body">{{cliente.identificacion}}</p>
-            </div>
-            <div class="contenidoFlex">
-                <h4 class="mat-h4">Correo:</h4>
-                <p class="mat-body">{{cliente.correo}}</p>
-            </div>
-            <div class="contenidoFlex">
-                <h4 class="mat-h4">Direccion:</h4>
-                <p class="mat-body"> </p>
-            </div>
-            <button mat-raised-button id="boton1" (click)="onResetCliente()">
-                Cambiar cliente
-            </button>  
-        </mat-card-content>
+    <!--Muestra si cliente esta cargado mediane ngIf-->
+    <mat-card-content *ngIf="cliente">
+      <div class="contenidoFlex">
+        <h4 class="mat-h4">Nombre:</h4>
+        <p class="mat-body">
+          {{ cliente.nombre }} {{ cliente.primerApellido }}
+          {{ cliente.segundoApellido }}
+        </p>
+      </div>
+      <div class="contenidoFlex">
+        <h4 class="mat-h4">Cedula:</h4>
+        <p class="mat-body">{{ cliente.identificacion }}</p>
+      </div>
+      <div class="contenidoFlex">
+        <h4 class="mat-h4">Correo:</h4>
+        <p class="mat-body">{{ cliente.correo }}</p>
+      </div>
+      <div class="contenidoFlex">
+        <h4 class="mat-h4">Direccion:</h4>
+        <p class="mat-body">
+          {{ cliente.distrito }}, {{ cliente.canton }},
+          {{ cliente.provincia }} ({{ cliente.direccionUsuario.sennas }})
+        </p>
+      </div>
+      <button mat-raised-button id="botonReset" (click)="onResetCliente()">
+        Cambiar cliente
+      </button>
+    </mat-card-content>
 
+    <!--Muestra si cliente NO esta cargado mediane ngIf-->
+    <mat-card-content *ngIf="!cliente">
+      <p>Buscar cliente por correo:</p>
+      <mat-form-field class="busquedaCliente" appearance="outline" id="Cuadro">
+        <input
+          matInput
+          placeholder="ejemplo@correo.com"
+          (keyup)="onCorreoChange($event)"
+        />
+      </mat-form-field>
+      <button mat-mini-fab id="boton1" (click)="buscarCliente()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-card-content>
+  </mat-card>
+  <br />
 
-        <!--Muestra si cliente NO esta cargado mediane ngIf-->
-        <mat-card-content *ngIf="!cliente">
-            <p>Buscar cliente por correo:</p>
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="ejemplo@correo.com" (keyup)="onCorreoChange($event)">
+  <!--Tarjeta que muestra los datos del canjeo de materiales-->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title><h3>Detalle de Canjeo</h3></mat-card-title>
+      <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z1">
+        <ng-container matColumnDef="material">
+          <th mat-header-cell *matHeaderCellDef>Material</th>
+          <td mat-cell *matCellDef="let canjeo">
+            {{ canjeo.material.nombre }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="cantidad">
+          <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+          <td mat-cell *matCellDef="let canjeo">
+            <mat-form-field appearance="fill" appearance="outline">
+              <input
+                matInput
+                id="cantidad "
+                type="number"
+                class="form-control mb-2"
+                [(ngModel)]="canjeo.cantidadUnidades"
+                (change)="onCambioCantidad(canjeo)"
+              />
             </mat-form-field>
-            <button mat-raised-button id="boton1" (click)="buscarCliente()">
-                Cargar cliente
-            </button>  
-        </mat-card-content>
-      </mat-card>
-      <br>
-
-      
-    <!--Tarjeta que muestra los datos del canjeo de materiales-->
-      <mat-card>
-        <mat-card-header>
-            <mat-card-title>Datos cliente</mat-card-title>
-            <mat-card-subtitle></mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-            <!--
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z1">
-                <ng-container matColumnDef="material">
-                <th mat-header-cell *matHeaderCellDef>Material</th>
-                <td mat-cell *matCellDef="let canjeo">{{ canjeo.material.nombre }}</td>
-                </ng-container>
-                <ng-container matColumnDef="cantidad">
-                <th mat-header-cell *matHeaderCellDef>Cantidad</th>
-                <td mat-cell *matCellDef="let canjeo">{{ canjeo.cantidadUnidades }} {{canjeo.material.unidadMedida}}(s)</td>
-                </ng-container>
-                <ng-container matColumnDef="precio">
-                <th mat-header-cell *matHeaderCellDef>Precio x Unidad</th>
-          <     td mat-cell *matCellDef="let canjeo">
+            {{ canjeo.material.unidadMedida }}(s)
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="precio">
+          <th mat-header-cell *matHeaderCellDef>Precio x Unidad</th>
+          <td mat-cell *matCellDef="let canjeo">
             {{ canjeo.material.monedasUnidad }} Eco-Moneda(s)
           </td>
-                </ng-container>
-                <ng-container matColumnDef="subtotal">
-                <th mat-header-cell *matHeaderCellDef>SubTotal</th>
-                <td mat-cell *matCellDef="let canjeo">
-                    {{ canjeo.cantMonedas }} Eco-Moneda(s)
-                </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="columns"></tr>
-                <tr mat-row *matRowDef="let row; columns: columns"></tr>
-            </table> 
-            -->
-          </mat-card-content>
-      </mat-card>
+        </ng-container>
+        <ng-container matColumnDef="subtotal">
+          <th mat-header-cell *matHeaderCellDef>SubTotal</th>
+          <td mat-cell *matCellDef="let canjeo">
+            {{ canjeo.subtotal }} Eco-Moneda(s)
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
 
-      <mat-card>
-        <mat-card-content>
-            <p>Total: </p>
-        </mat-card-content>
-        <mat-card-actions>
-              
-        </mat-card-actions>
-      </mat-card>
+  <mat-card>
+    <mat-card-content>
+      <p>Total: {{ total }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button color="accent" mat-raised-button id="botonResetCanjeo" (click)="onResetCanjeo()">
+        Resetear Canjeo
+      </button>
+    </mat-card-actions>
+  </mat-card>
 </div>
-  

@@ -33,8 +33,8 @@ export class CanjeoMaterialesService {
     let listaDetalles = this.getDetalles;
     let nuevoDetalle: canjeoMaterialesDetalle = {
       cantidadUnidades: 1,
-      material: material,
-      materialId: material.id,
+      material: material.material ? material.material : material,
+      materialId: material.id | material.materialId,
       subtotal: 0,
     };
 
@@ -42,7 +42,7 @@ export class CanjeoMaterialesService {
 
     if (listaDetalles) {
       let indexObj = listaDetalles.findIndex(
-        (obj) => (obj.materialId = nuevoDetalle.materialId)
+        (obj) => (obj.materialId == nuevoDetalle.materialId)
       );
 
       if (indexObj != -1) {
@@ -126,6 +126,7 @@ export class CanjeoMaterialesService {
   }
 
   private calcularSubtotalDetalle(detalle: canjeoMaterialesDetalle) {
+    console.log(detalle.material)
     return detalle.cantidadUnidades * detalle.material.monedasUnidad;
   }
 

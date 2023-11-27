@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { CanjeoMaterialesIndexComponent } from './canjeo-materiales-index/canjeo-materiales-index.component';
 import { CanjeoMaterialesDetalleComponent } from './canjeo-materiales-detalle/canjeo-materiales-detalle.component';
 import { CanjeoMaterialesAllComponent } from './canjeo-materiales-all/canjeo-materiales-all.component';
-import { CanjeoMaterialesCartComponent } from './canjeo-materiales-cart/canjeo-materiales-cart.component';
 
 const routes: Routes = [
   {
@@ -13,10 +12,6 @@ const routes: Routes = [
   {
     path: 'canjeomateriales/all',
     component: CanjeoMaterialesAllComponent,
-  },
-  {
-    path: 'canjeomateriales/cart',
-    component: CanjeoMaterialesCartComponent,
   },
   {
     path: 'canjeomateriales/:id',
