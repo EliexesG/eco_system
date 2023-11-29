@@ -31,10 +31,14 @@ export class CanjeoMaterialesService {
 
   public agregarDetalle(material: any) {
     let listaDetalles = this.getDetalles;
+
+    let materialFormatted = {...material};
+    materialFormatted.base64 = "";
+
     let nuevoDetalle: canjeoMaterialesDetalle = {
       cantidadUnidades: 1,
-      material: material.material ? material.material : material,
-      materialId: material.id | material.materialId,
+      material: materialFormatted.material ? materialFormatted.material : materialFormatted,
+      materialId: materialFormatted.id | materialFormatted.materialId,
       subtotal: 0,
     };
 
@@ -46,13 +50,13 @@ export class CanjeoMaterialesService {
       );
 
       if (indexObj != -1) {
-        if (material.hasOwnProperty('cantidadUnidades')) {
-          if (material.cantidadUnidades <= 0) {
+        if (materialFormatted.hasOwnProperty('cantidadUnidades')) {
+          if (materialFormatted.cantidadUnidades <= 0) {
             this.eliminarDetalle(nuevoDetalle);
             return;
           } else {
             listaDetalles[indexObj].cantidadUnidades =
-              material.cantidadUnidades;
+            materialFormatted.cantidadUnidades;
           }
         } else {
           listaDetalles[indexObj].cantidadUnidades += 1;
