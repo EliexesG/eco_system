@@ -129,12 +129,14 @@ module.exports.create = async (request, response, next) => {
         id: data.billeteraId,
       },
     });
-
-    response.json({ canjeoMateriales, billetera });
+    
+    response.json({ error: false, response: {canjeoMateriales, billetera}, status: 200 });
   } catch (e) {
-    response.json(
-      "Ocurrió un error, contacte al administrador: \n" + e.message
-    );
+    response.json({
+      error: true,
+      response: "Ocurrió un error, contacte al administrador: \n" + e.message,
+      status: 400,
+    });
   }
 };
 

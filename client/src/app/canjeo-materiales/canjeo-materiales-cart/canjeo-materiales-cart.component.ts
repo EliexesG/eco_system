@@ -13,7 +13,6 @@ import {
 } from 'src/app/share/services/notification.service';
 import { filtrarElementoByKey } from 'src/app/share/utils/arrayUtils';
 import { MatDialogRef } from '@angular/material/dialog';
-import { formatHours } from 'src/app/share/utils/formater';
 
 @Component({
   selector: 'app-canjeo-materiales-cart',
@@ -32,7 +31,13 @@ export class CanjeoMaterialesCartComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   fecha = new Date();
 
-  columns: string[] = ['material', 'cantidad', 'precio', 'subtotal', 'acciones'];
+  columns: string[] = [
+    'material',
+    'cantidad',
+    'precio',
+    'subtotal',
+    'acciones',
+  ];
 
   constructor(
     private canjeoService: CanjeoMaterialesService,
@@ -57,6 +62,59 @@ export class CanjeoMaterialesCartComponent implements OnInit {
     this.total = this.canjeoService.getTotal;
   }
 
+  onCanjearMateriales() {
+    if (!this.cliente) {
+      this.notiService.mensaje(
+        'Cuidado',
+        'Debe seleccionar el cliente al cual canjear los materiales',
+        TipoMessage.warning
+      );
+      return;
+    }
+
+    let canjeoMaterialesDetalle = this.canjeoService.getDetalles;
+
+    let formattedData = {
+      billeteraId: this.cliente.billetera.id,
+      centroAcopioId: this.centroAcopio.id,
+      canjeoMaterialesDetalles: canjeoMaterialesDetalle.map((detalle) => {
+        return {
+          materialId: detalle.materialId,
+          cantidadUnidades: detalle.cantidadUnidades,
+        };
+      }),
+    };
+
+    console.log(formattedData);
+
+    this.gService.create('canjeomateriales', formattedData).pipe(takeUntil(this.destroy$))
+    .subscribe((data: any) => {
+
+      console.log(data)
+
+      if(!data.error) {
+        
+        this.notiService.mensaje(
+          'Canjear Materiales',
+          `Materiales canjeados correctamente`,
+          TipoMessage.success,
+        );
+
+        this.canjeoService.vaciarCanjeoMateriales();
+        this.onResetCanjeo();
+
+      }
+      else {
+        this.notiService.mensaje(
+          'Error',
+          'Error al canjear materiales',
+          TipoMessage.error
+        );
+      }
+
+    })
+  }
+
   actualizarTabla() {
     this.dataSource = new MatTableDataSource<canjeoMaterialesDetalle>(
       this.canjeoService.getDetalles
@@ -70,6 +128,7 @@ export class CanjeoMaterialesCartComponent implements OnInit {
 
   onResetCliente() {
     this.cliente = null;
+    this.correo = '';
     localStorage.removeItem('cliente');
   }
 
@@ -148,7 +207,15 @@ export class CanjeoMaterialesCartComponent implements OnInit {
         })
       );
 
-    obtenerCliente$.subscribe();
+    if (this.correo) {
+      obtenerCliente$.subscribe();
+    } else {
+      this.notiService.mensaje(
+        'Cuidado',
+        'Verifique que el correo sea de un cliente válido',
+        TipoMessage.warning
+      );
+    }
   }
 
   onClose() {
