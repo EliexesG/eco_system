@@ -1,4 +1,18 @@
 <div id="canjeoMaterialesContainer" class="grid-container">
+ <mat-card>
+  <mat-card-content>
+    <div>
+      <div  class="contenidoFlex" id="encabezadoContenedor">
+        <button mat-mini-fab [mat-dialog-close]="true"
+        class="botonCerrar">
+          <mat-icon style="color: white;">close</mat-icon>
+        </button>
+        <p>Canjeo de materiales por Eco-monedas</p>
+      </div>
+    </div>
+  </mat-card-content>
+ </mat-card>
+
   <!--Tarjeta que muestra los datos del Centro-->
   <mat-card *ngIf="centroAcopio">
     <mat-card-header>
@@ -25,10 +39,22 @@
       </div>
     </mat-card-content>
   </mat-card>
-  <br />
+
+  <mat-card *ngIf="total==0" style="text-align: center;">
+    <mat-card-content>
+      <img id="imagenCarrito" src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2FOtros%2FimagenCarrito.jpg?alt=media&token=def8b608-81c0-4f31-8eaa-daa4b6ca7afd" alt="">
+      <h4>Upss, todavía no hay materiales en la orden.</h4>
+      <p>Agrega los materiales que reciba del cliente para poder realizar el canje.</p>
+      <br>
+      <button mat-raised-button class="botones" id="botonBuscar" [routerLink]="['/material']"  [mat-dialog-close]="true">
+        <mat-icon id="icono">keyboard_arrow_left</mat-icon>
+        Ir a materiales
+      </button>
+    </mat-card-content>
+  </mat-card>
 
   <!--Tarjeta que muestra los datos del cliente-->
-  <mat-card>
+  <mat-card *ngIf="total>0">
     <mat-card-header>
       <mat-card-title><h3>Datos cliente</h3></mat-card-title>
     </mat-card-header>
@@ -57,30 +83,33 @@
           {{ cliente.provincia }} ({{ cliente.direccionUsuario.sennas }})
         </p>
       </div>
-      <button mat-raised-button id="botonReset" (click)="onResetCliente()">
-        Cambiar cliente
-      </button>
+      <div class="center">
+        <button mat-raised-button class="botones" id="botonBuscar" (click)="onResetCliente()">
+          <mat-icon id="icono">refresh</mat-icon>
+          Cambiar cliente
+        </button>
+      </div>
     </mat-card-content>
 
     <!--Muestra si cliente NO esta cargado mediane ngIf-->
     <mat-card-content *ngIf="!cliente">
       <p>Buscar cliente por correo:</p>
-      <mat-form-field class="busquedaCliente" appearance="outline" id="Cuadro">
-        <input
-          matInput
-          placeholder="ejemplo@correo.com"
-          (keyup)="onCorreoChange($event)"
-        />
+
+      <mat-form-field appearance="outline" class="full-width">
+        <input class="input"
+        matInput
+        placeholder="ejemplo@correo.com"
+        matNativeControl
+        (keyup)="onCorreoChange($event)">
+        <button matSuffix mat-icon-button color="primary" (click)="buscarCliente()">
+          <mat-icon>search</mat-icon>
+        </button>
       </mat-form-field>
-      <button mat-mini-fab id="boton1" (click)="buscarCliente()">
-        <mat-icon>menu</mat-icon>
-      </button>
     </mat-card-content>
   </mat-card>
-  <br />
 
   <!--Tarjeta que muestra los datos del canjeo de materiales-->
-  <mat-card>
+  <mat-card *ngIf="total>0">
     <mat-card-header>
       <mat-card-title><h3>Detalle de Canjeo</h3></mat-card-title>
       <mat-card-subtitle></mat-card-subtitle>
@@ -96,17 +125,18 @@
         <ng-container matColumnDef="cantidad">
           <th mat-header-cell *matHeaderCellDef>Cantidad</th>
           <td mat-cell *matCellDef="let canjeo">
-            <mat-form-field appearance="fill" appearance="outline">
-              <input
-                matInput
-                id="cantidad "
-                type="number"
-                class="form-control mb-2"
-                [(ngModel)]="canjeo.cantidadUnidades"
-                (change)="onCambioCantidad(canjeo)"
-              />
-            </mat-form-field>
-            {{ canjeo.material.unidadMedida }}(s)
+            <div class="contenidoFlex">
+              <mat-form-field appearance="outline" class="cantMaterial">
+                <input
+                  matInput
+                  id="cantidad"
+                  type="number"
+                  [(ngModel)]="canjeo.cantidadUnidades"
+                  (change)="onCambioCantidad(canjeo)"
+                />
+              </mat-form-field>
+              <p>   {{ canjeo.material.unidadMedida }}(s)</p>
+            </div>
           </td>
         </ng-container>
         <ng-container matColumnDef="precio">
@@ -121,20 +151,46 @@
             {{ canjeo.subtotal }} Eco-Moneda(s)
           </td>
         </ng-container>
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let canjeo">
+            <button mat-mini-fab class="botonCerrar">
+              <mat-icon style="color: white;">remove_circle</mat-icon>
+            </button>
+          </td>
+        </ng-container>
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
         <tr mat-row *matRowDef="let row; columns: columns"></tr>
       </table>
     </mat-card-content>
+    <mat-card-footer id="footherDetalle" class="center">
+      <img
+              src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2FOtros%2Fmoneda.jpg?alt=media&token=1ddb658f-00c4-408b-b0a0-a1ae54db3aaf&_gl=1*11taqe0*_ga*MTQ0ODYwMTA4Ny4xNjk2Mzg1NzYw*_ga_CW55HF8NVT*MTY5ODgxNTg5NS41LjEuMTY5ODgxNjU2MS42MC4wLjA."
+              alt=""
+              style="
+                width: 20px;
+                height: 20px;
+                margin-left: 5px;
+                margin-right: 5px;
+              "
+            />
+      <b>&nbsp;Total:&nbsp;&nbsp;&nbsp;</b>
+      <p>{{ total }} Eco-Moneda(s)</p> 
+    </mat-card-footer>
   </mat-card>
 
-  <mat-card>
+  <mat-card *ngIf="total>0">
     <mat-card-content>
-      <p>Total: {{ total }}</p>
+      <div class="contenidoFlex">
+          <button mat-raised-button class="botones" id="botonReset" (click)="onResetCanjeo()">
+            <mat-icon id="icono">remove_circle</mat-icon>&nbsp; 
+            Limpiar Datos
+          </button> 
+          <button mat-raised-button class="botones" id="botonAceptar" (click)="onResetCanjeo()">
+            <mat-icon id="icono">check_circle</mat-icon>&nbsp;
+            Completar Orden
+          </button>
+      </div>
     </mat-card-content>
-    <mat-card-actions>
-      <button color="accent" mat-raised-button id="botonResetCanjeo" (click)="onResetCanjeo()">
-        Resetear Canjeo
-      </button>
-    </mat-card-actions>
   </mat-card>
 </div>

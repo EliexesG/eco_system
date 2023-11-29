@@ -22,8 +22,8 @@ export class NotificacionService {
     /* Top Right, Bottom Right, Bottom Left, Top Left, Top Full Width, Bottom Full Width, Top Center, Bottom Center */
     this.options.positionClass = 'toast-top-center';
     //Tiempo que se presenta el mensaje
-     //this.options.timeOut = 5000;
-    this.options.disableTimeOut = true;
+    this.options.timeOut = 2000;
+    //this.options.disableTimeOut = true;
     this.options.closeButton = true;
   }
   /*
