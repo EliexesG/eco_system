@@ -8,7 +8,7 @@
       <mat-card-content>
         <div class="row">
           <div class="col">
-            <mat-form-field class="full-width">
+            <mat-form-field class="full-width" appearance="outline">
               <mat-label>Nombre</mat-label>
               <input
                 matInput
@@ -22,14 +22,14 @@
                 El Nombre debe tener <strong>3 caracteres</strong>
               </mat-error>
               <mat-error *ngIf="errorHandling('nombre', 'maxlength')">
-                El Nombre debe tener maximo <strong> 30 caracteres</strong>
+                El Nombre debe tener maximo <strong> 100 caracteres</strong>
               </mat-error>
             </mat-form-field>
           </div>
         </div>
         <div class="row">
           <div class="col">
-            <mat-form-field class="full-width">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Descripción</mat-label>
               <textarea
                 matInput
@@ -52,7 +52,7 @@
 
         <div class="row">
           <div class="col">
-            <mat-form-field class="full-width">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Color</mat-label>
               <input
                 type="color"
@@ -67,7 +67,7 @@
             </mat-form-field>
           </div>
           <div class="col">
-            <mat-form-field class="full-width">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Monedas por Unidad</mat-label>
               <input
                 matInput
@@ -85,7 +85,7 @@
             </mat-form-field>
           </div>
           <div class="col" *ngIf="unidadesMedida">
-            <mat-form-field class="full-width">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Unidad de Medida</mat-label>
               <mat-select
                 placeholder="kilogramo..."

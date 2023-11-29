@@ -32,7 +32,7 @@ export class CanjeoMaterialesCartComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   fecha = new Date();
 
-  columns: string[] = ['material', 'cantidad', 'precio', 'subtotal'];
+  columns: string[] = ['material', 'cantidad', 'precio', 'subtotal', 'acciones'];
 
   constructor(
     private canjeoService: CanjeoMaterialesService,

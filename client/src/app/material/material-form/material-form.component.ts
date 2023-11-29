@@ -109,7 +109,7 @@ export class MaterialFormComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.minLength(5),
-          Validators.maxLength(30),
+          Validators.maxLength(100),
         ]),
       ],
       descripcion: [
