@@ -12,7 +12,10 @@ import { ImageService } from 'src/app/share/services/image.service';
 })
 export class MaterialIndexComponent {
   datos: any;
+  datosShow: {filtro:string, materiales};
   destroy$: Subject<boolean> = new Subject<boolean>();
+  idCentroAcopio: number = 1;
+  materialesCentroAcopio = [];
 
   constructor(
     private gService: GenericService,
@@ -20,7 +23,23 @@ export class MaterialIndexComponent {
     private iService: ImageService
   ) {
     this.listarMateriales();
+    this.obtenerMaterialesCentroAcopio();
   }
+
+  onFiltroChange(event) {
+    
+    this.datosShow.filtro = event;
+
+    if(event === "TODOS") {
+      this.datosShow.materiales = this.datos;
+    }
+    else {
+      this.datosShow.materiales = this.datos.filter((material: any) => this.materialesCentroAcopio.includes((materialCentro) => materialCentro.id == material.id));
+      console.log(this.datosShow.materiales)
+    }
+
+  }
+
 
   listarMateriales() {
     let materiales$ = this.gService.list('material').pipe(
@@ -28,15 +47,16 @@ export class MaterialIndexComponent {
       switchMap((materiales: any) => {
         materiales.map((material: any) => {
           this.iService
-            .getImage({filename: material.imagen})
+            .getImage({ filename: material.imagen })
             .pipe(takeUntil(this.destroy$))
             .subscribe((base64) => {
-              console.log(base64)
+              console.log(base64);
               material.base64 = base64.base64;
             });
         });
 
         this.datos = materiales;
+        this.datosShow = {filtro: "TODOS", materiales: materiales};
 
         return EMPTY;
       })
@@ -52,6 +72,16 @@ export class MaterialIndexComponent {
       id: id,
     };
     this.dialog.open(MaterialDiagComponent, dialogConfig);
+  }
+
+  obtenerMaterialesCentroAcopio() {
+    this.gService
+      .get('centroacopio', this.idCentroAcopio)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.materialesCentroAcopio = data.materiales;
+        console.log(this.materialesCentroAcopio)
+      });
   }
 
   ngOnDestroy() {

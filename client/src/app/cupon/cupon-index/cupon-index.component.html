@@ -5,22 +5,19 @@
     utilizando las Eco-Monedas.
   </p>
   <hr />
-  <div class="mat-h2-container">
-    <h2
-      class="title"
-      *ngIf="datosShow"
-      [style]="{ 'background-color': '#64ffda' }"
-    >
-      Categoria: 
-    </h2>
-    <mat-form-field>
-      <mat-select [value]="'TODOS'" (valueChange)="onCategoriaChange($event)">
-        <mat-option [value]="'TODOS'">TODOS</mat-option>
-        <mat-option *ngFor="let categoria of categorias" [value]="categoria">
-          {{ categoria }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+  <div class="Categoria">
+      <div id="filtro">
+        <h3>Categoria:</h3>
+      </div>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <mat-form-field appearance="outline">
+        <mat-select [value]="'TODOS'" (valueChange)="onCategoriaChange($event)">
+          <mat-option [value]="'TODOS'">TODOS</mat-option>
+          <mat-option *ngFor="let categoria of categorias" [value]="categoria">
+            {{ categoria }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
   </div>
   <mat-grid-list
     *ngIf="datosShow"
@@ -69,4 +66,3 @@
     </mat-grid-tile>
   </mat-grid-list>
 </div>
-<hr />

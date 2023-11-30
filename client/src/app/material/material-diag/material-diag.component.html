@@ -1,10 +1,11 @@
 <script src="https://gist.github.com/josuenoel/80daca657b71bc1cfd95a4e27d547abe.js"></script>
 <div *ngIf="datos" class="info">
-  <h1 class="mat-h1" [style.background-color]="datos.codColor">
-    {{ datos.nombre }}
-  </h1>
-  <hr [style]="{ 'margin-bottom': '25px', 'margin-top': '15px' }" />
   <mat-card>
+    <mat-card-header [style.background-color]="datos.codColor" id="header">
+      <h1 class="mat-h1">
+        {{ datos.nombre }}
+      </h1>
+    </mat-card-header>
     <img
       mat-card-image
       src="{{ datos.base64 }}"
@@ -40,10 +41,10 @@
         </div>
         <div>
           <h3 class="mat-h3">
-            <mat-icon>color_lens</mat-icon> Color que le Representa:
+            <mat-icon>color_lens</mat-icon> Color que le Representa:&nbsp;
+            &nbsp;
             <div
               [style]="{
-                'margin-left': '10px',
                 'background-color': datos.codColor
               }"
               class="color"
@@ -57,23 +58,17 @@
         <p class="mat-body">{{ datos.descripcion }}</p>
       </div>
     </mat-card-content>
+
     <mat-card-actions>
-      <button
-        class="boton"
-        mat-raised-button
-        [mat-dialog-close]="true"
-        color="accent"
-      >
-        <mat-icon>close</mat-icon> Cerrar
-      </button>
-      <button
-        class="boton"
-        mat-raised-button
-        (click)="onCanjeo()"
-        color="accent"
-      >
-        <mat-icon>shopping-cart</mat-icon> Agregar al canjeo
-      </button>
+      <div class="contenidoFlex">
+        <button mat-raised-button class="botones" [mat-dialog-close]="true">
+          <mat-icon id="icono">close</mat-icon>&nbsp; Cerrar
+        </button>
+        &nbsp;
+        <button mat-raised-button class="botones" (click)="onCanjeo()">
+          <mat-icon id="icono">shopping-cart</mat-icon>&nbsp; Agregar al canjeo
+        </button>
+      </div>
     </mat-card-actions>
   </mat-card>
 </div>

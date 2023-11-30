@@ -1,67 +1,88 @@
 .mat-h1 {
-    border-radius: 15px;
-    padding: 10px;
-    width: max-content;
-    position: relative;
-    margin: 15px auto;
-    color: white;
+  border-radius: 15px;
+  padding: 10px;
+  width: max-content;
+  position: relative;
+  margin: 15px auto;
+  color: white;
 }
 
 .info {
-    margin: 15px
+  margin: 15px;
+  width: 500px;
 }
 
 .no-datos {
-    color: black;
+  color: black;
 }
-
-.dataContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
 .mat-h3 {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .color {
-    border-radius: 50%;
-    height: 25px;
-    width: 25px;
+  border-radius: 15px;
+  height: 25px;
+  width: 75px;
 }
 
 .mat-body {
-    font-weight: normal;
+  font-weight: normal;
 }
 
 .descripcionContainer .mat-body {
-    text-align: justify;
+  text-align: justify;
 }
 
 .material-img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
 }
 
 mat-card-content {
-    margin-top: 15px;
-    margin-bottom: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
-.boton {
-    color: white !important;
-    font-weight: bold;
-    font-size: larger;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 5px;
-    width: 100%;
-    transition: all 0.2s cubic-bezier(0.25, 0.4, 0.45, 1.4);
+.botones {
+  height: 40px;
+  margin: 0px 0px 20px 0px;
+  padding: 1.3em 3em;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #000;
+  background-color: lightgray !important;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.contenidoFlex {
+  text-align: right;
+  margin: 0 auto 0 auto;
+}
+
+.botones:hover {
+  background-color: cadetblue !important;
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+
+  #icono {
+    color: white;
   }
-  
-  .boton:hover {
-    filter: brightness(90%);
-  }
+}
+
+#icono {
+  transform: scale(1.5);
+  color: #000;
+}
+
+#header {
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+}

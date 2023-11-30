@@ -74,3 +74,28 @@ mat-card-actions {
   align-items: center;
   justify-content: center;
 }
+
+
+.Categoria {
+  border-radius: 10px;
+  padding: 10px;
+  color: white;
+  font-size: larger;
+  font-weight: boldñ;
+  vertical-align: middle;
+  height: 56px;
+  width: max-content;
+  background-color: cadetblue;
+  display: flex;
+}
+
+.Categoria #filtro{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+mat-form-field{
+  background-color: white;
+  border-radius: 5px;
+}
