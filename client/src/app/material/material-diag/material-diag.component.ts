@@ -18,6 +18,8 @@ export class MaterialDiagComponent implements OnInit {
   datos: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
   datosDialog: { id: number };
+  esCanjeable: boolean = false;
+  idCentroAcopio: number = 1;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
@@ -47,7 +49,21 @@ export class MaterialDiagComponent implements OnInit {
           .subscribe((base64) => {
             response.base64 = base64.base64;
             this.datos = response;
+            this.identificarCanjeabilidad();
           });
+      });
+  }
+
+  identificarCanjeabilidad() {
+    this.gService
+      .get('centroacopio', this.idCentroAcopio)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((centro) => {
+        this.esCanjeable =
+          centro.materiales.findIndex(
+            (material: any) => this.datos.id === material.id
+          ) != -1;
+        console.log(this.esCanjeable);
       });
   }
 

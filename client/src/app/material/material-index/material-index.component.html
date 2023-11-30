@@ -8,20 +8,20 @@
 
   <div class="Categoria">
       <div id="filtro">
-        <h3>Categoria:</h3>
+        <h3>Vista:</h3>
       </div>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <mat-form-field appearance="outline">
-        <mat-select [value]="'TODOS'" (valueChange)="onFiltroChange($event)">
-          <mat-option [value]="'TODOS'">TODOS</mat-option>
+        <mat-select [value]="'TODOS'" (valueChange)="onVistaChange($event)">
+          <mat-option [value]="'TODOS'">Todos</mat-option>
           <mat-option [value]="'CENTRO_ACOPIO'">
-            POR CENTRO DE ACOPIO
+            Adm. Centro de Acopio
           </mat-option>
         </mat-select>
       </mat-form-field>
   </div>
 
-  <mat-grid-list [cols]="4" rowHeight="570px" gutterSize="5px" *ngIf="datosShow">
+  <mat-grid-list [cols]="4" rowHeight="36em" gutterSize="10px" *ngIf="datosShow">
     <mat-grid-tile *ngFor="let material of datosShow.materiales">
       <mat-card class="material-card">
         <mat-card-header>
@@ -29,13 +29,13 @@
             {{ material.nombre }}
           </h3>
         </mat-card-header>
-        <img
+        <mat-card-content>
+          <img
           mat-card-image
           src="{{ material.base64 ? material.base64 : '' }}"
           alt="material"
           class="material-img"
         />
-        <mat-card-content>
           <p class="contenido">
             {{ material.monedasUnidad }}
             <img
