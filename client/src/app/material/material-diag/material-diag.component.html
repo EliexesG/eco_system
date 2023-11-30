@@ -65,7 +65,7 @@
           <mat-icon id="icono">close</mat-icon>&nbsp; Cerrar
         </button>
         &nbsp;
-        <button mat-raised-button class="botones" (click)="onCanjeo()">
+        <button *ngIf="esCanjeable" mat-raised-button class="botones" (click)="onCanjeo()">
           <mat-icon id="icono">shopping-cart</mat-icon>&nbsp; Agregar al canjeo
         </button>
       </div>

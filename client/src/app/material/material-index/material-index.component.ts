@@ -12,7 +12,7 @@ import { ImageService } from 'src/app/share/services/image.service';
 })
 export class MaterialIndexComponent {
   datos: any;
-  datosShow: {filtro:string, materiales};
+  datosShow: { vista: string; materiales };
   destroy$: Subject<boolean> = new Subject<boolean>();
   idCentroAcopio: number = 1;
   materialesCentroAcopio = [];
@@ -26,20 +26,23 @@ export class MaterialIndexComponent {
     this.obtenerMaterialesCentroAcopio();
   }
 
-  onFiltroChange(event) {
-    
-    this.datosShow.filtro = event;
+  onVistaChange(event) {
+    this.datosShow.vista = event;
 
-    if(event === "TODOS") {
+    if (event === 'TODOS') {
       this.datosShow.materiales = this.datos;
-    }
-    else {
-      this.datosShow.materiales = this.datos.filter((material: any) => this.materialesCentroAcopio.includes((materialCentro) => materialCentro.id == material.id));
-      console.log(this.datosShow.materiales)
-    }
+    } else {
+      console.log(this.materialesCentroAcopio, this.datos);
 
+      this.datosShow.materiales = this.datos.filter(
+        (material: any) =>
+          this.materialesCentroAcopio.findIndex(
+            (materialCentro) => materialCentro.id == material.id
+          ) != -1
+      );
+      console.log(this.datosShow.materiales);
+    }
   }
-
 
   listarMateriales() {
     let materiales$ = this.gService.list('material').pipe(
@@ -50,13 +53,12 @@ export class MaterialIndexComponent {
             .getImage({ filename: material.imagen })
             .pipe(takeUntil(this.destroy$))
             .subscribe((base64) => {
-              console.log(base64);
               material.base64 = base64.base64;
             });
         });
 
         this.datos = materiales;
-        this.datosShow = {filtro: "TODOS", materiales: materiales};
+        this.datosShow = { vista: 'TODOS', materiales: materiales };
 
         return EMPTY;
       })
@@ -80,7 +82,7 @@ export class MaterialIndexComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         this.materialesCentroAcopio = data.materiales;
-        console.log(this.materialesCentroAcopio)
+        console.log(this.materialesCentroAcopio);
       });
   }
 

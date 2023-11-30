@@ -144,6 +144,12 @@ export class CanjeoMaterialesCartComponent implements OnInit {
     this.total = this.canjeoService.getTotal;
   }
 
+  onEliminarDetalle(detalle: any) {
+    this.canjeoService.eliminarDetalle(detalle);
+    this.actualizarTabla();
+    this.total = this.canjeoService.getTotal;
+  }
+
   buscarCliente() {
     let obtenerCliente$ = this.gService
       .get('usuario/usuarioclientecorreo', this.correo)
