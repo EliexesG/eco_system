@@ -75,6 +75,7 @@
   }
   
   .botones {
+    margin: 20px 0px 20px 0px;
     height: 40px;
     padding: 1.3em 3em;
     text-transform: uppercase;

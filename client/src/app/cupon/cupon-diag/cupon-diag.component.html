@@ -4,12 +4,14 @@
   </div>
   <div class="info">
     <mat-card-header>
-      <h2 color="primary" [style]="{'text-align': 'center', 'width': '100%'}">{{ datos.nombre }}</h2>
+      <h2 color="primary" [style]="{ 'text-align': 'center', width: '100%' }">
+        {{ datos.nombre }}
+      </h2>
     </mat-card-header>
     <mat-card-content>
       <div class="descripcion">
-        <h4 class="mat-h4"> <mat-icon>description</mat-icon> Descripcion:</h4>
-        <p>
+        <h4 class="mat-h4" ><mat-icon>description</mat-icon> Descripcion:</h4>
+        <p >
           {{ datos.descripcion }}
         </p>
       </div>
@@ -40,20 +42,20 @@
             }}<img
               src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2FOtros%2Fmoneda.jpg?alt=media&token=1ddb658f-00c4-408b-b0a0-a1ae54db3aaf&_gl=1*11taqe0*_ga*MTQ0ODYwMTA4Ny4xNjk2Mzg1NzYw*_ga_CW55HF8NVT*MTY5ODgxNTg5NS41LjEuMTY5ODgxNjU2MS42MC4wLjA."
               alt=""
-              style="width: 25px; height: 25px; margin-left: 5px;"
+              style="width: 25px; height: 25px; margin-left: 5px"
             />
           </h1>
         </div>
       </div>
     </mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions class="acciones">
       <button
         mat-raised-button
         color="accent"
-        class="boton"
+        class="botones"
         [mat-dialog-close]="true"
       >
-        <mat-icon>close</mat-icon> Cerrar
+        <mat-icon id="icono">close</mat-icon> Cerrar
       </button>
     </mat-card-actions>
   </div>

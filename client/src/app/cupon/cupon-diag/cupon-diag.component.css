@@ -1,6 +1,6 @@
 .imagen {
   background-color: aqua;
-  width: 500px;
+  width: 520px;
   height: auto;
   margin: 0px;
   padding: 0px;
@@ -20,21 +20,6 @@
   max-width: 450px;
 }
 
-.boton {
-  color: white;
-  font-weight: bold;
-  font-size: larger;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 5px;
-  width: 100%;
-  transition: all 0.2s cubic-bezier(0.25, 0.4, 0.45, 1.4);
-}
-
-.boton:hover {
-  filter: brightness(90%);
-}
-
 .categoria,
 .Comienza,
 .Finaliza,
@@ -49,4 +34,46 @@
 .descripcion p {
   margin-top: -15px;
   text-align: justify;
+}
+
+.botones {
+  height: 40px;
+  margin: 0px 0px 20px 0px;
+  padding: 1.3em 3em;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #000;
+  background-color: lightgray !important;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.contenidoFlex {
+  text-align: right;
+  margin: 0 auto 0 auto;
+}
+
+.botones:hover {
+  background-color: cadetblue !important;
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+
+  #icono {
+    color: white;
+  }
+}
+
+#icono {
+  transform: scale(1.5);
+  color: #000;
+}
+
+.acciones{
+  margin: auto;
+  width: max-content;
 }
