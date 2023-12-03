@@ -8,8 +8,8 @@
 }
 
 .info {
-  margin: 5px;
   width: 500px;
+  border-radius: 30px !important; 
 }
 
 .no-datos {
