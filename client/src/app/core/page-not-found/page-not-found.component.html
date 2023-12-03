@@ -1,1 +1,18 @@
-<p>page-not-found works!</p>
+<div>
+    <mat-card>
+        <mat-card-header>
+            <h1>Ups, lo sentimos! :(</h1>
+        </mat-card-header>
+        <mat-card-content class="center">
+            <img alt="" id="imagen" src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2FOtros%2Ferror.jpeg?alt=media&token=73369b33-2a9e-42b7-954e-268b45028b97">
+            <h4> Lo sentimos, la página que estás buscando no se encuentra disponible. Por favor, verifica que la URL esté escrita correctamente e inténtalo de nuevo. </h4>
+            <h4> ¡Gracias por tu interés en nuestros centros de acopio! </h4>
+        </mat-card-content>
+        <mat-card-actions class="center">
+            <button mat-raised-button color="accent" class="botones" id="botonRegresar" (click)="irInicio()">
+                <mat-icon id="icono">home</mat-icon>
+                Regresar a la página inicio
+                </button>
+        </mat-card-actions>
+    </mat-card>
+</div>

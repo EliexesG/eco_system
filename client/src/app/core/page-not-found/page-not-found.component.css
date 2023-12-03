@@ -1,0 +1,63 @@
+mat-card{
+    background-color: #F5FAFD;
+    width: 600px;
+    margin: 15px auto ;
+
+    border-radius: 15px;
+}
+
+mat-card-header{
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    color: white;
+    background-color: #0097a7;
+}
+
+#imagen{
+    margin: 15px auto ;
+    width: 350px;
+}
+
+
+  
+.botones {
+    margin: 20px 0px 20px 0px;
+    height: 40px;
+    padding: 1.3em 3em;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #000;
+    background-color: lightgray !important;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+
+  }
+  
+  #botonRegresar:hover {
+    background-color: cadetblue !important;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+    
+    #icono{
+      color: white;
+    }
+  }
+
+  
+
+#icono{
+  
+    transform: scale(1.5);
+    color: #000;
+  }
+
+  .center {
+    text-align: center;
+    margin: 0 auto 0 auto;
+  }
+  

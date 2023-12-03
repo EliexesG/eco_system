@@ -1,0 +1,81 @@
+<mat-card class="ag-full-width-container">
+  <mat-card-header>
+    <h1 class="mat-h1">Administración de Usuarios</h1>
+  </mat-card-header>
+  <mat-card-content>
+    <p class="mat-body descripcionTitulo">
+      A continuación, un listado de los diferentes usuarios registrados en el sistema
+    </p>
+    <mat-card-actions>
+      <button
+        class="boton"
+        mat-mini-fab
+        color="primary"
+        (click)="crearUsuario()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-card-actions>
+    <hr />
+    <div class="mat-elevation-z8">
+      <table mat-table class="full-width-table"mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+          <td mat-cell *matCellDef="let row">{{ row.nombre }} {{ row.primerApellido }} {{ row.segundoApellido }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="identificacion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Identificación</th>
+          <td mat-cell *matCellDef="let row">{{ row.identificacion }}</td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="correo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo</th>
+          <td mat-cell *matCellDef="let row">{{ row.correo }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="tipoUsuario">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de usuario</th>
+          <td mat-cell *matCellDef="let row">
+            <p *ngIf="row.tipoUsuario=='ADMINISTRADOR_CENTROS_ACOPIO'">Administrador Centro Acopio</p>
+            <p *ngIf="row.tipoUsuario=='ADMINISTRADOR'">Administrador</p>
+            <p *ngIf="row.tipoUsuario=='CLIENTE'">Cliente</p>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let row">
+            <button
+              mat-mini-fab
+              color="primary"
+              class="boton"
+              (click)="detalleUsuario(row.id)"
+            >
+              <mat-icon>info</mat-icon>
+            </button>
+            <button
+              mat-mini-fab
+              color="primary"
+              class="boton"
+              (click)="actualizarUsuario(row.id)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+        <mat-paginator
+          #paginator
+          [length]="dataSource.data.length"
+          [pageIndex]="0"
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 20]"
+          aria-label="Select page"
+        >
+        </mat-paginator>
+      </table>
+    </div> </mat-card-content
+></mat-card>

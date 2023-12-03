@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CanjeoMaterialesCartComponent } from 'src/app/canjeo-materiales/canjeo-materiales-cart/canjeo-materiales-cart.component';
+import { UsuarioDiagComponent } from 'src/app/usuario/usuario-diag/usuario-diag.component';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +28,12 @@ export class HeaderComponent {
     dialogConfig.disableClose = false;
     dialogConfig.position = {top: '15px', right: '15px'}
     this.dialog.open(CanjeoMaterialesCartComponent, dialogConfig);
+  }
+
+  inicioSesion() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    this.dialog.open(UsuarioDiagComponent, dialogConfig);
   }
 
 }

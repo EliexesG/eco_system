@@ -16,6 +16,7 @@
     mat-icon-button
     class="example-icon"
     aria-label="Example icon-button with share icon"
+    (click)="inicioSesion()"
   >
     <mat-icon>person</mat-icon>
   </button>
@@ -51,9 +52,10 @@
   <mat-menu #administracionCentro>
     <button mat-menu-item [routerLink]="'/canjeomateriales/all'">
       <mat-icon class="material-icons color_black" fontIcon="money"></mat-icon>
-      CANJEO DE MATERIALES
+     Canjeo de materiales
     </button>
   </mat-menu>
+
   <button mat-button class="button" [matMenuTriggerFor]="administracion">
     <mat-icon
       class="material-icons color_white"
@@ -61,23 +63,35 @@
     ></mat-icon
     >ADMINISTRACIÓN
   </button>
-  <mat-menu #administracion>
-    <button mat-menu-item [routerLink]="'/material/all'">
-      <mat-icon
-        class="material-icons color_black"
-        fontIcon="recycling"
-      ></mat-icon>
-      MATERIALES
-    </button>
 
-    <button mat-menu-item [routerLink]="'/centroacopio/all'">
-      <mat-icon class="material-icons color_black" fontIcon="domain"></mat-icon>
-      CENTROS DE ACOPIO
-    </button>
-
-    <button mat-menu-item [routerLink]="'/cupon/all'">
-      <mat-icon class="material-icons color_black" fontIcon="note"></mat-icon>
-      CUPONES
-    </button>
+  <mat-menu #administracion="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="material"> <mat-icon
+      class="material-icons color_black"
+      fontIcon="recycling"
+    ></mat-icon>Materiales</button>
+    <button mat-menu-item [matMenuTriggerFor]="centro"> <mat-icon class="material-icons color_black" fontIcon="domain"></mat-icon> Centros de acopio</button>
+    <button mat-menu-item [matMenuTriggerFor]="cupon"> <mat-icon class="material-icons color_black" fontIcon="note"></mat-icon>Cupones</button>
+    <button mat-menu-item [matMenuTriggerFor]="usuario"><mat-icon class="material-icons color_black" fontIcon="group"></mat-icon>Usuarios</button>
   </mat-menu>
+
+  <mat-menu #material="matMenu">    
+    <button mat-menu-item [routerLink]="'/material/create'"> <mat-icon class="material-icons color_black">add</mat-icon>Crear nuevo material</button>
+    <button mat-menu-item [routerLink]="'/material/all'"><mat-icon class="material-icons color_black">view_list</mat-icon>Lista de materiales</button>
+  </mat-menu>
+
+  <mat-menu #centro="matMenu">
+    <button mat-menu-item [routerLink]="'/centroacopio/create'"><mat-icon class="material-icons color_black">add</mat-icon>Crear nuevo centro de acopio</button>
+    <button mat-menu-item [routerLink]="'/centroacopio/all'"><mat-icon class="material-icons color_black">view_list</mat-icon>Lista de centros de acopio</button>
+  </mat-menu>
+
+  <mat-menu #cupon="matMenu">
+    <button mat-menu-item [routerLink]="'/cupon/create'"><mat-icon class="material-icons color_black">add</mat-icon>Crear nuevo cupon</button>
+    <button mat-menu-item [routerLink]="'/cupon/all'"><mat-icon class="material-icons color_black">view_list</mat-icon>Lista de cupon</button>
+  </mat-menu>
+
+  <mat-menu #usuario="matMenu">
+    <button mat-menu-item [routerLink]="'/usuario/create'"><mat-icon class="material-icons color_black">add</mat-icon>Crear nuevo usuario</button>
+    <button mat-menu-item [routerLink]="'/usuario/all'"><mat-icon class="material-icons color_black">view_list</mat-icon>Lista de usuario</button>
+  </mat-menu>
+
 </mat-toolbar>

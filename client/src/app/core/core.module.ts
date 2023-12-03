@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
+import {MatCardModule} from '@angular/material/card';
 
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry, MatIconModule} from '@angular/material/icon';
@@ -36,6 +37,7 @@ const THUMBUP_ICON =
     MatToolbarModule,
     MatMenuModule,
     MatBadgeModule,
+    MatCardModule,
     
   ],
   exports: [HeaderComponent, FooterComponent],
