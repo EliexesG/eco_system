@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 //excluir contrasenna
 function exclude(usuario, keys) {
@@ -21,15 +22,49 @@ module.exports.login = async (request, response, next) => {
       },
     });
 
-    let contrasennaCorrecta = usuario
-      ? await bcrypt.compare(contrasenna, usuario.contrasenna)
-      : false;
+    if (!usuario) {
+      response.status(401).send({
+        success: false,
+        message: 'Usuario no registrado',
+      })
+    }
 
-    response.json(contrasennaCorrecta ? usuario : null);
+    let contrasennaCorrecta = await bcrypt.compare(contrasenna, usuario.contrasenna);
+
+    if (!contrasennaCorrecta) {
+      response.status(401).send({
+        success: false,
+        message: 'Credenciales no válidas',
+      })
+    }
+    else {
+
+      const payload = {
+        id: usuario.id,
+        correo: usuario.correo,
+        tipoUsuario: usuario.tipoUsuario,
+        nombre: usuario.nombre,
+        primerApellido: usuario.primerApellido,
+        segundoApellido: usuario.segundoApellido,
+      }
+
+      const token = jwt.sign(payload, process.env.SECRET_KEY, {
+        expiresIn: process.env.JWT_EXPIRE,
+      });
+
+      response.json({
+        success: true,
+        message: "Usuario loggeado",
+        token,
+      })
+    }
+
   } catch (e) {
-    response.json(
-      "Ocurrió un error, contacte al administrador: \n" + e.message
-    );
+    response.json({
+      error: true,
+      response: "Ocurrió un error, contacte al administrador: \n" + e.message,
+      status: 400,
+    });
   }
 };
 
@@ -149,7 +184,7 @@ module.exports.getUsuarioClienteByCorreo = async (request, response, next) => {
 
     response.json(usuarioSinContrasenna);
   }
-  catch(e) {
+  catch (e) {
     response.json(
       "Ocurrió un error, contacte al administrador: \n" + e.message
     );
@@ -230,20 +265,22 @@ module.exports.create = async (request, response, next) => {
         billetera:
           data.tipoUsuario === "CLIENTE"
             ? {
-                create: {
-                  canjeados: 0,
-                  disponibles: 0,
-                },
-              }
+              create: {
+                canjeados: 0,
+                disponibles: 0,
+              },
+            }
             : {},
       },
     });
 
-    response.json(usuario);
+    response.json({ error: false, response: usuario, status: 200 });
   } catch (e) {
-    response.json(
-      "Ocurrió un error, contacte al administrador: \n" + e.message
-    );
+    response.json({
+      error: true,
+      response: "Ocurrió un error, contacte al administrador: \n" + e.message,
+      status: 400,
+    });
   }
 };
 
