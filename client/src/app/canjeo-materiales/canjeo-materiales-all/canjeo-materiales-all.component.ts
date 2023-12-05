@@ -15,7 +15,7 @@ export class CanjeoMaterialesAllComponent implements AfterViewInit {
   datos: any;
   datosCentroAcopio: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  idCentroAcopio: number = 1;
+  idCentroAcopio: number = 2;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

@@ -20,7 +20,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./canjeo-materiales-cart.component.css'],
 })
 export class CanjeoMaterialesCartComponent implements OnInit {
-  private idCentro: number = 1;
+  private idCentro: number = 2;
 
   dataSource: MatTableDataSource<canjeoMaterialesDetalle>;
   total: number;
@@ -86,7 +86,7 @@ export class CanjeoMaterialesCartComponent implements OnInit {
     };
 
     console.log(formattedData);
-
+    
     this.gService.create('canjeomateriales', formattedData).pipe(takeUntil(this.destroy$))
     .subscribe((data: any) => {
 
@@ -139,6 +139,15 @@ export class CanjeoMaterialesCartComponent implements OnInit {
   }
 
   onCambioCantidad(detalle: any) {
+    console.log(detalle)
+
+    if(detalle.cantidadUnidades == null) {
+
+      this.notiService.mensaje('Cuidado', 'La cantidad debe ser en formato numérico unicamente', TipoMessage.warning);
+      return;
+
+    }
+
     this.canjeoService.agregarDetalle(detalle);
     this.actualizarTabla();
     this.total = this.canjeoService.getTotal;
