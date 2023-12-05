@@ -19,7 +19,7 @@ export class MaterialDiagComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   datosDialog: { id: number };
   esCanjeable: boolean = false;
-  idCentroAcopio: number = 1;
+  idCentroAcopio: number = 2;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
