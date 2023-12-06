@@ -25,7 +25,7 @@ router.get(
 //Ruta: locahost:3000/centroacopio/
 router.get(
   "/",
-  auth.grantRole(["ADMINISTRADOR_CENTROS_ACOPIO"]),
+  auth.grantRole(["ADMINISTRADOR"]),
   centroAcopioController.get
 );
 
