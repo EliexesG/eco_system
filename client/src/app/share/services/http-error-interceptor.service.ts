@@ -50,9 +50,11 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
         });
       }
 
-      request = request.clone({
-        headers: request.headers.set('Accept', 'application/json'),
-      });
+      if (!request.url.includes('/uploadimage')) {
+        request = request.clone({
+          headers: request.headers.set('Accept', 'application/json'),
+        });
+      }
     }
 
     //Capturar el error
