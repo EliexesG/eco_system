@@ -1,1 +1,25 @@
-<p>Dialogo para ingresar al sistema o registrarse</p>
+<div class="container" id="container">
+    <mat-tab-group>
+        <mat-tab label="Registrar">
+            <mat-card>
+                <mat-card-content>
+                    
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+        <mat-tab label="Inicio Sesion">
+            <mat-card>
+                <mat-card-content>
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Correo</mat-label>
+                        <input
+                          matInput
+                          formControlName="correo"
+                          placeholder="correo@mail.com"
+                        />
+                      </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+      </mat-tab-group>    
+</div>
