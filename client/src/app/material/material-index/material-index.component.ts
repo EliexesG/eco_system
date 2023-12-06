@@ -4,6 +4,7 @@ import { GenericService } from 'src/app/share/services/generic.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MaterialDiagComponent } from '../material-diag/material-diag.component';
 import { ImageService } from 'src/app/share/services/image.service';
+import { AuthenticationService } from 'src/app/share/services/authentication.service';
 
 @Component({
   selector: 'app-material-index',
@@ -16,11 +17,13 @@ export class MaterialIndexComponent {
   destroy$: Subject<boolean> = new Subject<boolean>();
   idCentroAcopio: number = 2;
   materialesCentroAcopio = [];
+  tipoUsuario: string = '';
 
   constructor(
     private gService: GenericService,
     private dialog: MatDialog,
-    private iService: ImageService
+    private iService: ImageService,
+    private authService: AuthenticationService
   ) {
     this.listarMateriales();
     this.obtenerMaterialesCentroAcopio();
@@ -77,12 +80,29 @@ export class MaterialIndexComponent {
   }
 
   obtenerMaterialesCentroAcopio() {
-    this.gService
-      .get('centroacopio', this.idCentroAcopio)
+    this.authService.decodeToken
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.materialesCentroAcopio = data.materiales;
-        console.log(this.materialesCentroAcopio);
+      .subscribe((usuario: any) => {
+        console.log(usuario);
+
+        if(!usuario) {
+          return;
+        }
+
+        this.tipoUsuario = usuario.tipoUsuario;
+
+        if (usuario.tipoUsuario == 'ADMINISTRADOR_CENTROS_ACOPIO') {
+          this.gService
+            .list(`centroacopio/usuario/${usuario.id}`)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((centro: any) => {
+              this.materialesCentroAcopio = centro.materiales;
+              console.log(this.materialesCentroAcopio);
+            });
+        }
+        else {
+          this.materialesCentroAcopio = [];
+        }
       });
   }
 

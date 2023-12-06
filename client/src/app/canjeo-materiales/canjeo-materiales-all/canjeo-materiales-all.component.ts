@@ -5,6 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/services/generic.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { AuthenticationService } from 'src/app/share/services/authentication.service';
 
 @Component({
   selector: 'app-canjeo-materiales-all',
@@ -25,7 +26,8 @@ export class CanjeoMaterialesAllComponent implements AfterViewInit {
   constructor(
     private gService: GenericService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthenticationService
   ) {}
 
   ngAfterViewInit(): void {
@@ -33,40 +35,46 @@ export class CanjeoMaterialesAllComponent implements AfterViewInit {
   }
 
   listarCanjeoMateriales() {
-    this.gService
-      .list(`canjeomateriales/centroacopio/${this.idCentroAcopio}`)
+    this.authService.decodeToken
       .pipe(takeUntil(this.destroy$))
-      .subscribe((response: any) => {
-        console.log(response);
+      .subscribe((usuario: any) => {
+        this.gService
+          .list(`centroacopio/usuario/${usuario.id}`)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((response: any) => {
+            console.log(response);
+            this.datosCentroAcopio = response;
 
-        let data: { totalMonedas: number; canjeos: any } = {
-          totalMonedas: 0,
-          canjeos: response,
-        };
-        response.forEach((canjeo) => {
-          data.totalMonedas += canjeo.cantMonedas;
-        });
+            this.gService
+              .list(
+                `canjeomateriales/centroacopio/${this.datosCentroAcopio.id}`
+              )
+              .pipe(takeUntil(this.destroy$))
+              .subscribe((response: any) => {
+                console.log(response);
 
-        this.datos = data;
+                let data: { totalMonedas: number; canjeos: any } = {
+                  totalMonedas: 0,
+                  canjeos: response,
+                };
+                response.forEach((canjeo) => {
+                  data.totalMonedas += canjeo.cantMonedas;
+                });
 
-        this.dataSource = new MatTableDataSource(this.datos.canjeos);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-      });
+                this.datos = data;
 
-    this.gService
-      .list(`centroacopio/${this.idCentroAcopio}`)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((response: any) => {
-        console.log(response);
-        this.datosCentroAcopio = response;
+                this.dataSource = new MatTableDataSource(this.datos.canjeos);
+                this.dataSource.sort = this.sort;
+                this.dataSource.paginator = this.paginator;
+              });
+          });
       });
   }
 
   detalleCanjeoMateriales(id: number) {
     this.router.navigate(['/canjeomateriales', id], {
       relativeTo: this.route,
-      skipLocationChange: true
+      skipLocationChange: true,
     });
   }
 

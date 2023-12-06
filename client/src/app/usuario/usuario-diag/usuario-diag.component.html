@@ -1,25 +1,24 @@
-<div class="container" id="container">
+<mat-card class="main-div">
+  <mat-card-content>
+    
     <mat-tab-group>
-        <mat-tab label="Registrar">
-            <mat-card>
-                <mat-card-content>
-                    
-                </mat-card-content>
-            </mat-card>
-        </mat-tab>
-        <mat-tab label="Inicio Sesion">
-            <mat-card>
-                <mat-card-content>
-                    <mat-form-field class="full-width" appearance="outline">
-                        <mat-label>Correo</mat-label>
-                        <input
-                          matInput
-                          formControlName="correo"
-                          placeholder="correo@mail.com"
-                        />
-                      </mat-form-field>
-                </mat-card-content>
-            </mat-card>
-        </mat-tab>
-      </mat-tab-group>    
-</div>
+      <mat-tab label="Iniciar Sesión">
+        <app-usuario-login></app-usuario-login>
+      </mat-tab>
+      <mat-tab label="Registrarse">
+        <app-usuario-form></app-usuario-form>
+      </mat-tab>
+    </mat-tab-group>
+
+  </mat-card-content>
+  <mat-card-actions>
+    <button
+        mat-raised-button
+        color="accent"
+        class="botones"
+        [mat-dialog-close]="true"
+      >
+        <mat-icon id="icono">close</mat-icon> Cerrar
+      </button>
+  </mat-card-actions>
+</mat-card>

@@ -48,6 +48,14 @@ export class MaterialFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.gService
+      .list('material/colores')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log(data);
+        this.colores = data;
+      });
+
     this.activeRouter.params.subscribe((params: Params) => {
       this.idMaterial = params['id'];
 
@@ -72,7 +80,9 @@ export class MaterialFormComponent implements OnInit {
                 monedasUnidad: this.materialInfo.monedasUnidad,
               });
 
-              let objIndex = this.colores.findIndex((color) => color.codColor == this.materialInfo.codColor);
+              let objIndex = this.colores.findIndex(
+                (color) => color.codColor == this.materialInfo.codColor
+              );
               this.colores.splice(objIndex, 1);
 
               return this.iService
@@ -80,6 +90,7 @@ export class MaterialFormComponent implements OnInit {
                 .pipe(
                   takeUntil(this.destroy$),
                   concatMap((base64: any) => {
+                    console.log(base64);
                     this.imagen = dataURItoBlob(base64.base64) as File;
 
                     return EMPTY;
@@ -90,14 +101,6 @@ export class MaterialFormComponent implements OnInit {
 
         getMaterialData$.subscribe();
       }
-
-      this.gService
-        .list('material/colores')
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((data: any) => {
-          console.log(data);
-          this.colores = data;
-        });
     });
   }
 
@@ -265,12 +268,11 @@ export class MaterialFormComponent implements OnInit {
   }
 
   onChangeColor(): void {
-
     let color = {
       codColor: this.materialForm.get('codColor').value.toUpperCase(),
     };
 
-    console.log(color)
+    console.log(color);
     let colorExiste: boolean = false;
 
     for (let colorActual of this.colores) {

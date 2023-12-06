@@ -13,6 +13,7 @@ import {
 } from 'src/app/share/services/notification.service';
 import { filtrarElementoByKey } from 'src/app/share/utils/arrayUtils';
 import { MatDialogRef } from '@angular/material/dialog';
+import { AuthenticationService } from 'src/app/share/services/authentication.service';
 
 @Component({
   selector: 'app-canjeo-materiales-cart',
@@ -44,18 +45,24 @@ export class CanjeoMaterialesCartComponent implements OnInit {
     private gService: GenericService,
     private notiService: NotificacionService,
     private lService: LocalizacionService,
-    private dialogRef: MatDialogRef<CanjeoMaterialesCartComponent>
+    private dialogRef: MatDialogRef<CanjeoMaterialesCartComponent>,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
     this.cliente = JSON.parse(localStorage.getItem('cliente'));
 
-    this.gService
-      .get('centroacopio', this.idCentro)
+    this.authService.decodeToken
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any) => {
-        this.centroAcopio = data;
+      .subscribe((usuario: any) => {
+        this.gService
+          .list(`centroacopio/usuario/${usuario.id}`)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((data: any) => {
+            this.centroAcopio = data;
+          });
       });
+
     this.dataSource = new MatTableDataSource<canjeoMaterialesDetalle>(
       this.canjeoService.getDetalles
     );
@@ -86,33 +93,30 @@ export class CanjeoMaterialesCartComponent implements OnInit {
     };
 
     console.log(formattedData);
-    
-    this.gService.create('canjeomateriales', formattedData).pipe(takeUntil(this.destroy$))
-    .subscribe((data: any) => {
 
-      console.log(data)
+    this.gService
+      .create('canjeomateriales', formattedData)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log(data);
 
-      if(!data.error) {
-        
-        this.notiService.mensaje(
-          'Canjear Materiales',
-          `Materiales canjeados correctamente`,
-          TipoMessage.success,
-        );
+        if (!data.error) {
+          this.notiService.mensaje(
+            'Canjear Materiales',
+            `Materiales canjeados correctamente`,
+            TipoMessage.success
+          );
 
-        this.canjeoService.vaciarCanjeoMateriales();
-        this.onResetCanjeo();
-
-      }
-      else {
-        this.notiService.mensaje(
-          'Error',
-          'Error al canjear materiales',
-          TipoMessage.error
-        );
-      }
-
-    })
+          this.canjeoService.vaciarCanjeoMateriales();
+          this.onResetCanjeo();
+        } else {
+          this.notiService.mensaje(
+            'Error',
+            'Error al canjear materiales',
+            TipoMessage.error
+          );
+        }
+      });
   }
 
   actualizarTabla() {
@@ -139,13 +143,15 @@ export class CanjeoMaterialesCartComponent implements OnInit {
   }
 
   onCambioCantidad(detalle: any) {
-    console.log(detalle)
+    console.log(detalle);
 
-    if(detalle.cantidadUnidades == null) {
-
-      this.notiService.mensaje('Cuidado', 'La cantidad debe ser en formato numérico unicamente', TipoMessage.warning);
+    if (detalle.cantidadUnidades == null) {
+      this.notiService.mensaje(
+        'Cuidado',
+        'La cantidad debe ser en formato numérico unicamente',
+        TipoMessage.warning
+      );
       return;
-
     }
 
     this.canjeoService.agregarDetalle(detalle);

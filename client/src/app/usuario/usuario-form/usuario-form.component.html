@@ -1,1 +1,129 @@
-<p>usuario-form works!</p>
+<form [formGroup]="usuarioForm"  novalidate>
+    <mat-card class="shipping-card">
+      <mat-card-content>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-label>Nombre</mat-label>
+              <input matInput type="text" placeholder="Nombre" formControlName="nombre" />
+             <mat-error *ngIf="errorHandling('nombre', 'required')">
+                Nombre es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <mat-label>Primer apellido</mat-label>
+                <input matInput type="text" placeholder="Primer apellido" formControlName="primerApellido" />
+               <mat-error *ngIf="errorHandling('primerApellido', 'required')">
+                  Primer apellido es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="full-width">
+                <mat-label>Segundo apellido</mat-label>
+                <input matInput type="text" placeholder="Segundo apellido" formControlName="segundoApellido" />
+               <mat-error *ngIf="errorHandling('segundoApellido', 'required')">
+                Segundo apellido es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="full-width">
+                <mat-label>Identificación</mat-label>
+                <input matInput type="text" placeholder="Identificación" formControlName="identificacion" />
+               <mat-error *ngIf="errorHandling('identificacion', 'required')">
+                Identificación es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="full-width">
+                <mat-label>Identificación</mat-label>
+                <input matInput type="password" placeholder="Contraseña" formControlName="contrasenna" />
+               <mat-error *ngIf="errorHandling('contrasenna', 'required')">
+                Contraseña es <strong>requerida</strong>
+                </mat-error>
+              </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <mat-label>Email</mat-label>
+              <input matInput type="text" placeholder="Correo electronico" formControlName="correo" />
+             <mat-error *ngIf="errorHandling('correo', 'required')">
+                Email es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <div>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Provincia</mat-label>
+                    <mat-select
+                      placeholder="Alajuela..."
+                      formControlName="codProvincia"
+                      (selectionChange)="onProvinciaChange()"
+                    >
+                      <mat-option
+                        *ngFor="let item of listaProvincias"
+                        [value]="item.id"
+                      >
+                        {{ item.nombre }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="errorHandling('codProvincia', 'required')">
+                      La provincia es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Cantón</mat-label>
+                    <mat-select
+                      placeholder="Central..."
+                      formControlName="codCanton"
+                      (selectionChange)="onCantonChange()"
+                    >
+                      <mat-option *ngFor="let item of listaCantones" [value]="item.id">
+                        {{ item.nombre }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="errorHandling('codCanton', 'required')">
+                      El cantón es <strong>requerido</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Distrito</mat-label>
+                    <mat-select placeholder="San Antonio..." formControlName="codDistrito">
+                      <mat-option *ngFor="let item of listaDistritos" [value]="item.id">
+                        {{ item.nombre }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="errorHandling('codDistrito', 'required')">
+                      El distrito es <strong>requerido</strong>
+                    </mat-error>
+                  </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+
+              <mat-form-field *ngIf="tipo=='ADMINSITRADOR'">
+                <mat-label>Tipo de usuario</mat-label>
+                <select  placeholder="Rol" formControlName="tipoUsuario" required>
+                  <option value="ADMINISTRADOR">Administrador</option>
+                  <option value="ADMINISTRADOR_CENTROS_ACOPIO">Administrador Centro Acopio</option>                    
+                  <option value="CLIENTE">Cliente</option>
+                </select>
+              </mat-form-field> 
+                <mat-error *ngIf="errorHandling('tipoUsuario', 'required')">
+                    Tipo de usuario es <strong>requerido</strong>
+                  </mat-error>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="submitForm()">Registrar</button>
+        <button mat-raised-button color="accent" type="reset" (click)="onReset()">Cancelar</button>
+      </mat-card-actions>
+    </mat-card>
+    </form>
+    
+    

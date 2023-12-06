@@ -38,7 +38,6 @@ module.exports.login = async (request, response, next) => {
       })
     }
     else {
-
       const payload = {
         id: usuario.id,
         correo: usuario.correo,
