@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NotificacionService, TipoMessage } from 'src/app/share/services/notification.service';
 import { AuthenticationService } from 'src/app/share/services/authentication.service';
@@ -26,11 +26,13 @@ export class UsuarioFormComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   titleForm: string = 'Crear';
   categoriaList: any;
-  centroInfo: any;
+  usuarioInfo: any;
   respInfo: any;
   submitted = false;
+  idUsuario: number = 0;
   cargando: boolean = false;
-  
+  isCreate: boolean = true;
+
   listaProvincias: { id: number; nombre: string }[];
   listaCantones: { id: number; nombre: string }[];
   listaDistritos: { id: number; nombre: string }[];
@@ -39,6 +41,7 @@ export class UsuarioFormComponent implements OnInit {
     public fb: FormBuilder,
     private router: Router,
     private gService: GenericService,
+    private activeRouter: ActivatedRoute,
     private authService: AuthenticationService,
     private noti: NotificacionService,    
     private lService: LocalizacionService
@@ -49,9 +52,7 @@ export class UsuarioFormComponent implements OnInit {
 
   getProvincias() {
     this.listaProvincias = null;
-
     let lista: { id: number; nombre: string }[] = [];
-
     this.lService
       .getProvincias()
       .pipe(takeUntil(this.destroy$))
@@ -124,6 +125,7 @@ export class UsuarioFormComponent implements OnInit {
     }
 
     let valorForm = this.usuarioForm.value;
+
     let valorFormFinal = {
       tipoUsuario: valorForm.tipoUsuario,
       identificacion: valorForm.identificacion,      
@@ -140,24 +142,44 @@ export class UsuarioFormComponent implements OnInit {
       }
     }
 
-    console.log(valorFormFinal)
+    
+    console.log(valorFormFinal);
 
-    this.gService
-        .create('usuario', valorFormFinal)
-        .pipe(takeUntil(this.destroy$))
+    if(this.isCreate){
+    
+      this.gService
+          .create('usuario', valorFormFinal)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((data: any) => {
+            console.log(data);
+            this.cargando = false;
+            this.respInfo = data;
+          });
+      
+      this.authService.createUser(this.usuarioForm.value)
+      .subscribe((respuesta:any)=>{
+        this.noti.mensajeRedirect(
+          'Usuario', 'Usuario creado ', 
+          TipoMessage.success,'/')
+        this.router.navigate(['/inicio/'])
+      })
+    }else{
+      this.cargando = true;
+
+      this.gService.update('usuario', valorFormFinal)
+      .pipe(takeUntil(this.destroy$))
         .subscribe((data: any) => {
           console.log(data);
           this.cargando = false;
           this.respInfo = data;
+          this.noti.mensajeRedirect(
+            'Acualizar usuario',
+            `Usuario Actualizado"${data.nombre}"`,
+            TipoMessage.success,
+            '/inicio'
+          );
         });
-    
-    this.authService.createUser(this.usuarioForm.value)
-    .subscribe((respuesta:any)=>{
-      this.noti.mensajeRedirect(
-        'Usuario', 'Usuario creado ', 
-        TipoMessage.success,'/')
-      this.router.navigate(['/inicio/'])
-    })
+    }
   }
 
   ngOnInit(): void {
@@ -168,11 +190,56 @@ export class UsuarioFormComponent implements OnInit {
       (valor) => (this.isAutenticated = valor)
     );
 
-    this.tipo = this.currentUser.tipoUsuario;
+    if(this.isAutenticated) {
+      this.tipo = this.currentUser.tipoUsuario;
+    }
+
+    this.activeRouter.params.subscribe((params: Params) => {
+      this.idUsuario = params['id'];
+      if (this.idUsuario && !isNaN(Number(this.idUsuario))) {
+        this.isCreate = false;
+        this.titleForm = 'Actualizar';
+
+        this.gService
+          .get('usuario', this.idUsuario)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((data: any) => {
+            this.usuarioInfo = data;
+            console.log(this.usuarioInfo);
+
+            this.usuarioForm.setValue({
+              id: this.usuarioInfo.id,
+              tipoUsuario: this.usuarioInfo.tipoUsuario,
+              identificacion: this.usuarioInfo.identificacion,      
+              nombre: this.usuarioInfo.nombre,      
+              primerApellido: this.usuarioInfo.primerApellido,      
+              segundoApellido: this.usuarioInfo.segundoApellido,  
+              correo: this.usuarioInfo.correo,        
+              contrasenna: this.usuarioInfo.contrasenna,
+              direccionUsuario: this.usuarioInfo.direccionUsuario,
+              codProvincia: this.usuarioInfo.direccionUsuario.codProvincia,
+              codCanton: '',
+              codDistrito: '',
+              sennas: this.usuarioInfo.direccionUsuario.sennas,
+            });
+
+            this.onProvinciaChange();
+            this.usuarioInfo
+              .get('codCanton')
+              .setValue(this.usuarioInfo.direccionUsuario.codCanton);
+
+            this.onCantonChange();
+            this.usuarioInfo
+              .get('codDistrito')
+              .setValue(this.usuarioInfo.direccionUsuario.codDistrito);
+          });
+      }
+    });
   }
 
   reactiveForm() {
     this.usuarioForm = this.fb.group({
+      id: [null, null],
       tipoUsuario: ['CLIENTE', [Validators.required]],
       identificacion: ['', [Validators.required]],
       nombre: ['', [Validators.required]],
@@ -187,6 +254,8 @@ export class UsuarioFormComponent implements OnInit {
     });
   }
 
+
+  
   onReset() {
     this.usuarioForm.reset();
   }

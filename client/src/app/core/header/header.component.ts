@@ -14,7 +14,7 @@ import { AuthenticationService } from 'src/app/share/services/authentication.ser
 export class HeaderComponent implements OnInit {
   isAutenticated: boolean;
   currentUser: any;
-  tipo: any;
+  tipo: any = '';
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -29,22 +29,16 @@ export class HeaderComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    //valores de prueba
-     /*  this.isAutenticated = false;
-      let user={
-        name:"Gabriel García",
-        email:"ggarcia@prueba.com",
- 
-      }
-      this.currentUser=user;  */  
-     //Suscripción a la información del usuario actual
-     this. authService.decodeToken.subscribe((user:any)=>(
-       this.currentUser=user
-     ))
-     //Suscripción al booleano que indica si esta autenticado
-     this.authService.isAuthenticated.subscribe((valor)=>(
-       this.isAutenticated=valor
-     ))
+    this.authService.decodeToken.subscribe(
+      (user: any) => (this.currentUser = user)
+    );
+    this.authService.isAuthenticated.subscribe(
+      (valor) => (this.isAutenticated = valor)
+    );
+
+    if(this.isAutenticated) {
+      this.tipo = this.currentUser.tipoUsuario;
+    }
   }
 
   canjeoMaterialesClick() {

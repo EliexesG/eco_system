@@ -18,6 +18,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { UsuarioModule } from './usuario/usuario.module';
 import { HttpErrorInterceptorService } from './share/services/http-error-interceptor.service';
+import { GraficosModule } from './graficos/graficos.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,6 +35,7 @@ import { HttpErrorInterceptorService } from './share/services/http-error-interce
     CuponModule,
     UsuarioModule,
     CanjeoMaterialesModule,
+    GraficosModule,
     AppRoutingModule,
     MatTableModule,
     MatPaginatorModule,
@@ -43,7 +45,7 @@ import { HttpErrorInterceptorService } from './share/services/http-error-interce
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptorService,
-      multi: true,
+      multi: true
     }
   ],
   bootstrap: [AppComponent],

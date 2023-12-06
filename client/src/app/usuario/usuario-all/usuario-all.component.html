@@ -63,6 +63,16 @@
             >
               <mat-icon>edit</mat-icon>
             </button>
+            <button
+              mat-mini-fab
+              color="primary"
+              class="boton"
+              (click)="cambiarEstado(row.id)"
+            >
+            <mat-icon *ngIf="row.desabilitado">remove_red_eye</mat-icon>
+            <mat-icon *ngIf="!row.desabilitado">remove</mat-icon>
+            </button>
+          >
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
@@ -71,9 +81,9 @@
           #paginator
           [length]="dataSource.data.length"
           [pageIndex]="0"
-          [pageSize]="10"
+          [pageSize]="5"
           [pageSizeOptions]="[5, 10, 20]"
-          aria-label="Select page"
+          aria-label="Selccione una pagina"
         >
         </mat-paginator>
       </table>

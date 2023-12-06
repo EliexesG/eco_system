@@ -111,6 +111,17 @@
       <mat-icon class="material-icons color_black" fontIcon="group"></mat-icon
       >Usuarios
     </button>
+    <button
+      mat-menu-item
+      [matMenuTriggerFor]="graficos"
+      *ngIf="tipo == 'ADMINISTRADOR' || tipo == 'ADMINISTRADOR_CENTROS_ACOPIO'"
+    >
+      <mat-icon
+        class="material-icons color_black"
+        fontIcon="bar_chart"
+      ></mat-icon
+      >Gráficos
+    </button>
   </mat-menu>
 
   <mat-menu #material="matMenu">
@@ -193,3 +204,22 @@
     </button>
   </mat-menu>
 </mat-toolbar>
+
+<mat-menu #graficos="matMenu">
+  <button
+    mat-menu-item
+    [routerLink]="'/graficos/admin'"
+    *ngIf="tipo == 'ADMINISTRADOR'"
+  >
+    <mat-icon class="material-icons color_black">pie_chart</mat-icon>Gráficos
+    Administrativos
+  </button>
+  <button
+    mat-menu-item
+    [routerLink]="'/graficos/admincentro'"
+    *ngIf="tipo == 'ADMINISTRADOR_CENTROS_ACOPIO'"
+  >
+    <mat-icon class="material-icons color_black">pie_chart</mat-icon>Gráficos
+    por Centro
+  </button>
+</mat-menu>

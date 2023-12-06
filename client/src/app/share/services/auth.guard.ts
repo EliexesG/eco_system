@@ -17,8 +17,7 @@ export class UserGuard {
   }
   checkUserLogin(route: ActivatedRouteSnapshot): boolean {
     if (this.auth) {
-      const userRole = this.currentUser.role;
-      console.log(userRole.tipoUsuario)
+      const userRole = this.currentUser.tipoUsuario;
       //roles.length && roles.indexOf(verify.role)===-1
       if (
         route.data['tipoUsuario'].length &&
@@ -28,9 +27,9 @@ export class UserGuard {
           'Usuario',
           `Usuario Sin permisos para acceder`,
           TipoMessage.warning,
-          '/usuario/login'
+          '/page-not-found'
         );
-        this.router.navigate(['/usuario/login']);
+        this.router.navigate(['/page-not-found']);
         return false;
       }
       return true;
@@ -39,7 +38,7 @@ export class UserGuard {
       'Usuario',
       `Usuario No autenticado`,
       TipoMessage.warning,
-      '/usuario/login'
+      '/page-not-found'
     );
     return false;
   }

@@ -1,0 +1,22 @@
+.mat-h1 {
+  text-align: center;
+}
+
+.descripcionTitulo {
+  text-align: center;
+}
+
+canvas {
+  max-height: 250px;
+}
+
+mat-card-content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5%;
+  min-height: 662px;
+}
+
+mat-card-content div h4 {
+  text-align: center;
+}
