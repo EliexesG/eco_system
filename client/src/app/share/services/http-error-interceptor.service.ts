@@ -11,6 +11,7 @@ import { catchError } from 'rxjs/operators';
 
 import { AuthenticationService } from './authentication.service';
 import { NotificacionService, TipoMessage } from './notification.service';
+import { LocalizacionService } from './localizacion.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,13 +21,14 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
   //en AppModule
   constructor(
     private auth: AuthenticationService,
-    private noti: NotificacionService
+    private noti: NotificacionService,
+    private lService: LocalizacionService,
   ) {}
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (!request.url.includes('https://ubicaciones.paginasweb.cr/')) {
+    if (!request.url.includes(this.lService.baseUrl)) {
       //Obtener token
       let token = null;
       if (this.auth.tokenUserValue != null) {
