@@ -8,33 +8,57 @@ const usuarioController = require("../controllers/usuarioController");
 router.post("/login/", usuarioController.login);
 
 //Ruta: localhost:3000/usuario
-router.get("/", usuarioController.get);
+router.get("/", auth.grantRole(["ADMINISTRADOR"]), usuarioController.get);
 
 //Ruta: localhost:3000/usuario/habilitados
-router.get("/habilitados", usuarioController.getHabilitados);
+router.get(
+  "/habilitados",
+  auth.grantRole(["ADMINISTRADOR"]),
+  usuarioController.getHabilitados
+);
 
 //Ruta: localhost:3000/usuario/desabilitados
-router.get("/desabilitados", usuarioController.getDesabilitados);
+router.get(
+  "/desabilitados",
+  auth.grantRole(["ADMINISTRADOR"]),
+  usuarioController.getDesabilitados
+);
 
 //Ruta: localhost:3000/usuario/admincentrosincentro
-router.get("/admincentrosincentro", usuarioController.getUsuariosAdminCentroSinCentro);
+router.get(
+  "/admincentrosincentro",
+  auth.grantRole(["ADMINISTRADOR"]),
+  usuarioController.getUsuariosAdminCentroSinCentro
+);
 
 //Ruta: localhost:3000/usuario/tipousuario/administrador
-router.get("/tipousuario/:tipousuario", usuarioController.getByTipoUsuario);
+router.get(
+  "/tipousuario/:tipousuario",
+  auth.grantRole(["ADMINISTRADOR"]),
+  usuarioController.getByTipoUsuario
+);
 
 //Ruta: localhost:3000/usuario/usuarioclientecorreo/administrador
-router.get("/usuarioclientecorreo/:correo", usuarioController.getUsuarioClienteByCorreo);
+router.get(
+  "/usuarioclientecorreo/:correo",
+  auth.grantRole(["ADMINISTRADOR_CENTROS_ACOPIO"]),
+  usuarioController.getUsuarioClienteByCorreo
+);
 
 //Ruta: localhost:3000/usuario/id
 router.get("/:id", usuarioController.getById);
 
 //Ruta: localhost:3000/usuario
-router.post("/", usuarioController.create);
+router.post("/", auth.grantRole(["ADMINISTRADOR"]), usuarioController.create);
 
 //Ruta: localhost:3000/usuario
-router.put("/:id", usuarioController.update);
+router.put("/:id", auth.grantRole(["ADMINISTRADOR"]), usuarioController.update);
 
 //Ruta: localhost:3000/usuario/habilitarodesabilitar/id
-router.post("/habilitarodesabilitar/:id", usuarioController.habilitarODesabilitar)
+router.post(
+  "/habilitarodesabilitar/:id",
+  auth.grantRole(["ADMINISTRADOR"]),
+  usuarioController.habilitarODesabilitar
+);
 
 module.exports = router;

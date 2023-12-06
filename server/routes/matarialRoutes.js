@@ -2,21 +2,25 @@ const express = require("express");
 const router = express.Router();
 
 //Controlador
-const matarialController = require('../controllers/materialController');
+const matarialController = require("../controllers/materialController");
 
 //Ruta: localhost:3000/material
-router.get('/', matarialController.get);
+router.get("/", matarialController.get);
 
 //Ruta: localhost:3000/material/colores
-router.get('/colores', matarialController.getColors);
+router.get("/colores", matarialController.getColors);
 
 //Ruta: localhost:3000/material
-router.post('/', matarialController.create);
+router.post("/", auth.grantRole(["ADMINISTRADOR"]), matarialController.create);
 
 //Ruta: localhost:3000/material
-router.put('/:id', matarialController.update);
+router.put(
+  "/:id",
+  auth.grantRole(["ADMINISTRADOR"]),
+  matarialController.update
+);
 
 //Ruta: localhost:3000/material/:id
-router.get('/:id', matarialController.getById);
+router.get("/:id", matarialController.getById);
 
 module.exports = router;

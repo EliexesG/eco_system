@@ -1,31 +1,35 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 //Controlador
 const cuponController = require("../controllers/cuponController");
 
 //Ruta: locahost:3000/cupon/
-router.get('/', cuponController.get);
+router.get("/", auth.grantRole(["ADMINISTRADOR"]), cuponController.get);
 
 //Ruta: locahost:3000/cupon/validos
-router.get('/validos', cuponController.getValidos);
+router.get("/validos", cuponController.getValidos);
 
 //Ruta: locahost:3000/cupon/invalidos
-router.get('/invalidos', cuponController.getInvalidos);
+router.get(
+  "/invalidos",
+  auth.grantRole(["ADMINISTRADOR"]),
+  cuponController.getInvalidos
+);
 
 //Ruta: locahost:3000/cupon/categoria/nombre
-router.get('/categoria/:nombre', cuponController.getByCategoria);
+router.get("/categoria/:nombre", cuponController.getByCategoria);
 
 //Ruta: locahost:3000/cupon/categoria/nombre
-router.get('/categorias', cuponController.getCategorias);
+router.get("/categorias", cuponController.getCategorias);
 
 //Ruta: locahost:3000/cupon/
-router.post('/',cuponController.create);
+router.post("/", auth.grantRole(["ADMINISTRADOR"]), cuponController.create);
 
 //Ruta: locahost:3000/cupon/2
-router.get("/:id",cuponController.getById);
+router.get("/:id", cuponController.getById);
 
 //Ruta: locahost:3000/cupon/2
-router.put('/:id',cuponController.update);
+router.put("/:id", auth.grantRole(["ADMINISTRADOR"]), cuponController.update);
 
 module.exports = router;
