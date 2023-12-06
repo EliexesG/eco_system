@@ -44,7 +44,7 @@ app.use("/usuario", usuarioRoutes);
 app.use("/canjeomateriales", canjeoMaterialesRoutes);
 app.use("/canjeocupon", canjeoCuponRoutes);
 app.use("/image", imageManagamentRoutes);
-app.use(express.json({ limit: '50000kb' }));
+app.use(express.json({ limit: '1024mb' }));
 
 // Servidor
 app.listen(port, () => {

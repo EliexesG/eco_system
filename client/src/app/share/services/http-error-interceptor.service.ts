@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { 
-  HttpEvent, HttpRequest, HttpHandler, 
-  HttpInterceptor, HttpErrorResponse 
+import {
+  HttpEvent,
+  HttpRequest,
+  HttpHandler,
+  HttpInterceptor,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -19,29 +22,38 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
     private auth: AuthenticationService,
     private noti: NotificacionService
   ) {}
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    //Obtener token
-    let token = null;
-    if (this.auth.tokenUserValue != null) {
-      token = this.auth.tokenUserValue;
-    }
-    //Agregar headers a la solicitud
-    if (token) {
-      //Header con el token
-      request = request.clone({
-        headers: request.headers.set('Authorization', 'Bearer ' + token),
-      });
-    }
-    //Opcional indicar el tipo de contenido JSON
-    if (!request.headers.has('Content-Type')) {
-      request = request.clone({
-        headers: request.headers.set('Content-Type', 'application/json'),
-      });
-    }
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    if (!request.url.includes('https://ubicaciones.paginasweb.cr/')) {
+      //Obtener token
+      let token = null;
+      if (this.auth.tokenUserValue != null) {
+        token = this.auth.tokenUserValue;
+      }
+      //Agregar headers a la solicitud
+      if (token) {
+        //Header con el token
+        request = request.clone({
+          headers: request.headers.set('Authorization', 'Bearer ' + token),
+        });
+      }
 
-    request = request.clone({
-      headers: request.headers.set('Accept', 'application/json'),
-    });
+      //Opcional indicar el tipo de contenido JSON
+      if (
+        !request.headers.has('Content-Type') &&
+        !request.url.includes('/uploadimage')
+      ) {
+        request = request.clone({
+          headers: request.headers.set('Content-Type', 'application/json'),
+        });
+      }
+
+      request = request.clone({
+        headers: request.headers.set('Accept', 'application/json'),
+      });
+    }
 
     //Capturar el error
     return next.handle(request).pipe(
@@ -63,9 +75,13 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
             break;
         }
         //Mostrar un mensaje de error
-        this.noti.mensaje('Error',error.status+' '+ message,TipoMessage.error);
+        this.noti.mensaje(
+          'Error',
+          error.status + ' ' + message,
+          TipoMessage.error
+        );
         throw new Error(error.message);
       })
-      );
-    }
+    );
   }
+}
