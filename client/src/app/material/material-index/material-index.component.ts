@@ -15,7 +15,6 @@ export class MaterialIndexComponent {
   datos: any;
   datosShow: { vista: string; materiales };
   destroy$: Subject<boolean> = new Subject<boolean>();
-  idCentroAcopio: number = 2;
   materialesCentroAcopio = [];
   tipoUsuario: string = '';
 

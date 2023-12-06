@@ -16,7 +16,6 @@ export class CanjeoMaterialesAllComponent implements AfterViewInit {
   datos: any;
   datosCentroAcopio: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  idCentroAcopio: number = 2;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -45,28 +44,30 @@ export class CanjeoMaterialesAllComponent implements AfterViewInit {
             console.log(response);
             this.datosCentroAcopio = response;
 
-            this.gService
-              .list(
-                `canjeomateriales/centroacopio/${this.datosCentroAcopio.id}`
-              )
-              .pipe(takeUntil(this.destroy$))
-              .subscribe((response: any) => {
-                console.log(response);
+            if (this.datosCentroAcopio) {
+              this.gService
+                .list(
+                  `canjeomateriales/centroacopio/${this.datosCentroAcopio.id}`
+                )
+                .pipe(takeUntil(this.destroy$))
+                .subscribe((response: any) => {
+                  console.log(response);
 
-                let data: { totalMonedas: number; canjeos: any } = {
-                  totalMonedas: 0,
-                  canjeos: response,
-                };
-                response.forEach((canjeo) => {
-                  data.totalMonedas += canjeo.cantMonedas;
+                  let data: { totalMonedas: number; canjeos: any } = {
+                    totalMonedas: 0,
+                    canjeos: response,
+                  };
+                  response.forEach((canjeo) => {
+                    data.totalMonedas += canjeo.cantMonedas;
+                  });
+
+                  this.datos = data;
+
+                  this.dataSource = new MatTableDataSource(this.datos.canjeos);
+                  this.dataSource.sort = this.sort;
+                  this.dataSource.paginator = this.paginator;
                 });
-
-                this.datos = data;
-
-                this.dataSource = new MatTableDataSource(this.datos.canjeos);
-                this.dataSource.sort = this.sort;
-                this.dataSource.paginator = this.paginator;
-              });
+            }
           });
       });
   }

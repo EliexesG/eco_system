@@ -19,7 +19,6 @@ module.exports.login = async (request, response, next) => {
     const usuario = await prisma.usuario.findUnique({
       where: {
         correo: correo,
-        desabilitado: false,
       },
     });
 
@@ -50,6 +49,8 @@ module.exports.login = async (request, response, next) => {
         nombre: usuario.nombre,
         primerApellido: usuario.primerApellido,
         segundoApellido: usuario.segundoApellido,
+        desabilitado: usuario.desabilitado,
+        billetera: usuario.billetera || null,
       }
 
       const token = jwt.sign(payload, process.env.SECRET_KEY, {

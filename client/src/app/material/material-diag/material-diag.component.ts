@@ -20,7 +20,6 @@ export class MaterialDiagComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   datosDialog: { id: number };
   esCanjeable: boolean = false;
-  idCentroAcopio: number = 2;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
@@ -61,7 +60,7 @@ export class MaterialDiagComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((usuario: any) => {
         console.log(usuario);
-        if(!usuario) {
+        if (!usuario) {
           this.esCanjeable = false;
           return;
         }
@@ -71,11 +70,15 @@ export class MaterialDiagComponent implements OnInit {
             .list(`centroacopio/usuario/${usuario.id}`)
             .pipe(takeUntil(this.destroy$))
             .subscribe((centro: any) => {
-              this.esCanjeable =
-                centro.materiales.findIndex(
-                  (material: any) => this.datos.id === material.id
-                ) != -1;
-              console.log(this.esCanjeable);
+              if (centro) {
+                this.esCanjeable =
+                  centro.materiales.findIndex(
+                    (material: any) => this.datos.id === material.id
+                  ) != -1;
+                console.log(this.esCanjeable);
+              } else {
+                this.esCanjeable = false;
+              }
             });
         } else {
           this.esCanjeable = false;

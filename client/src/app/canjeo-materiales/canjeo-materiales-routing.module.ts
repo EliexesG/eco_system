@@ -25,6 +25,10 @@ const routes: Routes = [
   {
     path: 'canjeomateriales/:id',
     component: CanjeoMaterialesDetalleComponent,
+    canActivate:[authGuard],
+    data: {
+      tipoUsuario: ['ADMINISTRADOR_CENTROS_ACOPIO']
+    }
   },
 ];
 

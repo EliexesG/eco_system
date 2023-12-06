@@ -50,7 +50,7 @@ export class AuthenticationService {
     return this.http.post<any>(this.ServerUrl + 'usuario', user);
   }
   //Decodificar la información del token y obtener la información del usuario
-  get decodeToken(): any {
+  get decodeToken(): Observable<any> {
     this.user.next(null);
     if (this.tokenUserValue != null) {
       this.user.next(jwtDecode(this.tokenUserValue));
@@ -67,10 +67,17 @@ export class AuthenticationService {
         // almacene los detalles del usuario y el token jwt
         // en el almacenamiento local para mantener al usuario conectado entre las actualizaciones de la página
 
-        localStorage.setItem('currentUser', JSON.stringify(response.token));
+        let user = jwtDecode(response.token) as any;
+        console.log(user);
+
+        if (user.desabilitado) {
+          throw new Error();
+        }
+
         this.authenticated.next(true);
         this.tokenUserSubject.next(response.token);
         let userData = this.decodeToken;
+        localStorage.setItem('currentUser', JSON.stringify(response.token));
         return userData;
       })
     );
