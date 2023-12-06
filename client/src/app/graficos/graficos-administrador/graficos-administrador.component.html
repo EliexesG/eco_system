@@ -1,0 +1,50 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Gráficos Administrativos</h1>
+  <p class="mat-body descripcionTitulo">
+    A continuación los gráficos administrativos
+  </p>
+  <mat-card>
+    <mat-card-content>
+      <div *ngIf="cantTotalCanjeMaterialesMes">
+        <h4>
+          Cantidad total de canjes de materiales registrados en el mes actual
+        </h4>
+        <canvas id="cantTotalCanjeMaterialesMes">{{
+          buildChart("cantTotalCanjeMaterialesMes")
+        }}</canvas>
+      </div>
+      <div *ngIf="estMonedasPorCentroAnno">
+        <h4>
+          Estadística de eco-monedas producidas por cada centro de acopio en el
+          año actual.
+        </h4>
+        <canvas id="estMonedasPorCentroAnno">{{
+          buildChart("estMonedasPorCentroAnno")
+        }}</canvas>
+      </div>
+      <div *ngIf="sumMonedasCentro">
+        <h4>
+          Sumatoria de todas las eco-monedas generadas por cada centro de
+          acopio.
+        </h4>
+        <canvas id="sumMonedasCentro">{{
+          buildChart("sumMonedasCentro")
+        }}</canvas>
+      </div>
+      <div *ngIf="cantCanjesCuponesAnno">
+        <h4>Cantidad de canjes de cupones registrados en el año actual</h4>
+        <canvas id="cantCanjesCuponesAnno">{{
+          buildChart("cantCanjesCuponesAnno")
+        }}</canvas>
+      </div>
+      <div *ngIf="totalMonedasCanjeCuponesAnno">
+        <h4>
+          Total, de eco-monedas utilizadas en el canje de cupones del año actual
+        </h4>
+        <canvas id="totalMonedasCanjeCuponesAnno">{{
+          buildChart("totalMonedasCanjeCuponesAnno")
+        }}</canvas>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

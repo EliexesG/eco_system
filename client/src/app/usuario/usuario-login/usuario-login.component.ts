@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MaterialDiagComponent } from 'src/app/material/material-diag/material-diag.component';
 import { AuthenticationService } from 'src/app/share/services/authentication.service';
 import {
   NotificacionService,
   TipoMessage,
 } from 'src/app/share/services/notification.service';
-import { UsuarioDiagComponent } from '../usuario-diag/usuario-diag.component';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-usuario-login',
@@ -22,7 +22,7 @@ export class UsuarioLoginComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     private authService: AuthenticationService,
-    private dialogRef: MatDialogRef<UsuarioDiagComponent>,
+    private dialogRef: MatDialogRef<MaterialDiagComponent>,
     private noti: NotificacionService,
     private router: Router,
     private route: ActivatedRoute
@@ -31,39 +31,46 @@ export class UsuarioLoginComponent implements OnInit {
   }
   reactiveForm() {
     this.formulario = this.fb.group({
-      correo: ['', Validators.compose([
-        Validators.required,
-        Validators.email
-      ])],
+      correo: ['', [Validators.required, Validators.email]],
       contrasenna: ['', Validators.required],
     });
   }
   ngOnInit(): void {}
 
   onReset() {
+    this.formulario.reset();
     this.dialogRef.close();
   }
 
   submitForm() {
-    this.makeSubmit=true;
-    //Validación
-    if(this.formulario.invalid){
-      this.formulario.reset();
-     return;
+    this.makeSubmit = true;
+
+    if (this.formulario.invalid) {
+      return;
     }
 
-   let valoresForm= this.formulario;
+    console.log(this.formulario.value)
 
-    console.log('Formulario: '+valoresForm.value)
-    //Login API
-    this.authService.loginUser(valoresForm.value)
-    .subscribe((respuesta:any)=>{
-      this.noti.mensajeRedirect(
-        'Usuario', 'Usuario logueado: ', 
-        TipoMessage.success,'/')
-      this.router.navigate(['/'])
-    })  
+    this.authService.loginUser(this.formulario.value).subscribe(
+      (Response) => {
+        console.log(Response)
+        this.noti.mensaje('Usuario', 'Usuario logueado: ', TipoMessage.success);
+        this.router.navigate(['/'], {
+          relativeTo: this.route,
+        });
+        this.dialogRef.close();
+      },
+      (Error) => {
+        console.log(Error)
+        this.noti.mensaje(
+          'Error',
+          'Verifique la contraseña y/o correo',
+          TipoMessage.error
+        );
+      }
+    );
   }
+
   public errorHandling = (control: string, error: string) => {
     return (
       this.formulario.controls[control].hasError(error) &&

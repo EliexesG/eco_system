@@ -65,7 +65,7 @@ export class UsuarioAllComponent implements AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((response: any) => {
         console.log(response);
-        this.datos = response;
+        this.datos = response.filter((usuario: any) => usuario.tipoUsuario != 'ADMINISTRADO');
         this.dataSource = new MatTableDataSource(this.datos);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
@@ -78,4 +78,12 @@ export class UsuarioAllComponent implements AfterViewInit {
     this.destroy$.unsubscribe();
   }
 
+  cambiarEstado(id: number) {
+    this.gService
+      .create(`usuario/habilitarodesabilitar/${id}`, {})
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((response: any) => {
+        this.listarUsuario();
+      });
+  }
 }

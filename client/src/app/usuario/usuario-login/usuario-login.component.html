@@ -24,17 +24,14 @@
       <div class="contenidoFlex">
         <mat-form-field class="full-width" appearance="outline">
           <mat-label>Contraseña</mat-label>
-          <input
-            matInput type="password"
-            formControlName="contrasenna"
-          />
+          <input matInput type="password" formControlName="contrasenna" />
           <mat-error *ngIf="errorHandling('contrasenna', 'required')">
             Contraseña es <strong>requerida</strong>
           </mat-error>
         </mat-form-field>
       </div>
     </mat-card-content>
-    <mat-card-footer>
+    <mat-card-actions>
       <div class="center">
         <button
           mat-raised-button
@@ -53,6 +50,6 @@
           Cancelar
         </button>
       </div>
-    </mat-card-footer>
+    </mat-card-actions>
   </mat-card>
 </form>

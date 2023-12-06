@@ -12,46 +12,65 @@ function exclude(usuario, keys) {
 
 //Login de usuario
 module.exports.login = async (request, response, next) => {
-  let userReq = request.body;
+  try {
+    const { correo, contrasenna } = request.body;
+    console.log(correo, contrasenna)
 
-  //Buscar el usuario según el email dado
-  const user = await prisma.usuario.findUnique({
-    where: {
-      correo: userReq.correo,
-    },
-  });
-  //Sino lo encuentra según su email
-  if (!user) {
-    response.status(401).send({
-      success: false,
-      message: "Usuario no registrado",
+    const usuario = await prisma.usuario.findUnique({
+      where: {
+        correo: correo,
+      },
     });
-  }
-  //Verifica la contraseña
-  const checkPassword=await bcrypt.compare(userReq.contrasenna, user.contrasenna);
-  if(checkPassword === false){
-    response.status(401).send({
-      success:false,
-      message: "Credenciales no validas" 
-    })
-  }else{
-    //Usuario correcto
-    //Crear el payload
-    const payload={
-      identificacion: user.identificacion,
-      correo: user.correo,
-      tipoUsuario: user.tipoUsuario,
+
+    console.log(usuario)
+
+    if (!usuario) {
+      response.status(401).send({
+        success: false,
+        message: 'Usuario no registrado',
+      })
     }
-    //Crear el token
-    const token= jwt.sign(payload,process.env.SECRET_KEY,{
-      expiresIn: process.env.JWT_EXPIRE
-    });
+
+    let contrasennaCorrecta = await bcrypt.compare(contrasenna, usuario.contrasenna);
+
+    console.log(contrasennaCorrecta)
+
+    if (!contrasennaCorrecta) {
+      response.status(401).send({
+        success: false,
+        message: 'Credenciales no válidas',
+      })
+    }
+    else {
+      const payload = {
+        id: usuario.id,
+        correo: usuario.correo,
+        tipoUsuario: usuario.tipoUsuario,
+        nombre: usuario.nombre,
+        primerApellido: usuario.primerApellido,
+        segundoApellido: usuario.segundoApellido,
+        desabilitado: usuario.desabilitado,
+        billetera: usuario.billetera || null,
+      }
+
+      const token = jwt.sign(payload, process.env.SECRET_KEY, {
+        expiresIn: process.env.JWT_EXPIRE,
+      });
+
+      response.json({
+        success: true,
+        message: "Usuario loggeado",
+        token,
+      })
+    }
+
+  } catch (e) {
+    console.log(`V67: ${e}`)
     response.json({
-      success: true,
-      message: "Usuario registrado",
-      token,
-        
-    })
+      error: true,
+      response: "Ocurrió un error, contacte al administrador: \n" + e.message,
+      status: 400,
+    });
   }
 };
 

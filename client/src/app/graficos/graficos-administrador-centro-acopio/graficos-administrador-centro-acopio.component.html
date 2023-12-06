@@ -1,0 +1,39 @@
+<div *ngIf="dataCentro" class="grid-container">
+    <h1 class="mat-h1">Gráficos por Centro de Acopio ({{dataCentro.nombre}})</h1>
+    <p class="mat-body descripcionTitulo">
+      A continuación los gráficos por centro
+    </p>
+    <mat-card>
+      <mat-card-content>
+        <div *ngIf="cantCanjesMaterialesMes">
+          <h4>
+            Cantidad de canjes de materiales realizados en el mes actual 
+          </h4>
+          <canvas id="cantCanjesMaterialesMes">{{
+            buildChart("cantCanjesMaterialesMes")
+          }}</canvas>
+        </div>
+        <div *ngIf="cantCanjesPorMaterialAnno">
+          <h4>
+            Cantidad Canjes agrupados por materiales del año actual 
+          </h4>
+          <canvas id="cantCanjesPorMaterialAnno">{{
+            buildChart("cantCanjesPorMaterialAnno")
+          }}</canvas>
+        </div>
+        <div *ngIf="totalMonedasCentro">
+          <h4>
+            Total de eco-monedas generadas en el centro de acopio 
+          </h4>
+          <canvas id="totalMonedasCentro">{{
+            buildChart("totalMonedasCentro")
+          }}</canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="!dataCentro">
+    <h1 class="mat-h1">Sin Datos de Centro de Acopio</h1>
+  </div>
+  
