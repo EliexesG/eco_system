@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { jwtDecode } from 'jwt-decode';
-import { Router } from '@angular/router';
+import {  Router } from '@angular/router';
 //npm install jwt-decode
 //npm audit fix --force
 
@@ -12,29 +12,34 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthenticationService {
+  //Header para afirmar el tipo de contenido JSON
+  //URL del API
   ServerUrl = environment.baseUrl;
+  //Variable observable para gestionar la información del token del usuario, con características especiales
   private tokenUserSubject: BehaviorSubject<any>;
+  //Variable observable para gestionar la información del token
   public currentUser: Observable<any>;
+  //Booleano para estado de usuario autenticado
   private authenticated = new BehaviorSubject<boolean>(false);
+  //Variable observable para obtener la información del usuario
   private user = new BehaviorSubject<any>(null);
-  private tipo = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient, private router: Router) {
+
+  constructor(private http: HttpClient,
+    private router: Router) {
+    //Obtener los datos del usuario en localStorage, si existe
     this.tokenUserSubject = new BehaviorSubject<any>(
       JSON.parse(localStorage.getItem('currentUser'))
     );
+    //Establecer un observable para acceder a los datos del usuario
     this.currentUser = this.tokenUserSubject.asObservable();
   }
-
+  //Obtener el valor del usuario actual
   public get tokenUserValue(): any {
     return this.tokenUserSubject.value;
   }
-
-  get getTipo(): any{
-    return this.tipo.value;
-  }
-
-  get isAuthenticated(): Observable<any> {
+  //Establecer booleano verificando si esta autenticado
+  get isAuthenticated() {
     if (this.tokenUserValue != null) {
       this.authenticated.next(true);
     } else {
@@ -42,43 +47,55 @@ export class AuthenticationService {
     }
     return this.authenticated.asObservable();
   }
-
+  //Crear usuario
   createUser(user: any): Observable<any> {
-    return this.http.post<any>(this.ServerUrl + 'usuario', user);
-  }
-
-  get decodeToken(): Observable<any> {
-    this.user.next(null);
-    if (this.tokenUserValue != null) {
-      this.user.next(jwtDecode(this.tokenUserValue));
-    }
-
-    return this.user.asObservable();
-  }
-
-  loginUser(user: any): Observable<any> {
-    return this.http.post<any>(this.ServerUrl + 'usuario/login', user).pipe(
-      map((response) => {
-        localStorage.setItem('tipo', JSON.stringify(user.tipoUsuario))
-        localStorage.setItem('currentUser', JSON.stringify(response.token));
-        this.authenticated.next(true);
-        this.tokenUserSubject.next(response.token);
-        let userData = this.decodeToken;
-        return userData;
-      })
+    return this.http.post<any>(
+      this.ServerUrl + 'usuario/registrar',
+      user
     );
   }
+  //Decodificar la información del token y obtener la información del usuario
+  get decodeToken(): any {
+    this.user.next(null);
+    if (this.tokenUserValue != null ) {
+      this.user.next(jwtDecode(this.tokenUserValue))
+    }
+   
+    return this.user.asObservable();
+  }
+  
+  //Login
+  loginUser(user: any): Observable<any> {
 
+    console.log('Usuario: '+ user.value)
+    return this.http
+      .post<any>(this.ServerUrl + 'usuario/login', user)
+      .pipe(
+        map((response) => {
+          // almacene los detalles del usuario y el token jwt
+          // en el almacenamiento local para mantener al usuario conectado entre las actualizaciones de la página
+          
+          localStorage.setItem('currentUser', JSON.stringify(response.token));
+          this.authenticated.next(true);       
+          this.tokenUserSubject.next(response.token);
+          let userData=this.decodeToken;
+          return userData;
+        })
+      );
+  }
+  //Logout de usuario autentificado
   logout() {
     let usuario = this.tokenUserSubject.value;
     if (usuario) {
-      
-      localStorage.removeItem('tipo')
+      // eliminar usuario del almacenamiento local para cerrar la sesión del usuario
       localStorage.removeItem('currentUser');
+      //Eliminarlo del observable del usuario actual
       this.tokenUserSubject.next(null);
+      //Eliminarlo del observable del boleano si esta autenticado
       this.authenticated.next(false);
       return true;
     }
     return false;
   }
+ 
 }

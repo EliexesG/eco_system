@@ -25,6 +25,8 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
     if (this.auth.tokenUserValue != null) {
       token = this.auth.tokenUserValue;
     }
+
+    /*
     //Agregar headers a la solicitud
     if (token) {
       //Header con el token
@@ -41,7 +43,7 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
 
     request = request.clone({
       headers: request.headers.set('Accept', 'application/json'),
-    });
+    }); */
 
     //Capturar el error
     return next.handle(request).pipe(

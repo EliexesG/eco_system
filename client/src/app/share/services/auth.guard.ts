@@ -9,21 +9,20 @@ export class UserGuard {
   noti: NotificacionService = inject(NotificacionService);
   auth: boolean = false;
   currentUser: any;
-  
   constructor() {
     //Subscripción a la información del usuario actual
     this.authService.decodeToken.subscribe((user) => (this.currentUser = user));
     //Subscripción al boolean que indica si esta autenticado
     this.authService.isAuthenticated.subscribe((valor) => (this.auth = valor));
   }
-
   checkUserLogin(route: ActivatedRouteSnapshot): boolean {
     if (this.auth) {
-      const usuarioTipo = this.currentUser.tipoUsuario;
+      const userRole = this.currentUser.role;
+      console.log(userRole.tipoUsuario)
       //roles.length && roles.indexOf(verify.role)===-1
       if (
         route.data['tipoUsuario'].length &&
-        !route.data['tipoUsuario'].includes(usuarioTipo)
+        !route.data['tipoUsuario'].includes(userRole)
       ) {
         this.noti.mensajeRedirect(
           'Usuario',
@@ -45,7 +44,6 @@ export class UserGuard {
     return false;
   }
 }
-
 export const authGuard: CanActivateFn = (route, state) => {
   let userGuard = new UserGuard();
   return userGuard.checkUserLogin(route);
