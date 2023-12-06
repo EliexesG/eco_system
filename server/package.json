@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@prisma/client": "^5.3.1",
+    "@prisma/client": "^4.16.2",
     "@types/node": "^20.8.2",
     "bcrypt": "^5.1.1",
     "chalk": "^5.3.0",
@@ -23,7 +23,7 @@
     "morgan": "^1.10.0",
     "nodemon": "^3.0.1",
     "passport-jwt": "^4.0.1",
-    "prisma": "^5.3.1",
+    "prisma": "^4.16.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },

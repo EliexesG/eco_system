@@ -1,0 +1,39 @@
+.botones {
+    margin: 20px 0px 20px 0px;
+    height: 40px;
+    padding: 1.3em 3em;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #000;
+    background-color: lightgray !important;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+
+  }
+
+  #botonIngresar:hover {
+    background-color: cadetblue !important;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+    
+    #icono{
+      color: white;
+    }
+  }
+
+  .contenidoFlex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+ 
+  .center {
+    margin: 0px auto 0px auto;
+    text-align: center;
+  }
+  

@@ -24,6 +24,12 @@ export class UsuarioFormComponent implements OnInit {
   usuarioForm: FormGroup;
   makeSubmit: boolean = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  titleForm: string = 'Crear';
+  categoriaList: any;
+  centroInfo: any;
+  respInfo: any;
+  submitted = false;
+  cargando: boolean = false;
   
   listaProvincias: { id: number; nombre: string }[];
   listaCantones: { id: number; nombre: string }[];
@@ -116,6 +122,35 @@ export class UsuarioFormComponent implements OnInit {
     if(this.usuarioForm.invalid){
      return;
     }
+
+    let valorForm = this.usuarioForm.value;
+    let valorFormFinal = {
+      tipoUsuario: valorForm.tipoUsuario,
+      identificacion: valorForm.identificacion,      
+      nombre: valorForm.nombre,      
+      primerApellido: valorForm.primerApellido,      
+      segundoApellido: valorForm.segundoApellido,  
+      correo: valorForm.correo,        
+      contrasenna: valorForm.contrasenna,
+      direccionUsuario:{
+        codProvincia: valorForm.codProvincia,
+        codCanton: valorForm.codCanton,
+        codDistrito: valorForm.codDistrito,
+        sennas: valorForm.sennas,
+      }
+    }
+
+    console.log(valorFormFinal)
+
+    this.gService
+        .create('usuario', valorFormFinal)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data: any) => {
+          console.log(data);
+          this.cargando = false;
+          this.respInfo = data;
+        });
+    
     this.authService.createUser(this.usuarioForm.value)
     .subscribe((respuesta:any)=>{
       this.noti.mensajeRedirect(
@@ -138,7 +173,7 @@ export class UsuarioFormComponent implements OnInit {
 
   reactiveForm() {
     this.usuarioForm = this.fb.group({
-      tipoUsuario: ['', [Validators.required]],
+      tipoUsuario: ['CLIENTE', [Validators.required]],
       identificacion: ['', [Validators.required]],
       nombre: ['', [Validators.required]],
       primerApellido: ['', [Validators.required]],
@@ -148,26 +183,18 @@ export class UsuarioFormComponent implements OnInit {
       codProvincia: [null, Validators.required],
       codCanton: [null, Validators.required],
       codDistrito: [null, Validators.required],
+      sennas: [null, Validators.required],
     });
-    this.getRoles();
   }
 
   onReset() {
     this.usuarioForm.reset();
   }
   
-  getRoles() {
-    this.gService
-      .list('tipoUsuario')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any) => {
-        this.roles = data;
-        console.log( this.roles);
-      });
-  }
 
   public errorHandling = (control: string, error: string) => {
     return this.usuarioForm.controls[control].hasError(error);
   };
 
 }
+  

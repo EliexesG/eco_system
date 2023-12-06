@@ -3,7 +3,7 @@
       <mat-card-content>
         <div class="row">
           <div class="col">
-            <mat-form-field class="full-width">
+            <mat-form-field class="full-width" appearance="outline">
               <mat-label>Nombre</mat-label>
               <input matInput type="text" placeholder="Nombre" formControlName="nombre" />
              <mat-error *ngIf="errorHandling('nombre', 'required')">
@@ -11,7 +11,7 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field class="full-width">
+            <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Primer apellido</mat-label>
                 <input matInput type="text" placeholder="Primer apellido" formControlName="primerApellido" />
                <mat-error *ngIf="errorHandling('primerApellido', 'required')">
@@ -19,7 +19,7 @@
                 </mat-error>
               </mat-form-field>
 
-              <mat-form-field class="full-width">
+              <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Segundo apellido</mat-label>
                 <input matInput type="text" placeholder="Segundo apellido" formControlName="segundoApellido" />
                <mat-error *ngIf="errorHandling('segundoApellido', 'required')">
@@ -27,7 +27,7 @@
                 </mat-error>
               </mat-form-field>
 
-              <mat-form-field class="full-width">
+              <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Identificación</mat-label>
                 <input matInput type="text" placeholder="Identificación" formControlName="identificacion" />
                <mat-error *ngIf="errorHandling('identificacion', 'required')">
@@ -35,7 +35,7 @@
                 </mat-error>
               </mat-form-field>
 
-              <mat-form-field class="full-width">
+              <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Identificación</mat-label>
                 <input matInput type="password" placeholder="Contraseña" formControlName="contrasenna" />
                <mat-error *ngIf="errorHandling('contrasenna', 'required')">
@@ -43,7 +43,7 @@
                 </mat-error>
               </mat-form-field>
 
-            <mat-form-field class="full-width">
+            <mat-form-field class="full-width" appearance="outline">
               <mat-label>Email</mat-label>
               <input matInput type="text" placeholder="Correo electronico" formControlName="correo" />
              <mat-error *ngIf="errorHandling('correo', 'required')">
@@ -98,6 +98,14 @@
                       El distrito es <strong>requerido</strong>
                     </mat-error>
                   </mat-form-field>
+
+                  <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Dirección</mat-label>
+                    <input matInput type="text" placeholder="Señas" formControlName="sennas" />
+                   <mat-error *ngIf="errorHandling('sennas', 'required')">
+                    Contraseña es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
             </div>
           </div>
         </div>
@@ -105,17 +113,21 @@
         <div class="row">
           <div class="col">
 
-              <mat-form-field *ngIf="tipo=='ADMINSITRADOR'">
+              <mat-form-field *ngIf="tipo=='ADMINSITRADOR'" appearance="outline">
                 <mat-label>Tipo de usuario</mat-label>
-                <select  placeholder="Rol" formControlName="tipoUsuario" required>
-                  <option value="ADMINISTRADOR">Administrador</option>
-                  <option value="ADMINISTRADOR_CENTROS_ACOPIO">Administrador Centro Acopio</option>                    
-                  <option value="CLIENTE">Cliente</option>
-                </select>
-              </mat-form-field> 
+                <mat-form-field>
+                  <mat-label>Favorite food</mat-label>
+                  <mat-select>
+                      <mat-option value="ADMINISTRADOR">Administrador</mat-option>
+                      <mat-option value="ADMINISTRADOR_CENTROS_ACOPIO">Administrador Centro Acopio</mat-option>
+                      <mat-option value="CLIENTE">Cliente</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                
                 <mat-error *ngIf="errorHandling('tipoUsuario', 'required')">
-                    Tipo de usuario es <strong>requerido</strong>
-                  </mat-error>
+                  Tipo de usuario es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field> 
           </div>
         </div>
       </mat-card-content>

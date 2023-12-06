@@ -23,7 +23,7 @@ router.get(
   "/desabilitados",
   auth.grantRole(["ADMINISTRADOR"]),
   usuarioController.getDesabilitados
-);
+);  
 
 //Ruta: localhost:3000/usuario/admincentrosincentro
 router.get(
@@ -50,7 +50,7 @@ router.get(
 router.get("/:id", usuarioController.getById);
 
 //Ruta: localhost:3000/usuario
-router.post("/", auth.grantRole(["ADMINISTRADOR"]), usuarioController.create);
+router.post("/", usuarioController.create);
 
 //Ruta: localhost:3000/usuario
 router.put("/:id", auth.grantRole(["ADMINISTRADOR"]), usuarioController.update);
@@ -60,6 +60,6 @@ router.post(
   "/habilitarodesabilitar/:id",
   auth.grantRole(["ADMINISTRADOR"]),
   usuarioController.habilitarODesabilitar
-);
-
+);    
 module.exports = router;
+           

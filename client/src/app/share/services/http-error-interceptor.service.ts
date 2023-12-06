@@ -24,40 +24,6 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
     private noti: NotificacionService,
     private lService: LocalizacionService,
   ) {}
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    if (!request.url.includes(this.lService.baseUrl)) {
-      //Obtener token
-      let token = null;
-      if (this.auth.tokenUserValue != null) {
-        token = this.auth.tokenUserValue;
-      }
-      //Agregar headers a la solicitud
-      if (token) {
-        //Header con el token
-        request = request.clone({
-          headers: request.headers.set('Authorization', 'Bearer ' + token),
-        });
-      }
-
-      //Opcional indicar el tipo de contenido JSON
-      if (
-        !request.headers.has('Content-Type') &&
-        !request.url.includes('/uploadimage')
-      ) {
-        request = request.clone({
-          headers: request.headers.set('Content-Type', 'application/json'),
-        });
-      }
-
-      if (!request.url.includes('/uploadimage')) {
-        request = request.clone({
-          headers: request.headers.set('Accept', 'application/json'),
-        });
-      }
-    }
 
     //Capturar el error
     return next.handle(request).pipe(
