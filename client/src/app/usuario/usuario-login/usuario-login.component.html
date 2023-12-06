@@ -1,0 +1,68 @@
+<form [formGroup]="formulario" novalidate>
+  <mat-card class="ingresar">
+    <mat-card-header>
+      <h2>Iniciar sesión</h2>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="contenidoFlex">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Correo</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="correo"
+            placeholder="correo@mail.com"
+          />
+          <mat-error *ngIf="errorHandling('correo', 'required')">
+            Email es <strong>requerido</strong>
+          </mat-error>
+          <mat-error *ngIf="errorHandling('correo', 'email')">
+            Verifique el <strong>formato</strong> del email
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="contenidoFlex">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input
+            matInput
+            [type]="hide ? 'contrasenna' : 'text'"
+            formControlName="contrasenna"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide contrasenna'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-error *ngIf="errorHandling('contrasenna', 'required')">
+            Contraseña es <strong>requerida</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-card-footer>
+      <div class="center">
+        <button
+          mat-raised-button
+          class="botones"
+          id="botonIngresar"
+          (click)="submitForm()"
+        >
+          Iniciar sesión
+        </button>
+        <button
+          mat-raised-button
+          class="botones"
+          id="botonCancelar"
+          (click)="onReset()"
+        >
+          Cancelar
+        </button>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+</form>

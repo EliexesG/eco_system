@@ -24,6 +24,6 @@ export class ImageService {
     return this.http.post<any | any[]>(
       this.urlAPI + 'image/getimage',
       filename
-    );
+    );``
   }
 }

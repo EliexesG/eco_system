@@ -18,8 +18,10 @@ import { UsuarioRoutingModule } from './usuario-routing.module';
 import { UsuarioDetailComponent } from './usuario-detail/usuario-detail.component';
 import { UsuarioDiagComponent } from './usuario-diag/usuario-diag.component';
 import { UsuarioFormComponent } from './usuario-form/usuario-form.component';
-import {MatTabsModule} from '@angular/material/tabs';
-
+import { MatTabsModule } from '@angular/material/tabs';
+import { UsuarioLoginComponent } from './usuario-login/usuario-login.component';
+import { MatDividerModule } from '@angular/material/divider'; 
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     UsuarioDetailComponent,
     UsuarioDiagComponent,
     UsuarioFormComponent,
+    UsuarioLoginComponent,
   ],
   imports: [
     
@@ -45,6 +48,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatInputModule,
     MatSelectModule,
     MatTabsModule,
+    MatDividerModule,
+    LayoutModule,
     ReactiveFormsModule,
   ]
 })

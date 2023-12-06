@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
 import { ShareModule } from './share/share.module';
 import { HomeModule } from './home/home.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CentroAcopioModule } from './centro-acopio/centro-acopio.module';
 import { MaterialModule } from './material/material.module';
 import { ToastrModule } from 'ngx-toastr';
@@ -17,6 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { UsuarioModule } from './usuario/usuario.module';
+import { HttpErrorInterceptorService } from './share/services/http-error-interceptor.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,7 +39,13 @@ import { UsuarioModule } from './usuario/usuario.module';
     MatPaginatorModule,
     MatSortModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptorService,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

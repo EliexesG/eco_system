@@ -4,7 +4,12 @@
     <p>ECO SYSTEM</p>
   </a>
   <span class="navbar-spacer"></span>
+  <p *ngIf="isAutenticated">
+    ¡Bienvenido {{ currentUser.nombre }} {{ currentUser.primerApellido }}
+    {{ currentUser.segundoApellido }}!
+  </p>
   <button
+    *ngIf="tipo == 'ADMINISTRADOR_CENTROS_ACOPIO'"
     mat-icon-button
     class="example-icon"
     aria-label="Example icon-button with share icon"
@@ -13,13 +18,35 @@
     <mat-icon>shopping_bag</mat-icon>
   </button>
   <button
-    mat-icon-button
+    mat-button
     class="example-icon"
     aria-label="Example icon-button with share icon"
     (click)="inicioSesion()"
+    *ngIf="!isAutenticated"
   >
     <mat-icon>person</mat-icon>
   </button>
+
+  <button mat-button [matMenuTriggerFor]="opciones" *ngIf="isAutenticated">
+    <mat-icon class="material-icons color_white">list</mat-icon> Opciones
+  </button>
+  <mat-menu #opciones="matMenu">
+    <button
+      mat-menu-item
+      [routerLink]="['/canjeomateriales']"
+      *ngIf="tipo == 'CLIENTE'"
+    >
+      <mat-icon
+        class="material-icons color_black"
+        fontIcon="history"
+      ></mat-icon>
+      Canjeo de materiales
+    </button>
+    <button mat-menu-item *ngIf="isAutenticated" (click)="logout()">
+      <mat-icon class="material-icons color_black">exit_to_app</mat-icon>Cerrar
+      sesión
+    </button>
+  </mat-menu>
 </mat-toolbar>
 
 <mat-toolbar class="scondtoolbar">
@@ -38,25 +65,13 @@
     <mat-icon class="material-icons color_white" fontIcon="domain"></mat-icon
     >CENTROS DE ACOPIO
   </button>
-  <button mat-button class="button" [routerLink]="['/canjeomateriales']">
-    <mat-icon class="material-icons color_white" fontIcon="history"></mat-icon>
-    CANJEO DE MATERIALES
-  </button>
-  <button mat-button class="button" [matMenuTriggerFor]="administracionCentro">
-    <mat-icon
-      class="material-icons color_white"
-      fontIcon="create_new_folder"
-    ></mat-icon
-    >ADMINISTRACIÓN POR CENTRO
-  </button>
-  <mat-menu #administracionCentro>
-    <button mat-menu-item [routerLink]="'/canjeomateriales/all'">
-      <mat-icon class="material-icons color_black" fontIcon="money"></mat-icon>
-     Canjeo de materiales
-    </button>
-  </mat-menu>
 
-  <button mat-button class="button" [matMenuTriggerFor]="administracion">
+  <button
+    mat-button
+    class="button"
+    [matMenuTriggerFor]="administracion"
+    *ngIf="tipo == 'ADMINISTRADOR_CENTROS_ACOPIO' || tipo == 'ADMINISTRADOR'"
+  >
     <mat-icon
       class="material-icons color_white"
       fontIcon="create_new_folder"
@@ -65,33 +80,116 @@
   </button>
 
   <mat-menu #administracion="matMenu">
-    <button mat-menu-item [matMenuTriggerFor]="material"> <mat-icon
-      class="material-icons color_black"
-      fontIcon="recycling"
-    ></mat-icon>Materiales</button>
-    <button mat-menu-item [matMenuTriggerFor]="centro"> <mat-icon class="material-icons color_black" fontIcon="domain"></mat-icon> Centros de acopio</button>
-    <button mat-menu-item [matMenuTriggerFor]="cupon"> <mat-icon class="material-icons color_black" fontIcon="note"></mat-icon>Cupones</button>
-    <button mat-menu-item [matMenuTriggerFor]="usuario"><mat-icon class="material-icons color_black" fontIcon="group"></mat-icon>Usuarios</button>
+    <button
+      mat-menu-item
+      [matMenuTriggerFor]="material"
+      *ngIf="tipo == 'ADMINISTRADOR'"
+    >
+      <mat-icon
+        class="material-icons color_black"
+        fontIcon="recycling"
+      ></mat-icon
+      >Materiales
+    </button>
+    <button mat-menu-item [matMenuTriggerFor]="centro">
+      <mat-icon class="material-icons color_black" fontIcon="domain"></mat-icon>
+      Centros de acopio
+    </button>
+    <button
+      mat-menu-item
+      [matMenuTriggerFor]="cupon"
+      *ngIf="tipo == 'ADMINISTRADOR'"
+    >
+      <mat-icon class="material-icons color_black" fontIcon="note"></mat-icon
+      >Cupones
+    </button>
+    <button
+      mat-menu-item
+      [matMenuTriggerFor]="usuario"
+      *ngIf="tipo == 'ADMINISTRADOR'"
+    >
+      <mat-icon class="material-icons color_black" fontIcon="group"></mat-icon
+      >Usuarios
+    </button>
   </mat-menu>
 
-  <mat-menu #material="matMenu">    
-    <button mat-menu-item [routerLink]="'/material/create'"> <mat-icon class="material-icons color_black">add</mat-icon>Crear nuevo material</button>
-    <button mat-menu-item [routerLink]="'/material/all'"><mat-icon class="material-icons color_black">view_list</mat-icon>Lista de materiales</button>
+  <mat-menu #material="matMenu">
+    <button
+      mat-menu-item
+      [routerLink]="'/material/create'"
+      *ngIf="tipo == 'ADMINISTRADOR'"
+    >
+      <mat-icon class="material-icons color_black">add</mat-icon>Crear nuevo
+      material
+    </button>
+    <button
+      mat-menu-item
+      [routerLink]="'/material/all'"
+      *ngIf="tipo == 'ADMINISTRADOR'"
+    >
+      <mat-icon class="material-icons color_black">view_list</mat-icon>Lista de
+      materiales
+    </button>
   </mat-menu>
 
   <mat-menu #centro="matMenu">
-    <button mat-menu-item [routerLink]="'/centroacopio/create'"><mat-icon class="material-icons color_black">add</mat-icon>Crear nuevo centro de acopio</button>
-    <button mat-menu-item [routerLink]="'/centroacopio/all'"><mat-icon class="material-icons color_black">view_list</mat-icon>Lista de centros de acopio</button>
+    <button
+      mat-menu-item
+      [routerLink]="'/centroacopio/create'"
+      *ngIf="tipo == 'ADMINISTRADOR'"
+    >
+      <mat-icon class="material-icons color_black">add</mat-icon>Crear nuevo
+      centro de acopio
+    </button>
+    <button
+      *ngIf="tipo == 'ADMINISTRADOR'"
+      mat-menu-item
+      [routerLink]="'/centroacopio/all'"
+    >
+      <mat-icon class="material-icons color_black">view_list</mat-icon>Lista de
+      centros de acopio
+    </button>
+    <button
+      mat-menu-item
+      [routerLink]="'/canjeomateriales/all'"
+      *ngIf="tipo == 'ADMINISTRADOR_CENTROS_ACOPIO'"
+    >
+      <mat-icon class="material-icons color_black" fontIcon="money"></mat-icon>
+      Canjeo de materiales en centro
+    </button>
   </mat-menu>
 
   <mat-menu #cupon="matMenu">
-    <button mat-menu-item [routerLink]="'/cupon/create'"><mat-icon class="material-icons color_black">add</mat-icon>Crear nuevo cupon</button>
-    <button mat-menu-item [routerLink]="'/cupon/all'"><mat-icon class="material-icons color_black">view_list</mat-icon>Lista de cupon</button>
+    <button mat-menu-item [routerLink]="'/cupon/create'">
+      <mat-icon
+        class="material-icons color_black"
+        *ngIf="tipo == 'ADMINISTRADOR'"
+        >add</mat-icon
+      >Crear nuevo cupon
+    </button>
+    <button mat-menu-item [routerLink]="'/cupon/all'">
+      <mat-icon
+        class="material-icons color_black"
+        *ngIf="tipo == 'ADMINISTRADOR'"
+        >view_list</mat-icon
+      >Lista de cupon
+    </button>
   </mat-menu>
 
   <mat-menu #usuario="matMenu">
-    <button mat-menu-item [routerLink]="'/usuario/create'"><mat-icon class="material-icons color_black">add</mat-icon>Crear nuevo usuario</button>
-    <button mat-menu-item [routerLink]="'/usuario/all'"><mat-icon class="material-icons color_black">view_list</mat-icon>Lista de usuario</button>
+    <button mat-menu-item [routerLink]="'/usuario/create'">
+      <mat-icon
+        class="material-icons color_black"
+        *ngIf="tipo == 'ADMINISTRADOR'"
+        >add</mat-icon
+      >Crear nuevo usuario
+    </button>
+    <button mat-menu-item [routerLink]="'/usuario/all'">
+      <mat-icon
+        class="material-icons color_black"
+        *ngIf="tipo == 'ADMINISTRADOR'"
+        >view_list</mat-icon
+      >Lista de usuario
+    </button>
   </mat-menu>
-
 </mat-toolbar>

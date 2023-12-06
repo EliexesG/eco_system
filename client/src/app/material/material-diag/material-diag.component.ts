@@ -8,6 +8,7 @@ import {
   NotificacionService,
   TipoMessage,
 } from 'src/app/share/services/notification.service';
+import { AuthenticationService } from 'src/app/share/services/authentication.service';
 
 @Component({
   selector: 'app-material-diag',
@@ -27,7 +28,8 @@ export class MaterialDiagComponent implements OnInit {
     private dialogRef: MatDialogRef<MaterialDiagComponent>,
     private iService: ImageService,
     private canjeoService: CanjeoMaterialesService,
-    private notiService: NotificacionService
+    private notiService: NotificacionService,
+    private authService: AuthenticationService
   ) {
     this.datosDialog = data;
   }
@@ -55,15 +57,29 @@ export class MaterialDiagComponent implements OnInit {
   }
 
   identificarCanjeabilidad() {
-    this.gService
-      .get('centroacopio', this.idCentroAcopio)
+    this.authService.decodeToken
       .pipe(takeUntil(this.destroy$))
-      .subscribe((centro) => {
-        this.esCanjeable =
-          centro.materiales.findIndex(
-            (material: any) => this.datos.id === material.id
-          ) != -1;
-        console.log(this.esCanjeable);
+      .subscribe((usuario: any) => {
+        console.log(usuario);
+        if(!usuario) {
+          this.esCanjeable = false;
+          return;
+        }
+
+        if (usuario?.tipoUsuario == 'ADMINISTRADOR_CENTROS_ACOPIO') {
+          this.gService
+            .list(`centroacopio/usuario/${usuario.id}`)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((centro: any) => {
+              this.esCanjeable =
+                centro.materiales.findIndex(
+                  (material: any) => this.datos.id === material.id
+                ) != -1;
+              console.log(this.esCanjeable);
+            });
+        } else {
+          this.esCanjeable = false;
+        }
       });
   }
 
