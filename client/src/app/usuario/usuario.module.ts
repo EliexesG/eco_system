@@ -18,6 +18,7 @@ import { UsuarioRoutingModule } from './usuario-routing.module';
 import { UsuarioDetailComponent } from './usuario-detail/usuario-detail.component';
 import { UsuarioDiagComponent } from './usuario-diag/usuario-diag.component';
 import { UsuarioFormComponent } from './usuario-form/usuario-form.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { UsuarioFormComponent } from './usuario-form/usuario-form.component';
     MatSortModule,
     MatInputModule,
     MatSelectModule,
+    MatTabsModule,
     ReactiveFormsModule,
   ]
 })
