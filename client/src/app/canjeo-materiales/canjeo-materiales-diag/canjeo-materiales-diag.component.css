@@ -1,5 +1,7 @@
 mat-card {
   min-width: 500px;
+  max-height: 650px;
+  overflow: scroll;
 }
 
 h1 {

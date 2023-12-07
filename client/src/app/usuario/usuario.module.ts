@@ -22,6 +22,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { UsuarioLoginComponent } from './usuario-login/usuario-login.component';
 import { MatDividerModule } from '@angular/material/divider'; 
 import { LayoutModule } from '@angular/cdk/layout';
+import { UsuarioContrasennaComponent } from './usuario-contrasenna/usuario-contrasenna.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     UsuarioDiagComponent,
     UsuarioFormComponent,
     UsuarioLoginComponent,
+    UsuarioContrasennaComponent,
   ],
   imports: [
     

@@ -295,7 +295,6 @@ module.exports.update = async (request, response, next) => {
   try {
     const id = parseInt(request.params.id);
     const data = request.body;
-    var contrasennaHash = await bcrypt.hash(data.contrasenna, 10);
 
     const newUsuario = await prisma.usuario.update({
       where: { id: id },
@@ -306,7 +305,6 @@ module.exports.update = async (request, response, next) => {
         primerApellido: data.primerApellido,
         segundoApellido: data.segundoApellido,
         correo: data.correo,
-        contrasenna: contrasennaHash,
         direccionUsuario: {
           update: {
             codProvincia: data.direccionUsuario.codProvincia,
@@ -376,3 +374,59 @@ module.exports.habilitarODesabilitar = async (request, response, next) => {
     );
   }
 };
+
+module.exports.cambiarContrasenna = async (request, response, next) => {
+
+  try {
+
+    const {correo, contrasennaVieja, contrasennaNueva} = request.body;
+
+    const usuario = await prisma.usuario.findUnique({
+      where: {
+        correo: correo,
+      },
+    });
+
+    if(!usuario) {
+      response.json({
+        success: false,
+        response: "Usuario no Encontrado",
+      });
+    }
+
+    let contrasennaCorrecta = await bcrypt.compare(contrasennaVieja, usuario.contrasenna);
+
+    if(!contrasennaCorrecta) {
+      response.json({
+        success: false,
+        response: "Contraseña Incorrecta",
+      });
+    }
+
+    var contrasennaHash = await bcrypt.hash(contrasennaNueva, 10);
+
+    console.log(usuario, contrasennaHash);
+
+    await prisma.usuario.update({
+      data: {
+        contrasenna: contrasennaHash,
+      },
+      where: {
+        correo: correo
+      }
+    })
+
+    response.json({
+      success: true,
+      response: "Contraseña Cambiada",
+    });
+  } catch (e) {
+    console.log(e)
+    response.json({
+      error: true,
+      response: "Ocurrió un error, contacte al administrador: \n" + e.message,
+      status: 400,
+    });
+  }
+
+}
