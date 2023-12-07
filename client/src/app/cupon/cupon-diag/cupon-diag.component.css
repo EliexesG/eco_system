@@ -7,6 +7,10 @@
   float: left;
 }
 
+mat-card-actions {
+  gap: 1%;
+}
+
 .mat-h4 {
   display: flex;
   align-items: center;

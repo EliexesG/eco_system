@@ -6,6 +6,7 @@ import { CanjeoMaterialesCartComponent } from 'src/app/canjeo-materiales/canjeo-
 import { UsuarioDiagComponent } from 'src/app/usuario/usuario-diag/usuario-diag.component';
 import { AuthenticationService } from 'src/app/share/services/authentication.service';
 import { UsuarioContrasennaComponent } from 'src/app/usuario/usuario-contrasenna/usuario-contrasenna.component';
+import { UsuarioBilleteraComponent } from 'src/app/usuario/usuario-billetera/usuario-billetera.component';
 
 @Component({
   selector: 'app-header',
@@ -48,6 +49,13 @@ export class HeaderComponent implements OnInit {
     dialogConfig.disableClose = false;
     dialogConfig.position = { top: '15px', right: '15px' };
     this.dialog.open(CanjeoMaterialesCartComponent, dialogConfig);
+  }
+
+  onVerBilletera() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.position = { top: '15px', right: '15px' };
+    this.dialog.open(UsuarioBilleteraComponent, dialogConfig);
   }
 
   onCambiarContrasenna() {

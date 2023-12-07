@@ -23,6 +23,7 @@ import { UsuarioLoginComponent } from './usuario-login/usuario-login.component';
 import { MatDividerModule } from '@angular/material/divider'; 
 import { LayoutModule } from '@angular/cdk/layout';
 import { UsuarioContrasennaComponent } from './usuario-contrasenna/usuario-contrasenna.component';
+import { UsuarioBilleteraComponent } from './usuario-billetera/usuario-billetera.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { UsuarioContrasennaComponent } from './usuario-contrasenna/usuario-contr
     UsuarioFormComponent,
     UsuarioLoginComponent,
     UsuarioContrasennaComponent,
+    UsuarioBilleteraComponent,
   ],
   imports: [
     
