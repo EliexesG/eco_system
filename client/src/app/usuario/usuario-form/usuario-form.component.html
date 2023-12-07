@@ -82,7 +82,6 @@
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Tipo de usuario</mat-label>
                 <mat-select formControlName="tipoUsuario">
-                  <mat-option value="ADMINISTRADOR">Administrador</mat-option>
                   <mat-option value="ADMINISTRADOR_CENTROS_ACOPIO"
                     >Administrador Centro Acopio</mat-option
                   >
@@ -104,11 +103,10 @@
           </div>
           
           <div class="row">
-            <div class="col">
+            <div class="col" [hidden]="!isCreate">
               <mat-form-field
                   class="full-width"
                   appearance="outline"
-                  [hidden]="isAutenticated"
                 >
                   <mat-label>Contraseña</mat-label>
                   <input
@@ -241,7 +239,7 @@
             </div>
             
             <div class="col">
-              <button mat-raised-button class="botones" id="boton" (click)="onReset()">
+              <button mat-raised-button class="botones" id="boton" (click)="onBack()">
                 Cancelar
               </button>
             </div>

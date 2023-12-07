@@ -16,6 +16,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { QRCodeModule } from 'angularx-qrcode';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     MatCardModule,
     MatInputModule,
     MatFormFieldModule,
+    MatDividerModule,
     FormsModule,
     MatTableModule,
     MatPaginatorModule,

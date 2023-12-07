@@ -18,6 +18,7 @@ import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule} from '@angular/forms';
 import { QRCodeModule } from 'angularx-qrcode';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     MatInputModule,
     MatFormFieldModule,
     FormsModule,
+    MatDividerModule,
     MatTableModule,
     MatPaginatorModule,
     QRCodeModule,

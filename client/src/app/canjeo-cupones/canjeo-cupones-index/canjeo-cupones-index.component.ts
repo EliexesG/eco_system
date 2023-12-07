@@ -62,7 +62,7 @@ export class CanjeoCuponesIndexComponent {
     dialogConfig.data = {
       id: id,
     };
-    this.dialog.open(CuponDiagComponent, dialogConfig);
+    this.dialog.open(CanjeoCuponesDiagComponent, dialogConfig);
   }
 
   ngOnDestroy() {
