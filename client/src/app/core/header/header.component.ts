@@ -7,6 +7,7 @@ import { UsuarioDiagComponent } from 'src/app/usuario/usuario-diag/usuario-diag.
 import { AuthenticationService } from 'src/app/share/services/authentication.service';
 import { UsuarioContrasennaComponent } from 'src/app/usuario/usuario-contrasenna/usuario-contrasenna.component';
 import { UsuarioBilleteraComponent } from 'src/app/usuario/usuario-billetera/usuario-billetera.component';
+import { UsuarioDetalleComponent } from 'src/app/usuario/usuario-detalle/usuario-detalle.component';
 
 @Component({
   selector: 'app-header',
@@ -68,6 +69,13 @@ export class HeaderComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     this.dialog.open(UsuarioDiagComponent, dialogConfig);
+  }
+
+  detalleUsuario() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.data = -1;
+    this.dialog.open(UsuarioDetalleComponent, dialogConfig);
   }
 
   logout() {

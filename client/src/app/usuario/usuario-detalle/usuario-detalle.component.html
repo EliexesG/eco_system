@@ -1,0 +1,43 @@
+<mat-card *ngIf="data">
+  <mat-card-header>
+    <h1 class="mat-h1">
+        {{ data.nombre }} {{ data.primerApellido }} {{ data.segundoApellido }}
+      </h1>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <mat-card-subtitle>
+      <h2 class="mat-h2"><mat-icon>credit_card</mat-icon> Identificación</h2>
+      <p class="mat-body">
+        {{ data.identificacion }}
+      </p>
+    </mat-card-subtitle>
+    <mat-card-subtitle>
+      <h2 class="mat-h2"><mat-icon>person</mat-icon> Tipo de Usuario</h2>
+      <p class="mat-body">
+        {{ data.tipoUsuario }}
+      </p>
+    </mat-card-subtitle>
+    <mat-card-subtitle>
+      <h2 class="mat-h2"><mat-icon>alternate_email</mat-icon> Correo</h2>
+      <p class="mat-body">
+        {{ data.correo }}
+      </p>
+    </mat-card-subtitle>
+    <mat-card-subtitle>
+      <h2 class="mat-h2"><mat-icon>directions</mat-icon> Dirección</h2>
+      <p class="mat-body">
+        {{ data.direccionUsuario.sennas }}, {{ distrito }}, {{ canton }},
+        {{ provincia }}
+      </p>
+    </mat-card-subtitle>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-card-actions>
+    <div class="contenidoFlex">
+      <button mat-raised-button class="botones" [mat-dialog-close]="true">
+        <mat-icon id="icono">close</mat-icon>&nbsp; Cerrar
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>
