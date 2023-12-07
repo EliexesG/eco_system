@@ -15,7 +15,6 @@ export class CanjeoCuponesIndexComponent {
   datosBilletera: any;
   datosUsuario: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  idUsuario: number = 5;
 
   columns: string[] = ['nombreCupon', 'fecha', 'cantidadMonedas','acciones'];
 
@@ -62,7 +61,7 @@ export class CanjeoCuponesIndexComponent {
     dialogConfig.data = {
       id: id,
     };
-    this.dialog.open(CuponDiagComponent, dialogConfig);
+    this.dialog.open(CanjeoCuponesDiagComponent, dialogConfig);
   }
 
   ngOnDestroy() {

@@ -15,7 +15,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { UsuarioRoutingModule } from './usuario-routing.module';
-import { UsuarioDetailComponent } from './usuario-detail/usuario-detail.component';
 import { UsuarioDiagComponent } from './usuario-diag/usuario-diag.component';
 import { UsuarioFormComponent } from './usuario-form/usuario-form.component';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -24,16 +23,17 @@ import { MatDividerModule } from '@angular/material/divider';
 import { LayoutModule } from '@angular/cdk/layout';
 import { UsuarioContrasennaComponent } from './usuario-contrasenna/usuario-contrasenna.component';
 import { UsuarioBilleteraComponent } from './usuario-billetera/usuario-billetera.component';
+import { UsuarioDetalleComponent } from './usuario-detalle/usuario-detalle.component';
 
 @NgModule({
   declarations: [
     UsuarioAllComponent,
-    UsuarioDetailComponent,
     UsuarioDiagComponent,
     UsuarioFormComponent,
     UsuarioLoginComponent,
     UsuarioContrasennaComponent,
     UsuarioBilleteraComponent,
+    UsuarioDetalleComponent,
   ],
   imports: [
     

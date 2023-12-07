@@ -12,21 +12,25 @@
           {{ datos.billetera.cliente.nombre }}
           {{ datos.billetera.cliente.primerApellido }}
           {{ datos.billetera.cliente.segundoApellido }}
+          ({{datos.billetera.cliente.correo}})
         </p>
       </div>
+      <mat-divider></mat-divider>
       <div class="contenidoFlex">
         <h4 class="mat-h4">Fecha:</h4>
         <p class="mat-h4">{{ datos.fecha | date }}</p>
       </div>
+      <mat-divider></mat-divider>
       <div class="contenidoFlex">
         <h4 class="mat-h4">Hora:</h4>
         <p class="mat-h4">{{ fecha }}</p>
       </div>
+      <mat-divider></mat-divider>
       <div class="contenidoFlex">
         <h4 class="mat-h4">Centro de Acopio:</h4>
         <p class="mat-h4">{{ datos.centroAcopio.nombre }}</p>
       </div>
-      <hr />
+      <mat-divider></mat-divider>
       <table
         mat-table
         [dataSource]="datos.canjeoMaterialesDetalles"
@@ -59,7 +63,7 @@
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
         <tr mat-row *matRowDef="let row; columns: columns"></tr>
       </table>
-      <hr />
+      <mat-divider></mat-divider>
       <div class="contenidoFlex">
         <h4 class="mat-h4">Total:</h4>
         <p class="mat-body dataConIcon">

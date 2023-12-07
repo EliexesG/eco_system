@@ -93,6 +93,11 @@ export class UsuarioContrasennaComponent {
     );
   };
 
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   onClose() {
     this.diagRef.close();
   }

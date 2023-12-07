@@ -41,6 +41,11 @@ export class UsuarioBilleteraComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   onClose() {
     this.dialogRef.close();
   }

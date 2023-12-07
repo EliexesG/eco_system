@@ -28,6 +28,9 @@
                 <mat-error *ngIf="errorHandling('nombre', 'required')">
                   Nombre es <strong>requerido</strong>
                 </mat-error>
+                <mat-error *ngIf="errorHandling('nombre', 'minlength')">
+                  Nombre debe tener un mínimo de <strong>5 carácteres</strong>
+                </mat-error>
               </mat-form-field>
             </div>
             
@@ -43,6 +46,9 @@
                 <mat-error *ngIf="errorHandling('primerApellido', 'required')">
                   Primer apellido es <strong>requerido</strong>
                 </mat-error>
+                <mat-error *ngIf="errorHandling('primerApellido', 'minlength')">
+                  Primer Apellido debe tener un mínimo de <strong>5 carácteres</strong>
+                </mat-error>
               </mat-form-field>
             </div>
   
@@ -57,6 +63,9 @@
                 />
                 <mat-error *ngIf="errorHandling('segundoApellido', 'required')">
                   Segundo apellido es <strong>requerido</strong>
+                </mat-error>
+                <mat-error *ngIf="errorHandling('segundoApellido', 'minlength')">
+                  Segundo Apellido debe tener un mínimo de <strong>5 carácteres</strong>
                 </mat-error>
               </mat-form-field>
             </div>
@@ -75,6 +84,12 @@
                 <mat-error *ngIf="errorHandling('identificacion', 'required')">
                   Identificación es <strong>requerido</strong>
                 </mat-error>
+                <mat-error *ngIf="errorHandling('identificacion', 'minlength')">
+                  Identificación debe tener un mínimo de <strong>9 carácteres</strong>
+                </mat-error>
+                <mat-error *ngIf="errorHandling('identificacion', 'maxlength')">
+                  Identificación debe tener un máximo de <strong>17 carácteres</strong>
+                </mat-error>
               </mat-form-field>
             </div>
 
@@ -82,7 +97,6 @@
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Tipo de usuario</mat-label>
                 <mat-select formControlName="tipoUsuario">
-                  <mat-option value="ADMINISTRADOR">Administrador</mat-option>
                   <mat-option value="ADMINISTRADOR_CENTROS_ACOPIO"
                     >Administrador Centro Acopio</mat-option
                   >
@@ -104,11 +118,10 @@
           </div>
           
           <div class="row">
-            <div class="col">
+            <div class="col" [hidden]="!isCreate">
               <mat-form-field
                   class="full-width"
                   appearance="outline"
-                  [hidden]="isAutenticated"
                 >
                   <mat-label>Contraseña</mat-label>
                   <input
@@ -119,6 +132,9 @@
                   />
                   <mat-error *ngIf="errorHandling('contrasenna', 'required')">
                     Contraseña es <strong>requerida</strong>
+                  </mat-error>
+                  <mat-error *ngIf="errorHandling('contrasenna', 'minlength')">
+                    Contraseña debe tener un mínimo de <strong>5 carácteres</strong>
                   </mat-error>
                 </mat-form-field>
             </div>
@@ -134,6 +150,9 @@
                 />
                 <mat-error *ngIf="errorHandling('correo', 'required')">
                   Email es <strong>requerido</strong>
+                </mat-error>
+                <mat-error *ngIf="errorHandling('correo', 'email')">
+                  Email debe ser un <strong>Email válido</strong>
                 </mat-error>
               </mat-form-field>            
             </div>
@@ -223,6 +242,9 @@
                 <mat-error *ngIf="errorHandling('sennas', 'required')">
                   Dirección es <strong>requerida</strong>
                 </mat-error>
+                <mat-error *ngIf="errorHandling('sennas', 'minlength')">
+                  Dirección debe poseer mínimo <strong>5 caracteres</strong>
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -241,7 +263,7 @@
             </div>
             
             <div class="col">
-              <button mat-raised-button class="botones" id="boton" (click)="onReset()">
+              <button mat-raised-button class="botones" id="boton" (click)="onBack()">
                 Cancelar
               </button>
             </div>

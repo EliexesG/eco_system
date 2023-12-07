@@ -1,18 +1,19 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { GenericService } from 'src/app/share/services/generic.service';;
+import { GenericService } from 'src/app/share/services/generic.service';
+import { UsuarioDetalleComponent } from '../usuario-detalle/usuario-detalle.component';
 
 @Component({
   selector: 'app-usuario-all',
   templateUrl: './usuario-all.component.html',
-  styleUrls: ['./usuario-all.component.css']
+  styleUrls: ['./usuario-all.component.css'],
 })
 export class UsuarioAllComponent implements AfterViewInit {
-  
   datos: any;
   datosMateriales: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -29,19 +30,12 @@ export class UsuarioAllComponent implements AfterViewInit {
     'acciones',
   ];
 
-  
   constructor(
     private gService: GenericService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {}
-
-  detalleUsuario(id: number) {
-    this.router.navigate(['/usuario', id], {
-      relativeTo: this.route,
-      skipLocationChange: true
-    });
-  }
 
   crearUsuario() {
     this.router.navigate(['/usuario/create'], {
@@ -52,8 +46,8 @@ export class UsuarioAllComponent implements AfterViewInit {
   actualizarUsuario(id: number) {
     this.router.navigate(['/usuario/update', id], {
       relativeTo: this.route,
-      skipLocationChange: true
-    });;
+      skipLocationChange: true,
+    });
   }
 
   ngAfterViewInit(): void {
@@ -66,14 +60,15 @@ export class UsuarioAllComponent implements AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((response: any) => {
         console.log(response);
-        this.datos = response.filter((usuario: any) => usuario.tipoUsuario != 'ADMINISTRADO');
+        this.datos = response.filter(
+          (usuario: any) => usuario.tipoUsuario != 'ADMINISTRADO'
+        );
         this.dataSource = new MatTableDataSource(this.datos);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       });
   }
 
-  
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
@@ -86,5 +81,12 @@ export class UsuarioAllComponent implements AfterViewInit {
       .subscribe((response: any) => {
         this.listarUsuario();
       });
+  }
+
+  detalleUsuario(id:number) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.data = id;
+    this.dialog.open(UsuarioDetalleComponent, dialogConfig);
   }
 }

@@ -112,6 +112,8 @@ module.exports.getById = async (request, response, next) => {
                 tipoUsuario: true,
                 identificacion: true,
                 nombre: true,
+                primerApellido: true,
+                segundoApellido: true,
                 correo: true,
                 createdAt: true,
                 updatedAt: true,
@@ -122,6 +124,8 @@ module.exports.getById = async (request, response, next) => {
         cupon: true,
       },
     });
+
+    console.log(canjeo)
 
     response.json(canjeo);
   } catch (e) {
