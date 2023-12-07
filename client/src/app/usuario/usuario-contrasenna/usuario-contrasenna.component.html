@@ -1,0 +1,58 @@
+<form [formGroup]="formulario" novalidate (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-header>
+      <h2>Cambiar Contraseña</h2>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="contenidoFlex">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Contraseña Vieja</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="contrasennaVieja"
+            placeholder="*******"
+          />
+          <mat-error *ngIf="errorHandling('contrasennaVieja', 'required')"
+            >La contraseña Vieja <strong>requerida</strong></mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="contenidoFlex">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Contraseña Nueva</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="contrasennaNueva"
+            placeholder="*******"
+          />
+          <mat-error *ngIf="errorHandling('contrasennaNueva', 'required')"
+            >La contraseña Nueva <strong>requerida</strong></mat-error
+          >
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="center">
+        <button
+          mat-raised-button
+          class="botones"
+          id="botonCambiar"
+          type="submit"
+        >
+          Cambiar
+        </button>
+        <button
+          mat-raised-button
+          class="botones"
+          id="botonCancelar"
+          (click)="onClose()"
+        >
+          Cancelar
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</form>

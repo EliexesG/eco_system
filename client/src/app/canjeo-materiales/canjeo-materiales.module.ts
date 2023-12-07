@@ -17,6 +17,7 @@ import { CanjeoMaterialesCartComponent } from './canjeo-materiales-cart/canjeo-m
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule} from '@angular/forms';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { FormsModule} from '@angular/forms';
     FormsModule,
     MatTableModule,
     MatPaginatorModule,
+    QRCodeModule,
     MatSortModule,
   ],
   exports: [CanjeoMaterialesIndexComponent],

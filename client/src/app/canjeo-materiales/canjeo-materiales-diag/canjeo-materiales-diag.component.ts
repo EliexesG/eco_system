@@ -15,6 +15,7 @@ export class CanjeoMaterialesDiagComponent implements OnInit {
   datosDialog: { id: number };
   destroy$: Subject<boolean> = new Subject<boolean>();
   fecha: string;
+  qrdata: string;
 
   columns: string[] = ['material', 'cantidad', 'precio', 'subtotal'];
 
@@ -41,6 +42,7 @@ export class CanjeoMaterialesDiagComponent implements OnInit {
         console.log(data);
         this.datos = data;
         this.fecha = formatHours(new Date(this.datos.fecha));
+        this.qrdata = JSON.stringify(this.datos.id);
       });
   }
 

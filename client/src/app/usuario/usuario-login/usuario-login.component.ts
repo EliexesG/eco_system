@@ -59,6 +59,7 @@ export class UsuarioLoginComponent implements OnInit {
           relativeTo: this.route,
         });
         this.dialogRef.close();
+        window.location.reload();
       },
       (Error) => {
         console.log(Error)

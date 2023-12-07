@@ -42,6 +42,14 @@
       ></mat-icon>
       Canjeo de materiales
     </button>
+    <button
+      mat-menu-item
+      *ngIf="isAutenticated"
+      (click)="onCambiarContrasenna()"
+    >
+      <mat-icon class="material-icons color_black">password</mat-icon>Cambiar
+      Contraseña
+    </button>
     <button mat-menu-item *ngIf="isAutenticated" (click)="logout()">
       <mat-icon class="material-icons color_black">exit_to_app</mat-icon>Cerrar
       sesión

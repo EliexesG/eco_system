@@ -82,6 +82,17 @@ export class AuthenticationService {
       })
     );
   }
+
+  cambiarContrasenna(data: any): Observable<any> {
+
+    return this.http.post<any>(this.ServerUrl + 'usuario/cambiarcontrasenna', data).pipe(
+      map((response: any) => {
+        return response;
+      })
+    )
+
+  }
+
   //Logout de usuario autentificado
   logout() {
     let usuario = this.tokenUserSubject.value;
