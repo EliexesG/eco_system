@@ -44,6 +44,13 @@
     </button>
     <button
       mat-menu-item
+      *ngIf="tipo == 'CLIENTE'"
+      (click)="onVerBilletera()"
+    >
+      <mat-icon class="material-icons color_black">account_balance_wallet</mat-icon>Ver billtera
+    </button>
+    <button
+      mat-menu-item
       *ngIf="isAutenticated"
       (click)="onCambiarContrasenna()"
     >

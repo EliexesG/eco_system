@@ -54,8 +54,19 @@
         color="accent"
         class="botones"
         [mat-dialog-close]="true"
+        id="btnCerrar"
       >
         <mat-icon id="icono">close</mat-icon> Cerrar
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        class="botones"
+        *ngIf="tipo == 'CLIENTE'"
+        id="btnCanjear"
+        (click)="onCanjear()"
+      >
+        <mat-icon id="icono">shopping-cart</mat-icon> Canjear
       </button>
     </mat-card-actions>
   </div>
