@@ -33,6 +33,8 @@ export class UsuarioFormComponent implements OnInit {
   cargando: boolean = false;
   isCreate: boolean = true;
 
+
+  listaCentros: { id: number; nombre: string }[];
   listaProvincias: { id: number; nombre: string }[];
   listaCantones: { id: number; nombre: string }[];
   listaDistritos: { id: number; nombre: string }[];
@@ -122,63 +124,65 @@ export class UsuarioFormComponent implements OnInit {
     this.makeSubmit=true;
     if(this.usuarioForm.invalid){
      return;
-    }
+    }else{
 
-    let valorForm = this.usuarioForm.value;
+      let valorForm = this.usuarioForm.value;
 
-    let valorFormFinal = {
-      tipoUsuario: valorForm.tipoUsuario,
-      identificacion: valorForm.identificacion,      
-      nombre: valorForm.nombre,      
-      primerApellido: valorForm.primerApellido,      
-      segundoApellido: valorForm.segundoApellido,  
-      correo: valorForm.correo,        
-      contrasenna: valorForm.contrasenna,
-      direccionUsuario:{
-        codProvincia: valorForm.codProvincia,
-        codCanton: valorForm.codCanton,
-        codDistrito: valorForm.codDistrito,
-        sennas: valorForm.sennas,
+      let valorFormFinal = {
+        id: valorForm.id,
+        tipoUsuario: valorForm.tipoUsuario,
+        identificacion: valorForm.identificacion,      
+        nombre: valorForm.nombre,      
+        primerApellido: valorForm.primerApellido,      
+        segundoApellido: valorForm.segundoApellido,  
+        correo: valorForm.correo,        
+        contrasenna: valorForm.contrasenna,
+        direccionUsuario:{
+          codProvincia: valorForm.codProvincia,
+          codCanton: valorForm.codCanton,
+          codDistrito: valorForm.codDistrito,
+          sennas: valorForm.sennas,
+        }
       }
-    }
-
-    
-    console.log(valorFormFinal);
-
-    if(this.isCreate){
-    
-      this.gService
-          .create('usuario', valorFormFinal)
-          .pipe(takeUntil(this.destroy$))
+  
+      
+      console.log(valorFormFinal);
+  
+      if(this.isCreate){
+      
+        this.gService
+            .create('usuario', valorFormFinal)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((data: any) => {
+              console.log(data);
+              this.cargando = false;
+              this.respInfo = data;
+            });
+        
+        this.authService.createUser(this.usuarioForm.value)
+        .subscribe((respuesta:any)=>{
+          this.noti.mensajeRedirect(
+            'Usuario', 'Usuario creado ', 
+            TipoMessage.success,'/')
+          this.router.navigate(['/inicio/'])
+        })
+      }else{
+        this.cargando = true;
+  
+        this.gService.update('usuario', valorFormFinal)
+        .pipe(takeUntil(this.destroy$))
           .subscribe((data: any) => {
             console.log(data);
             this.cargando = false;
             this.respInfo = data;
+            this.noti.mensajeRedirect(
+              'Acualizar usuario',
+              `Usuario Actualizado"${data.nombre}"`,
+              TipoMessage.success,
+              '/inicio'
+            );
           });
-      
-      this.authService.createUser(this.usuarioForm.value)
-      .subscribe((respuesta:any)=>{
-        this.noti.mensajeRedirect(
-          'Usuario', 'Usuario creado ', 
-          TipoMessage.success,'/')
-        this.router.navigate(['/inicio/'])
-      })
-    }else{
-      this.cargando = true;
-
-      this.gService.update('usuario', valorFormFinal)
-      .pipe(takeUntil(this.destroy$))
-        .subscribe((data: any) => {
-          console.log(data);
-          this.cargando = false;
-          this.respInfo = data;
-          this.noti.mensajeRedirect(
-            'Acualizar usuario',
-            `Usuario Actualizado"${data.nombre}"`,
-            TipoMessage.success,
-            '/inicio'
-          );
-        });
+      }
     }
   }
 
@@ -224,12 +228,14 @@ export class UsuarioFormComponent implements OnInit {
             });
 
             this.onProvinciaChange();
-            this.usuarioInfo
+
+            this.usuarioForm
               .get('codCanton')
               .setValue(this.usuarioInfo.direccionUsuario.codCanton);
 
             this.onCantonChange();
-            this.usuarioInfo
+
+            this.usuarioForm
               .get('codDistrito')
               .setValue(this.usuarioInfo.direccionUsuario.codDistrito);
           });
@@ -251,6 +257,7 @@ export class UsuarioFormComponent implements OnInit {
       codCanton: [null, Validators.required],
       codDistrito: [null, Validators.required],
       sennas: [null, Validators.required],
+      direccionUsuario: [null, null],
     });
   }
 
@@ -266,4 +273,3 @@ export class UsuarioFormComponent implements OnInit {
   };
 
 }
-  

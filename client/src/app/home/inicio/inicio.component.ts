@@ -29,7 +29,6 @@ export class InicioComponent {
             .getImage({filename: material.imagen})
             .pipe(takeUntil(this.destroy$))
             .subscribe((base64) => {
-              console.log(base64)
               material.base64 = base64.base64;
             });
         });

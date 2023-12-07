@@ -4,7 +4,8 @@
   </mat-card-header>
   <mat-card-content>
     <p class="mat-body descripcionTitulo">
-      A continuación, un listado de los diferentes usuarios registrados en el sistema
+      A continuación, un listado de los diferentes usuarios registrados en el
+      sistema
     </p>
     <mat-card-actions>
       <button
@@ -18,17 +19,26 @@
     </mat-card-actions>
     <hr />
     <div class="mat-elevation-z8">
-      <table mat-table class="full-width-table"mat-table [dataSource]="dataSource" matSort>
+      <table
+        mat-table
+        class="full-width-table"
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+      >
         <ng-container matColumnDef="nombre">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-          <td mat-cell *matCellDef="let row">{{ row.nombre }} {{ row.primerApellido }} {{ row.segundoApellido }}</td>
+          <td mat-cell *matCellDef="let row">
+            {{ row.nombre }} {{ row.primerApellido }} {{ row.segundoApellido }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="identificacion">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Identificación</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Identificación
+          </th>
           <td mat-cell *matCellDef="let row">{{ row.identificacion }}</td>
         </ng-container>
-
 
         <ng-container matColumnDef="correo">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo</th>
@@ -36,11 +46,33 @@
         </ng-container>
 
         <ng-container matColumnDef="tipoUsuario">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de usuario</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Tipo de usuario
+          </th>
           <td mat-cell *matCellDef="let row">
-            <p *ngIf="row.tipoUsuario=='ADMINISTRADOR_CENTROS_ACOPIO'">Administrador Centro Acopio</p>
-            <p *ngIf="row.tipoUsuario=='ADMINISTRADOR'">Administrador</p>
-            <p *ngIf="row.tipoUsuario=='CLIENTE'">Cliente</p>
+            <p *ngIf="row.tipoUsuario == 'ADMINISTRADOR_CENTROS_ACOPIO'">
+              Administrador Centro Acopio
+            </p>
+            <p *ngIf="row.tipoUsuario == 'ADMINISTRADOR'">Administrador</p>
+            <p *ngIf="row.tipoUsuario == 'CLIENTE'">Cliente</p>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+          <td mat-cell *matCellDef="let row">
+            <p
+              *ngIf="row.desabilitado"
+              style="color: darkred; font-weight: bold"
+            >
+              Deshabilitado
+            </p>
+            <p
+              *ngIf="!row.desabilitado"
+              style="color: darkgreen; font-weight: bold"
+            >
+              Habilitado
+            </p>
           </td>
         </ng-container>
 
@@ -69,23 +101,21 @@
               class="boton"
               (click)="cambiarEstado(row.id)"
             >
-            <mat-icon *ngIf="row.desabilitado">remove_red_eye</mat-icon>
-            <mat-icon *ngIf="!row.desabilitado">remove</mat-icon>
+              <mat-icon *ngIf="row.desabilitado">remove_red_eye</mat-icon>
+              <mat-icon *ngIf="!row.desabilitado">remove</mat-icon>
             </button>
-          >
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
         <tr mat-row *matRowDef="let row; columns: columns"></tr>
+      </table>
         <mat-paginator
           #paginator
           [length]="dataSource.data.length"
           [pageIndex]="0"
           [pageSize]="5"
-          [pageSizeOptions]="[5, 10, 20]"
-          aria-label="Selccione una pagina"
-        >
-        </mat-paginator>
-      </table>
+          [pageSizeOptions]="[2, 5, 10]"
+          aria-label="Seleccione una Página"
+        ></mat-paginator>
     </div> </mat-card-content
 ></mat-card>

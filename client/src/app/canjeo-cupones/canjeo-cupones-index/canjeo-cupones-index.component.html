@@ -1,0 +1,97 @@
+<div class="grid-container" *ngIf="datosUsuario">
+  <h1 class="mat-h1">Historial de Canjeos de Cupones</h1>
+  <p class="mat-body descripcionTitulo">
+    A continuación el historial de canjeos de cupones para el usuario.
+  </p>
+  <mat-card class="card-usuario" *ngIf="datosUsuario">
+    <mat-card-header>
+      <h3 class="card-title">
+        {{ datosUsuario.nombre }} {{ datosUsuario.primerApellido }}
+        {{ datosUsuario.segundoApellido }}
+
+        {{ datosBilletera.cantMonedas }}
+      </h3>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <div class="disponibles">
+            <h4>
+              Disponibles:
+              <strong>{{ this.datosUsuario.billetera.disponibles }}</strong>
+            </h4>
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2FOtros%2Fmoneda.jpg?alt=media&token=1ddb658f-00c4-408b-b0a0-a1ae54db3aaf&_gl=1*11taqe0*_ga*MTQ0ODYwMTA4Ny4xNjk2Mzg1NzYw*_ga_CW55HF8NVT*MTY5ODgxNTg5NS41LjEuMTY5ODgxNjU2MS42MC4wLjA."
+              alt=""
+              style="width: 25px; height: 25px; margin-right: 5px"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="canjeados">
+            <h4>
+              Canjeados:
+              <strong>{{ this.datosUsuario.billetera.canjeados }} 
+                {{ datosBilletera.id }}
+              </strong>
+            </h4>
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2FOtros%2Fmoneda.jpg?alt=media&token=1ddb658f-00c4-408b-b0a0-a1ae54db3aaf&_gl=1*11taqe0*_ga*MTQ0ODYwMTA4Ny4xNjk2Mzg1NzYw*_ga_CW55HF8NVT*MTY5ODgxNTg5NS41LjEuMTY5ODgxNjU2MS42MC4wLjA."
+              alt=""
+              style="width: 25px; height: 25px; margin-right: 5px"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="recibidos">
+            <h4>
+              Recibidos:
+              <strong> {{ this.datosUsuario.billetera.recibidos }}</strong>
+            </h4>
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2FOtros%2Fmoneda.jpg?alt=media&token=1ddb658f-00c4-408b-b0a0-a1ae54db3aaf&_gl=1*11taqe0*_ga*MTQ0ODYwMTA4Ny4xNjk2Mzg1NzYw*_ga_CW55HF8NVT*MTY5ODgxNTg5NS41LjEuMTY5ODgxNjU2MS42MC4wLjA."
+              alt=""
+              style="width: 25px; height: 25px; margin-right: 5px"
+            />
+          </div>
+        </div>
+      </div>
+      
+    </mat-card-content>
+  </mat-card>
+  <hr />
+
+  <mat-card *ngFor="let cupon of datosBilletera" class="lista">
+    <mat-card-content>
+      <table class="mat-elevation-z1" mat-table [dataSource]="datosBilletera" matSort>
+        <ng-container matColumnDef="nombreCupon">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Cupon</th>
+          <td mat-cell *matCellDef="let row">{{ row.cupon.nombre}}</td>
+        </ng-container>
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+          <td mat-cell *matCellDef="let row">{{ row.fecha}}</td>
+        </ng-container>
+        <ng-container matColumnDef="cantidadMonedas">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo Eco-Monedas</th>
+          <td mat-cell *matCellDef="let row">{{ row.cantMonedas}}</td>
+        </ng-container>
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let row">
+            <button
+              mat-mini-fab
+              color="primary"
+              class="boton"
+              (click)="detalleCanjeoCupo(row.cupon.id)"
+            >
+              <mat-icon>info</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

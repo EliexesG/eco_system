@@ -1,55 +1,122 @@
 <form [formGroup]="formulario" novalidate>
-  <mat-card class="ingresar">
-    <mat-card-header>
-      <h2>Iniciar sesión</h2>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="contenidoFlex">
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Correo</mat-label>
-          <input
-            matInput
-            type="text"
-            formControlName="correo"
-            placeholder="correo@mail.com"
-          />
-          <mat-error *ngIf="errorHandling('correo', 'required')">
-            Email es <strong>requerido</strong>
-          </mat-error>
-          <mat-error *ngIf="errorHandling('correo', 'email')">
-            Verifique el <strong>formato</strong> del email
-          </mat-error>
-        </mat-form-field>
+  <div class="grid-container">
+    <div class="grid-item">
+      <div class="login">
+        <div class="header">
+          <h2>Iniciar sesión</h2>
+        </div>
+  
+        <div class="content">
+          <div class="contenidoFlex">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Correo</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="correo"
+                placeholder="correo@mail.com"
+              />
+              <mat-error *ngIf="errorHandling('correo', 'required')">
+                Email es <strong>requerido</strong>
+              </mat-error>
+              <mat-error *ngIf="errorHandling('correo', 'email')">
+                Verifique el <strong>formato</strong> del email
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="contenidoFlex">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Contraseña</mat-label>
+              <input matInput type="password" formControlName="contrasenna" />
+              <mat-error *ngIf="errorHandling('contrasenna', 'required')">
+                Contraseña es <strong>requerida</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <div class="actions">
+          <div class="row">
+            <div class="col">
+              <button
+                mat-raised-button
+                class="botones"
+                id="boton"
+                (click)="submitForm()"
+              >
+                Iniciar sesión
+              </button>
+            </div>
+            <div class="col">
+              <button
+                mat-raised-button
+                class="botones"
+                id="boton"
+                (click)="onReset()"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="contenidoFlex">
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Contraseña</mat-label>
-          <input matInput type="password" formControlName="contrasenna" />
-          <mat-error *ngIf="errorHandling('contrasenna', 'required')">
-            Contraseña es <strong>requerida</strong>
-          </mat-error>
-        </mat-form-field>
+
+    </div>
+    <div class="grid-item" id="imagen"> 
+      <img style="" src="https://firebasestorage.googleapis.com/v0/b/proyecto-centro-acopio.appspot.com/o/Imagenes%2FOtros%2FimagenLogin.PNG?alt=media&token=88461f7b-c819-4722-aca9-e33a48f323e1" alt="">
+      <div id="info">
+        <div>
+          <div class="row">
+            <div class="col">
+              <a id="appIcon">
+                <img src="icon.png" alt="" />
+                <p>ECO SYSTEM</p>
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col"><p><mat-icon>check_circle</mat-icon>
+              Puedes usarlo en cualquier momento, en cualquier lugar
+            </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p><mat-icon>check_circle</mat-icon> Apoya al medio ambiente con el intercambio de materiales.</p>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col">
+              <p><mat-icon>check_circle</mat-icon> Beneficios para todos los usuarios</p>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col">
+              <p><mat-icon>check_circle</mat-icon> Disponibilidad en cualquier momento, en cualquier lugar.</p>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col">
+              <p><mat-icon>check_circle</mat-icon> Sistema amigable con el usuario.</p>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col">
+              <p><mat-icon>check_circle</mat-icon> Interfaz intuitiva.</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <p><mat-icon>check_circle</mat-icon> Seguridad 100% garantizada.</p>
+            </div>
+          </div>
+        </div>
       </div>
-    </mat-card-content>
-    <mat-card-actions>
-      <div class="center">
-        <button
-          mat-raised-button
-          class="botones"
-          id="botonIngresar"
-          (click)="submitForm()"
-        >
-          Iniciar sesión
-        </button>
-        <button
-          mat-raised-button
-          class="botones"
-          id="botonCancelar"
-          (click)="onReset()"
-        >
-          Cancelar
-        </button>
-      </div>
-    </mat-card-actions>
-  </mat-card>
+    </div>
+  </div>
 </form>

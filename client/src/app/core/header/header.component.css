@@ -16,6 +16,11 @@
   margin-right: 5px;
 }
 
+#appIcon p {
+  font-weight: bold;
+}
+
+
 #appIcon:hover img {
   background-color: aliceblue;
   border-radius: 50%;
@@ -23,10 +28,6 @@
 
 #appIcon:active {
   transform: translate(5px);
-}
-
-#appIcon p {
-  font-weight: bold;
 }
 
 .button {

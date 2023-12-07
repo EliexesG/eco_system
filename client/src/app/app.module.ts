@@ -19,6 +19,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { UsuarioModule } from './usuario/usuario.module';
 import { HttpErrorInterceptorService } from './share/services/http-error-interceptor.service';
 import { GraficosModule } from './graficos/graficos.module';
+import { CanjeoCuponesModule } from './canjeo-cupones/canjeo-cupones.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +32,7 @@ import { GraficosModule } from './graficos/graficos.module';
     ShareModule,
     HomeModule,
     CentroAcopioModule,
+    CanjeoCuponesModule,
     MaterialModule,
     CuponModule,
     UsuarioModule,
