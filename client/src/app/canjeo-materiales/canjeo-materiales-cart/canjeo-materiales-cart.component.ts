@@ -173,6 +173,8 @@ export class CanjeoMaterialesCartComponent implements OnInit {
         concatMap((usuario: any) => {
           if (usuario) {
             this.cliente = usuario;
+
+            console.log(this.cliente)
             return this.lService.getProvincias().pipe(
               takeUntil(this.destroy$),
               concatMap((provincias: any) => {

@@ -61,8 +61,7 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
 
     //Capturar el error
     return next.handle(request).pipe(
-      catchError((error: HttpErrorResponse) => {
-        console.log(error.error)
+      catchError((error: HttpErrorResponse) => { 
         let message: string = null;
         //Códigos de estado HTTP con su respectivo mensaje
         switch (error.status) {

@@ -14,7 +14,7 @@ function exclude(usuario, keys) {
 module.exports.login = async (request, response, next) => {
   try {
     const { correo, contrasenna } = request.body;
-    console.log(correo, contrasenna)
+    console.log(correo, contrasenna);
 
     const usuario = await prisma.usuario.findUnique({
       where: {
@@ -22,50 +22,51 @@ module.exports.login = async (request, response, next) => {
       },
     });
 
-    console.log(usuario)
+    console.log(usuario);
 
     if (!usuario) {
       response.status(401).send({
         success: false,
-        message: 'Usuario no registrado',
-      })
-    }
-
-    let contrasennaCorrecta = await bcrypt.compare(contrasenna, usuario.contrasenna);
-
-    console.log(contrasennaCorrecta)
-
-    if (!contrasennaCorrecta) {
-      response.status(401).send({
-        success: false,
-        message: 'Credenciales no válidas',
-      })
-    }
-    else {
-      const payload = {
-        id: usuario.id,
-        correo: usuario.correo,
-        tipoUsuario: usuario.tipoUsuario,
-        nombre: usuario.nombre,
-        primerApellido: usuario.primerApellido,
-        segundoApellido: usuario.segundoApellido,
-        desabilitado: usuario.desabilitado,
-        billetera: usuario.billetera || null,
-      }
-
-      const token = jwt.sign(payload, process.env.SECRET_KEY, {
-        expiresIn: process.env.JWT_EXPIRE,
+        message: "Usuario no registrado",
       });
+    } else {
+      let contrasennaCorrecta = await bcrypt.compare(
+        contrasenna,
+        usuario.contrasenna
+      );
 
-      response.json({
-        success: true,
-        message: "Usuario loggeado",
-        token,
-      })
+      console.log(contrasennaCorrecta);
+
+      if (!contrasennaCorrecta) {
+        response.status(401).send({
+          success: false,
+          message: "Credenciales no válidas",
+        });
+      } else {
+        const payload = {
+          id: usuario.id,
+          correo: usuario.correo,
+          tipoUsuario: usuario.tipoUsuario,
+          nombre: usuario.nombre,
+          primerApellido: usuario.primerApellido,
+          segundoApellido: usuario.segundoApellido,
+          desabilitado: usuario.desabilitado,
+          billetera: usuario.billetera || null,
+        };
+
+        const token = jwt.sign(payload, process.env.SECRET_KEY, {
+          expiresIn: process.env.JWT_EXPIRE,
+        });
+
+        response.json({
+          success: true,
+          message: "Usuario loggeado",
+          token,
+        });
+      }
     }
-
   } catch (e) {
-    console.log(`V67: ${e}`)
+    console.log(`V67: ${e}`);
     response.json({
       error: true,
       response: "Ocurrió un error, contacte al administrador: \n" + e.message,
@@ -181,7 +182,7 @@ module.exports.getUsuarioClienteByCorreo = async (request, response, next) => {
         direccionUsuario: true,
       },
       where: {
-        tipoUsuario: tipoUsuario,
+        //tipoUsuario: tipoUsuario,
         correo: correo,
       },
     });
@@ -195,31 +196,32 @@ module.exports.getUsuarioClienteByCorreo = async (request, response, next) => {
       "Ocurrió un error, contacte al administrador: \n" + e.message
     );
   }
-}
+};
 
 //Obtener administradores de centros sin centro
-module.exports.getUsuariosAdminCentroSinCentro = async (request, response, next) => {
+module.exports.getUsuariosAdminCentroSinCentro = async (
+  request,
+  response,
+  next
+) => {
   try {
-
     const usuarios = await prisma.usuario.findMany({
       orderBy: {
-        nombre: 'asc'
+        nombre: "asc",
       },
       where: {
         centroAcopio: null,
-        tipoUsuario: "ADMINISTRADOR_CENTROS_ACOPIO"
-      }
-    })
+        tipoUsuario: "ADMINISTRADOR_CENTROS_ACOPIO",
+      },
+    });
 
-    response.json(usuarios)
-
+    response.json(usuarios);
   } catch (e) {
     response.json(
       "Ocurrió un error, contacte al administrador: \n" + e.message
     );
   }
-}
-
+};
 
 //Obtener Usuario por Id
 module.exports.getById = async (request, response, next) => {
@@ -271,11 +273,11 @@ module.exports.create = async (request, response, next) => {
         billetera:
           data.tipoUsuario === "CLIENTE"
             ? {
-              create: {
-                canjeados: 0,
-                disponibles: 0,
-              },
-            }
+                create: {
+                  canjeados: 0,
+                  disponibles: 0,
+                },
+              }
             : {},
       },
     });
@@ -295,6 +297,7 @@ module.exports.update = async (request, response, next) => {
   try {
     const id = parseInt(request.params.id);
     const data = request.body;
+    var contrasennaHash = await bcrypt.hash(data.contrasenna, 10);
 
     const newUsuario = await prisma.usuario.update({
       where: { id: id },
@@ -305,6 +308,7 @@ module.exports.update = async (request, response, next) => {
         primerApellido: data.primerApellido,
         segundoApellido: data.segundoApellido,
         correo: data.correo,
+        contrasenna: contrasennaHash,
         direccionUsuario: {
           update: {
             codProvincia: data.direccionUsuario.codProvincia,
@@ -376,10 +380,8 @@ module.exports.habilitarODesabilitar = async (request, response, next) => {
 };
 
 module.exports.cambiarContrasenna = async (request, response, next) => {
-
   try {
-
-    const {correo, contrasennaVieja, contrasennaNueva} = request.body;
+    const { correo, contrasennaVieja, contrasennaNueva } = request.body;
 
     const usuario = await prisma.usuario.findUnique({
       where: {
@@ -387,46 +389,48 @@ module.exports.cambiarContrasenna = async (request, response, next) => {
       },
     });
 
-    if(!usuario) {
+    if (!usuario) {
       response.json({
         success: false,
         response: "Usuario no Encontrado",
       });
     }
 
-    let contrasennaCorrecta = await bcrypt.compare(contrasennaVieja, usuario.contrasenna);
+    let contrasennaCorrecta = await bcrypt.compare(
+      contrasennaVieja,
+      usuario.contrasenna
+    );
 
-    if(!contrasennaCorrecta) {
+    if (!contrasennaCorrecta) {
       response.json({
         success: false,
         response: "Contraseña Incorrecta",
       });
+    } else {
+      var contrasennaHash = await bcrypt.hash(contrasennaNueva, 10);
+
+      console.log(usuario, contrasennaHash);
+
+      let usuarioPrueba = await prisma.usuario.update({
+        data: {
+          contrasenna: contrasennaHash,
+        },
+        where: {
+          correo: correo,
+        },
+      });
+
+      response.json({
+        success: true,
+        response: "Contraseña Cambiada",
+      });
     }
-
-    var contrasennaHash = await bcrypt.hash(contrasennaNueva, 10);
-
-    console.log(usuario, contrasennaHash);
-
-    await prisma.usuario.update({
-      data: {
-        contrasenna: contrasennaHash,
-      },
-      where: {
-        correo: correo
-      }
-    })
-
-    response.json({
-      success: true,
-      response: "Contraseña Cambiada",
-    });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     response.json({
       error: true,
       response: "Ocurrió un error, contacte al administrador: \n" + e.message,
       status: 400,
     });
   }
-
-}
+};

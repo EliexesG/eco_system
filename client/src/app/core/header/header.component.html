@@ -42,6 +42,18 @@
       ></mat-icon>
       Canjeo de materiales
     </button>
+
+    <button
+      mat-menu-item
+      [routerLink]="['/canjeocupon']"
+      *ngIf="tipo == 'CLIENTE'"
+    >
+      <mat-icon
+        class="material-icons color_black"
+        fontIcon="history"
+      ></mat-icon>
+      Canjeo de cupones
+    </button>
     <button
       mat-menu-item
       *ngIf="tipo == 'CLIENTE'"
