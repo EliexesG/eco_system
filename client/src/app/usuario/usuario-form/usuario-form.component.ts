@@ -161,7 +161,6 @@ export class UsuarioFormComponent implements OnInit {
         this.authService
           .createUser(this.usuarioForm.value)
           .subscribe((respuesta: any) => {
-
             this.onReset();
             this.noti.mensajeRedirect(
               'Usuario',
@@ -225,7 +224,7 @@ export class UsuarioFormComponent implements OnInit {
               primerApellido: this.usuarioInfo.primerApellido,
               segundoApellido: this.usuarioInfo.segundoApellido,
               correo: this.usuarioInfo.correo,
-              contrasenna: 'NA',
+              contrasenna: 'NAAAAAAs',
               direccionUsuario: this.usuarioInfo.direccionUsuario,
               codProvincia: this.usuarioInfo.direccionUsuario.codProvincia,
               codCanton: '',
@@ -253,16 +252,38 @@ export class UsuarioFormComponent implements OnInit {
     this.usuarioForm = this.fb.group({
       id: [null, null],
       tipoUsuario: ['CLIENTE', [Validators.required]],
-      identificacion: ['', [Validators.required]],
-      nombre: ['', [Validators.required]],
-      primerApellido: ['', [Validators.required]],
-      segundoApellido: ['', [Validators.required]],
-      correo: ['', [Validators.required]],
-      contrasenna: ['', [Validators.required]],
+      identificacion: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(9),
+          Validators.maxLength(17),
+        ]),
+      ],
+      nombre: [
+        '',
+        Validators.compose([Validators.required, Validators.minLength(5)]),
+      ],
+      primerApellido: [
+        '',
+        Validators.compose([Validators.required, Validators.minLength(5)]),
+      ],
+      segundoApellido: [
+        '',
+        Validators.compose([Validators.required, Validators.minLength(5)]),
+      ],
+      correo: ['', Validators.compose([Validators.required, Validators.email])],
+      contrasenna: [
+        '',
+        Validators.compose([Validators.required, Validators.minLength(5)]),
+      ],
       codProvincia: [null, Validators.required],
       codCanton: [null, Validators.required],
       codDistrito: [null, Validators.required],
-      sennas: [null, Validators.required],
+      sennas: [
+        null,
+        Validators.compose([Validators.required, Validators.minLength(5)]),
+      ],
       direccionUsuario: [null, null],
     });
   }
@@ -274,8 +295,7 @@ export class UsuarioFormComponent implements OnInit {
   onBack() {
     if (this.isAutenticated && this.tipo == 'ADMINISTRADOR') {
       this.router.navigate(['usuario/all']);
-    }
-    else {
+    } else {
       this.router.navigate(['inicio']);
     }
   }

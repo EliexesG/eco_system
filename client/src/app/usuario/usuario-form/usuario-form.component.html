@@ -28,6 +28,9 @@
                 <mat-error *ngIf="errorHandling('nombre', 'required')">
                   Nombre es <strong>requerido</strong>
                 </mat-error>
+                <mat-error *ngIf="errorHandling('nombre', 'minlength')">
+                  Nombre debe tener un mínimo de <strong>5 carácteres</strong>
+                </mat-error>
               </mat-form-field>
             </div>
             
@@ -43,6 +46,9 @@
                 <mat-error *ngIf="errorHandling('primerApellido', 'required')">
                   Primer apellido es <strong>requerido</strong>
                 </mat-error>
+                <mat-error *ngIf="errorHandling('primerApellido', 'minlength')">
+                  Primer Apellido debe tener un mínimo de <strong>5 carácteres</strong>
+                </mat-error>
               </mat-form-field>
             </div>
   
@@ -57,6 +63,9 @@
                 />
                 <mat-error *ngIf="errorHandling('segundoApellido', 'required')">
                   Segundo apellido es <strong>requerido</strong>
+                </mat-error>
+                <mat-error *ngIf="errorHandling('segundoApellido', 'minlength')">
+                  Segundo Apellido debe tener un mínimo de <strong>5 carácteres</strong>
                 </mat-error>
               </mat-form-field>
             </div>
@@ -74,6 +83,12 @@
                 />
                 <mat-error *ngIf="errorHandling('identificacion', 'required')">
                   Identificación es <strong>requerido</strong>
+                </mat-error>
+                <mat-error *ngIf="errorHandling('identificacion', 'minlength')">
+                  Identificación debe tener un mínimo de <strong>9 carácteres</strong>
+                </mat-error>
+                <mat-error *ngIf="errorHandling('identificacion', 'maxlength')">
+                  Identificación debe tener un máximo de <strong>17 carácteres</strong>
                 </mat-error>
               </mat-form-field>
             </div>
@@ -118,6 +133,9 @@
                   <mat-error *ngIf="errorHandling('contrasenna', 'required')">
                     Contraseña es <strong>requerida</strong>
                   </mat-error>
+                  <mat-error *ngIf="errorHandling('contrasenna', 'minlength')">
+                    Contraseña debe tener un mínimo de <strong>5 carácteres</strong>
+                  </mat-error>
                 </mat-form-field>
             </div>
   
@@ -132,6 +150,9 @@
                 />
                 <mat-error *ngIf="errorHandling('correo', 'required')">
                   Email es <strong>requerido</strong>
+                </mat-error>
+                <mat-error *ngIf="errorHandling('correo', 'email')">
+                  Email debe ser un <strong>Email válido</strong>
                 </mat-error>
               </mat-form-field>            
             </div>
@@ -220,6 +241,9 @@
                 />
                 <mat-error *ngIf="errorHandling('sennas', 'required')">
                   Dirección es <strong>requerida</strong>
+                </mat-error>
+                <mat-error *ngIf="errorHandling('sennas', 'minlength')">
+                  Dirección debe poseer mínimo <strong>5 caracteres</strong>
                 </mat-error>
               </mat-form-field>
             </div>
